@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.MessageInfoMapper">
+
+    <!-- 分页获取用户消息信息 -->
+    <select id="selectMessagePage" resultType="java.util.LinkedHashMap">
+        select
+            mi.id,
+            mi.user_id,
+            mi.content,
+            mi.status,
+            mi.create_date,
+            ui.code,
+            ui.name,
+            ui.images,
+            ui.phone,
+            ui.email
+        from
+            message_info mi
+                left join user_info ui on
+                (ui.id = mi.user_id)
+        where
+            1 = 1
+        <if test="messageInfo.code != null and messageInfo.code != ''">
+            AND ui.code LIKE CONCAT('%',#{messageInfo.code},'%')
+        </if>
+        <if test="messageInfo.name != null and messageInfo.name != ''">
+            AND ui.name LIKE CONCAT('%',#{messageInfo.name},'%')
+        </if>
+        <if test="messageInfo.userId != null and messageInfo.userId != ''">
+            AND ui.user_id = #{messageInfo.userId}
+        </if>
+        order by
+            mi.create_date desc
+    </select>
+</mapper>

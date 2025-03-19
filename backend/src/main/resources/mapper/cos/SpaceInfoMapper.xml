@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.SpaceInfoMapper">
+
+    <!-- 分页获取车位信息 -->
+    <select id="selectSpacePage" resultType="java.util.LinkedHashMap">
+        select
+            id,
+            code,
+            name,
+            `space`,
+            create_date,
+            images,
+            price
+        from
+            space_info
+        where 1 = 1
+        <if test="spaceInfo.code != null and spaceInfo.code != ''">
+            AND code LIKE CONCAT('%',#{spaceInfo.code},'%')
+        </if>
+        <if test="spaceInfo.name != null and spaceInfo.name != ''">
+            AND name LIKE CONCAT('%',#{spaceInfo.name},'%')
+        </if>
+        order by create_date desc
+    </select>
+
+    <!-- 查询空闲充电桩 -->
+    <select id="selectFreeSpace" resultType="cc.mrbird.febs.cos.entity.SpaceInfo">
+        select
+        si.id,
+        si.code,
+        si.name,
+        si.`space`,
+        si.create_date,
+        si.images,
+        si.price
+        from
+        space_info si
+        left join space_status_info ssi on
+        (ssi.space_id = si.id)
+        where 1 = 1
+        and ssi.status = '0'
+        order by create_date desc
+    </select>
+</mapper>

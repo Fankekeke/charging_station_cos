@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.VehicleInfoMapper">
+
+    <!-- 分页获取车辆信息信息 -->
+    <select id="selectVehiclePage" resultType="java.util.LinkedHashMap">
+        select
+            vi.id,
+            vi.vehicle_no,
+            vi.vehicle_number,
+            vi.vehicle_color,
+            vi.name,
+            vi.engine_no,
+            vi.emission_standard,
+            vi.fuel_type,
+            vi.images,
+            vi.content,
+            vi.create_date,
+            vi.user_id,
+            ui.code,
+            ui.name as userName,
+            ui.images,
+            ui.phone,
+            ui.email
+        from
+            vehicle_info vi
+                left join user_info ui on
+                (ui.id = vi.user_id)
+        where
+            1 = 1
+        <if test="vehicleInfo.vehicleNumber != null and vehicleInfo.vehicleNumber != ''">
+            AND vi.vehicle_number LIKE CONCAT('%',#{vehicleInfo.vehicleNumber},'%')
+        </if>
+        <if test="vehicleInfo.userName != null and vehicleInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{vehicleInfo.userName},'%')
+        </if>
+        <if test="vehicleInfo.userId != null and vehicleInfo.userId != ''">
+            AND ui.user_id = #{vehicleInfo.userId}
+        </if>
+        order by
+            vi.create_date desc
+    </select>
+</mapper>

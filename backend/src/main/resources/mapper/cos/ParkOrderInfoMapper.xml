@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ParkOrderInfoMapper">
+
+    <!-- 分页获取订单信息 -->
+    <select id="selectOrderPage" resultType="java.util.LinkedHashMap">
+        select
+            poi.id,
+            poi.code,
+            poi.content,
+            poi.status,
+            poi.space_id,
+            poi.vehicle_id,
+            poi.start_date,
+            poi.end_date,
+            poi.total_time,
+            poi.price,
+            poi.total_price,
+            poi.pay_date,
+            si.name as spaceName,
+            si.`space` as spaceAddress,
+            vi.vehicle_number,
+            vi.images as vehicleImages,
+            vi.vehicle_no,
+            vi.vehicle_color,
+            ui.code,
+            ui.name,
+            ui.images,
+            ui.phone,
+            ui.email
+        from
+            park_order_info poi
+                left join space_info si on
+                (si.id = poi.space_id)
+                left join vehicle_info vi on
+                (vi.id = poi.vehicle_id)
+                left join user_info ui on
+                (ui.id = vi.user_id)
+        where
+            1 = 1
+        <if test="parkOrderInfo.spaceName != null and parkOrderInfo.spaceName != ''">
+            AND si.name LIKE CONCAT('%',#{parkOrderInfo.spaceName},'%')
+        </if>
+        <if test="parkOrderInfo.vehicleNumber != null and parkOrderInfo.vehicleNumber != ''">
+            AND vi.vehicle_number LIKE CONCAT('%',#{parkOrderInfo.vehicleNumber},'%')
+        </if>
+        <if test="parkOrderInfo.userName != null and parkOrderInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{parkOrderInfo.userName},'%')
+        </if>
+        <if test="parkOrderInfo.userId != null and parkOrderInfo.userId != ''">
+            AND ui.user_id = #{parkOrderInfo.userId}
+        </if>
+        order by
+            poi.pay_date desc
+    </select>
+
+    <!-- 本月收益 -->
+    <select id="selectIncomeMonth" resultType="java.math.BigDecimal">
+        SELECT
+            IFNULL( SUM( pr.total_price ), 0 )
+        FROM
+            park_order_info pr
+        WHERE
+                DATE_FORMAT( pr.pay_date, '%Y%m' ) = DATE_FORMAT(
+                    CURDATE(),
+                    '%Y%m')
+        AND pr.status = '1'
+    </select>
+
+    <!-- 本月工单 -->
+    <select id="selectWorkOrderMonth" resultType="java.lang.Integer">
+        SELECT
+            IFNULL( count( 1 ), 0 )
+        FROM
+            park_order_info oi
+        WHERE
+                DATE_FORMAT( oi.pay_date, '%Y%m' ) = DATE_FORMAT(
+                    CURDATE(),
+                    '%Y%m')
+    </select>
+
+    <!-- 本年收益 -->
+    <select id="selectIncomeYear" resultType="java.math.BigDecimal">
+        SELECT
+            IFNULL( SUM( pr.total_price ), 0 )
+        FROM
+            park_order_info pr
+        WHERE
+                DATE_FORMAT( pr.pay_date, '%Y' ) = DATE_FORMAT(
+                    CURDATE(),
+                    '%Y')
+        AND pr.status = '1'
+    </select>
+
+    <!-- 本年工单 -->
+    <select id="selectWorkOrderYear" resultType="java.lang.Integer">
+        SELECT
+            IFNULL( count( 1 ), 0 )
+        FROM
+            park_order_info oi
+        WHERE
+                DATE_FORMAT( oi.pay_date, '%Y' ) = DATE_FORMAT(
+                    CURDATE(),
+                    '%Y')
+    </select>
+
+    <!-- 获取缴费总收益 -->
+    <select id="selectAmountPrice" resultType="java.math.BigDecimal">
+        SELECT
+            IFNULL(SUM(pr.total_price), 0)
+        FROM
+            park_order_info pr
+        WHERE pr.status = '1'
+    </select>
+
+    <!-- 查询十天内缴费统计 -->
+    <select id="selectPaymentRecord" resultType="java.util.LinkedHashMap">
+        SELECT
+            DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+            IFNULL(SUM(pr.total_price), 0) AS amount
+        FROM
+            (
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 6 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 7 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 8 DAY ) UNION
+                SELECT
+                    DATE_SUB( curdate(), INTERVAL + 9 DAY )) spo
+                LEFT JOIN park_order_info pr ON (
+                    DATE_FORMAT( pr.pay_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' )
+                    AND pr.status = '1'
+                )
+        GROUP BY
+            days
+        ORDER BY
+            days ASC
+    </select>
+
+    <!-- 十天内工单记录 -->
+    <select id="selectOrderRecord" resultType="java.util.LinkedHashMap">
+        SELECT
+            DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+            IFNULL(COUNT(oi.id), 0) AS count
+        FROM
+            (
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 6 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 7 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 8 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 9 DAY )) spo
+            LEFT JOIN park_order_info oi ON (
+            DATE_FORMAT( oi.pay_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' )
+            AND oi.status = '1'
+            )
+        GROUP BY
+            days
+        ORDER BY
+            days ASC
+    </select>
+
+    <!-- 房间类型销量比率统计 -->
+    <select id="selectTypeRateByMonth" resultType="java.util.LinkedHashMap">
+        select
+        rt.id,
+        rt.name,
+        count(oi.id) as count
+        from
+        space_info rt
+        left join park_order_info oi on
+        (rt.id = oi.space_id
+        <if test="year != null and year != ''">
+            AND DATE_FORMAT(oi.pay_date, '%Y') = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND DATE_FORMAT(oi.pay_date, '%c') = #{month}
+        </if>
+        AND oi.status = '1'
+        )
+        where
+        1 = 1
+        group by
+        rt.id
+    </select>
+
+    <!-- 房间类型销售比率统计 -->
+    <select id="selectTypePriceRateByMonth" resultType="java.util.LinkedHashMap">
+        select
+        rt.id,
+        rt.name,
+        IFNULL(SUM(oi.total_price), 0) AS count
+        from
+        space_info rt
+        left join park_order_info oi on
+        (rt.id = oi.space_id
+        <if test="year != null and year != ''">
+            AND DATE_FORMAT(oi.pay_date, '%Y') = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND DATE_FORMAT(oi.pay_date, '%c') = #{month}
+        </if>
+        AND oi.status = '1'
+        )
+        where
+        1 = 1
+        group by
+        rt.id
+    </select>
+
+    <!-- 按月统计收益统计 -->
+    <select id="selectPriceByMonth" resultType="java.util.LinkedHashMap">
+        select
+        tempDay.date,
+        IFNULL(SUM(oi.total_price), 0) AS price
+        from
+        (
+        select
+        date
+        from
+        (
+        select
+        DATE_FORMAT(DATE_SUB(last_day(#{checkDate}), interval xc-1 day), '%Y-%m-%d') as date
+        from
+        (
+        select
+        @xi := @xi + 1 as xc
+        from
+        (
+        select
+        1
+        union
+        select
+        2
+        union
+        select
+        3
+        union
+        select
+        4
+        union
+        select
+        5
+        union
+        select
+        6) xc1,
+        (
+        select
+        1
+        union
+        select
+        2
+        union
+        select
+        3
+        union
+        select
+        4
+        union
+        select
+        5
+        union
+        select
+        6) xc2,
+        (
+        select
+        @xi := 0) xc0
+        ) xcxc) x0
+        where
+        x0.date >= (
+        select
+        date_add(#{checkDate}, interval-day(#{checkDate})+ 1 day))) as tempDay
+        left join park_order_info oi on
+        (DATE_FORMAT( oi.pay_date, '%Y-%m-%d' ) = DATE_FORMAT( tempDay.date, '%Y-%m-%d')
+        <if test="year != null and year != ''">
+            AND DATE_FORMAT(oi.pay_date, '%Y') = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND DATE_FORMAT(oi.pay_date, '%c') = #{month}
+        </if>
+        AND oi.status = '1'
+        )
+        where
+        1 = 1
+        group by
+        tempDay.date
+    </select>
+
+    <!-- 按月统计工单统计 -->
+    <select id="selectOrderNumByMonth" resultType="java.util.LinkedHashMap">
+        select
+        tempDay.date,
+        count(oi.id) as count
+        from
+        (
+        select
+        date
+        from
+        (
+        select
+        DATE_FORMAT(DATE_SUB(last_day(#{checkDate}), interval xc-1 day), '%Y-%m-%d') as date
+        from
+        (
+        select
+        @xi := @xi + 1 as xc
+        from
+        (
+        select
+        1
+        union
+        select
+        2
+        union
+        select
+        3
+        union
+        select
+        4
+        union
+        select
+        5
+        union
+        select
+        6) xc1,
+        (
+        select
+        1
+        union
+        select
+        2
+        union
+        select
+        3
+        union
+        select
+        4
+        union
+        select
+        5
+        union
+        select
+        6) xc2,
+        (
+        select
+        @xi := 0) xc0
+        ) xcxc) x0
+        where
+        x0.date >= (
+        select
+        date_add(#{checkDate}, interval-day(#{checkDate})+ 1 day))) as tempDay
+        left join park_order_info oi on
+        (DATE_FORMAT( oi.pay_date, '%Y-%m-%d' ) = DATE_FORMAT( tempDay.date, '%Y-%m-%d')
+        <if test="year != null and year != ''">
+            AND DATE_FORMAT(oi.pay_date, '%Y') = #{year}
+        </if>
+        <if test="month != null and month != ''">
+            AND DATE_FORMAT(oi.pay_date, '%c') = #{month}
+        </if>
+        AND oi.status = '1'
+        )
+        where
+        1 = 1
+        group by
+        tempDay.date
+    </select>
+
+    <!-- 根据用户ID获取订单 -->
+    <select id="selectOrderByUserId" resultType="cc.mrbird.febs.cos.entity.ParkOrderInfo">
+        select
+        poi.id,
+        poi.space_id,
+        poi.vehicle_id,
+        poi.start_date,
+        poi.end_date,
+        poi.total_time,
+        poi.price,
+        poi.total_price,
+        poi.pay_date
+        from
+        park_order_info poi
+        left join vehicle_info vi on
+        (vi.id = poi.vehicle_id)
+        left join user_info ui on
+        (ui.id = vi.user_id)
+        where
+        1 = 1
+        AND ui.user_id = #{userId}
+        order by
+        poi.pay_date desc
+    </select>
+</mapper>

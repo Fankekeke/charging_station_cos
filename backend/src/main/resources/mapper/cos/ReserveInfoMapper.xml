@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ReserveInfoMapper">
+
+    <!-- 分页获取车位预约信息 -->
+    <select id="selectReservePage" resultType="java.util.LinkedHashMap">
+        select
+            ri.id,
+            ri.space_id,
+            ri.vehicle_id,
+            ri.start_date,
+            ri.end_date,
+            ri.status,
+            si.name as spaceName,
+            si.`space` as spaceAddress,
+            vi.vehicle_number ,
+            vi.images as vehicleImages,
+            ui.code,
+            ui.name,
+            ui.images,
+            ui.phone,
+            ui.email
+        from
+            reserve_info ri
+                left join space_info si on
+                (si.id = ri.space_id)
+                left join vehicle_info vi on
+                (vi.id = ri.vehicle_id)
+                left join user_info ui on
+                (ui.id = vi.user_id)
+        where
+            1 = 1
+        <if test="reserveInfo.spaceName != null and reserveInfo.spaceName != ''">
+            AND si.name LIKE CONCAT('%',#{reserveInfo.spaceName},'%')
+        </if>
+        <if test="reserveInfo.vehicleNumber != null and reserveInfo.vehicleNumber != ''">
+            AND vi.vehicle_number LIKE CONCAT('%',#{reserveInfo.vehicleNumber},'%')
+        </if>
+        <if test="reserveInfo.userName != null and reserveInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{reserveInfo.userName},'%')
+        </if>
+        <if test="reserveInfo.userId != null and reserveInfo.userId != ''">
+            AND ui.user_id = #{reserveInfo.userId}
+        </if>
+        order by
+            ri.start_date desc
+
+    </select>
+</mapper>

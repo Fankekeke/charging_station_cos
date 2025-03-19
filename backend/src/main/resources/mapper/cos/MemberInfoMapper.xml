@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.MemberInfoMapper">
+
+    <!-- 分页获取会员信息 -->
+    <select id="selectMemberPage" resultType="java.util.LinkedHashMap">
+        select
+        mi.id,
+        mi.user_id,
+        mi.member_level,
+        mi.start_date,
+        mi.end_date,
+        mi.price,
+        mi.pay_date,
+        ui.code,
+        ui.name,
+        ui.images,
+        ui.phone,
+        ui.email,
+        ri.name as ruleName
+        from
+        member_info mi
+        left join user_info ui on
+        (ui.id = mi.user_id)
+        left join rule_info ri on
+        (ri.id = mi.member_level)
+        where
+        1 = 1
+        <if test="memberInfo.code != null and memberInfo.code != ''">
+            AND ui.code LIKE CONCAT('%',#{memberInfo.code},'%')
+        </if>
+        <if test="memberInfo.name != null and memberInfo.name != ''">
+            AND ui.name LIKE CONCAT('%',#{memberInfo.name},'%')
+        </if>
+        order by
+        mi.pay_date desc
+    </select>
+</mapper>

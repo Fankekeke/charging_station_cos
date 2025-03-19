@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.StaffInfoMapper">
+
+    <!-- 分页获取员工信息信息 -->
+    <select id="selectStaffPage" resultType="java.util.LinkedHashMap">
+        select
+        id,
+        code,
+        name,
+        images,
+        phone,
+        sex,
+        create_date,
+        user_id,
+        status,
+        resign_date
+        from
+        staff_info
+        where 1 = 1
+        <if test="staffInfo.code != null and staffInfo.code != ''">
+            AND code LIKE CONCAT('%',#{staffInfo.code},'%')
+        </if>
+        <if test="staffInfo.name != null and staffInfo.name != ''">
+            AND name LIKE CONCAT('%',#{staffInfo.name},'%')
+        </if>
+        order by create_date desc
+    </select>
+</mapper>
