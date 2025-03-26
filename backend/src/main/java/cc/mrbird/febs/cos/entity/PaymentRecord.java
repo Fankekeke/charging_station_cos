@@ -8,16 +8,17 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
- * 消息管理
+ * 缴费信息
  *
  * @author FanK fan1ke2ke@gmail.com
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class MessageInfo implements Serializable {
+public class PaymentRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,33 +26,34 @@ public class MessageInfo implements Serializable {
     private Integer id;
 
     /**
-     * 发送人
+     * 用户编号
      */
-    private Integer sendUser;
+    private String userCode;
 
     /**
-     * 接收人
+     * 订单编号
      */
-    private Integer takeUser;
+    private String orderCode;
 
     /**
-     * 发送内容
+     * 付款金额
      */
-    private String content;
+    private BigDecimal amount;
 
     /**
-     * 发送时间
+     * 付款时间
      */
     private String createDate;
 
     /**
-     * 状态 0.未读 1.已读
+     * 所属公司
      */
-    private Integer taskStatus;
+    private Integer merchantId;
 
     @TableField(exist = false)
-    private String sendUserName;
+    private String userName;
 
     @TableField(exist = false)
-    private String takeUserName;
+    private String merchantName;
+
 }

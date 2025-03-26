@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ComplaintInfoMapper">
+
+    <!-- 分页获取投诉记录 -->
+    <select id="queryComplaintPage" resultType="java.util.LinkedHashMap">
+        select
+        ci.id,
+        ci.user_id,
+        ci.order_code,
+        ci.create_date,
+        ci.staff_id,
+        ci.content,
+        ci.status,
+        ui.name as userName,
+        ui.phone as userPhone,
+        ui.images as userImages,
+
+        oi.total,
+        oi.create_date,
+        oi.remark,
+        oi.status,
+        oi.staff_ids,
+        oi.pay_date,
+        oi.goods_type,
+        oi.images,
+        oi.weight,
+        oi.height,
+        oi.width,
+        oi.start_address_id,
+        oi.end_address_id,
+        oi.delivery_date,
+        oi.logistics_info,
+        oi.finish_date,
+        oi.kilometre,
+        oi.distribution_price,
+        oi.order_price,
+        oi.discount_id,
+        oi.after_order_price,
+
+        si.name as staffName,
+        si.images as staffImages,
+        si.phone as staffPhone,
+        si.code as staffCode
+        from
+        complaint_info ci
+        left join user_info ui on
+        (ui.id = ci.user_id)
+        left join order_info oi on
+        (oi.code = ci.order_code)
+        left join staff_info si on
+        (si.id = ci.staff_id)
+        where
+        1 = 1
+        <if test="complaintInfo.userName != null and complaintInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{complaintInfo.userName},'%')
+        </if>
+        <if test="complaintInfo.staffName != null and complaintInfo.staffName != ''">
+            AND si.name LIKE CONCAT('%',#{complaintInfo.staffName},'%')
+        </if>
+        <if test="complaintInfo.orderCode != null and complaintInfo.orderCode != ''">
+            AND ci.order_code LIKE CONCAT('%',#{complaintInfo.orderCode},'%')
+        </if>
+        <if test="complaintInfo.staffId != null">
+            AND si.id = #{complaintInfo.staffId}
+        </if>
+        order by
+        ci.create_date desc
+    </select>
+
+    <!-- 查询用户投诉信息 -->
+    <select id="queryComplaintList" resultType="java.util.LinkedHashMap">
+        select
+        ci.id,
+        ci.user_id,
+        ci.order_code,
+        ci.create_date,
+        ci.staff_id,
+        ci.content,
+        ci.status,
+        ui.name as userName,
+        ui.phone as userPhone,
+        ui.images as userImages,
+
+        oi.total,
+        oi.create_date,
+        oi.remark,
+        oi.status,
+        oi.staff_ids,
+        oi.pay_date,
+        oi.goods_type,
+        oi.images,
+        oi.weight,
+        oi.height,
+        oi.width,
+        oi.start_address_id,
+        oi.end_address_id,
+        oi.delivery_date,
+        oi.logistics_info,
+        oi.finish_date,
+        oi.kilometre,
+        oi.distribution_price,
+        oi.order_price,
+        oi.discount_id,
+        oi.after_order_price,
+
+        si.name as staffName,
+        si.images as staffImages,
+        si.phone as staffPhone,
+        si.code as staffCode
+        from
+        complaint_info ci
+        left join user_info ui on
+        (ui.id = ci.user_id)
+        left join order_info oi on
+        (oi.code = ci.order_code)
+        left join staff_info si on
+        (si.id = ci.staff_id)
+        where
+        1 = 1
+        <if test="userId != null">
+            AND ui.id = #{userId}
+        </if>
+        order by
+        ci.create_date desc
+    </select>
+</mapper>

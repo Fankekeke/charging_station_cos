@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.ReplyInfoMapper">
+
+    <!-- 分页查询回复信息 -->
+    <select id="queryReplyPage" resultType="java.util.LinkedHashMap">
+        select
+        ri.id,
+        ri.post_id,
+        ri.user_id,
+        ri.content,
+        ri.create_date,
+        pi2.title,
+        ui.name as userName,
+        ui.images as userImages,
+        ri.create_date as sendCreate
+        from
+        reply_info ri
+        left join post_info pi2 on (pi2.id = ri.post_id)
+        left join user_info ui on (ui.id = ri.user_id)
+        where 1 = 1
+        <if test="replyInfo.username != null and replyInfo.username != ''">
+            AND ui.name LIKE CONCAT('%',#{replyInfo.username},'%')
+        </if>
+        <if test="replyInfo.title != null and replyInfo.title != ''">
+            AND pi2.title LIKE CONCAT('%',#{replyInfo.title},'%')
+        </if>
+        order by ri.create_date desc
+
+    </select>
+</mapper>

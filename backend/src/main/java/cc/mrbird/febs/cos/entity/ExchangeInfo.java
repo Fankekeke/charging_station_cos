@@ -1,5 +1,9 @@
 package cc.mrbird.febs.cos.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,51 +11,50 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
- * 消息管理
+ * 积分兑换
  *
- * @author FanK fan1ke2ke@gmail.com
+ * @author FanK
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class MessageInfo implements Serializable {
+public class ExchangeInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "ID", type = IdType.AUTO)
+    /**
+     * 主键ID
+     */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 发送人
+     * 物品ID
      */
-    private Integer sendUser;
+    private Integer materialId;
 
     /**
-     * 接收人
+     * 所属用户
      */
-    private Integer takeUser;
+    private Integer userId;
 
     /**
-     * 发送内容
+     * 消耗积分
      */
-    private String content;
+    private BigDecimal integral;
 
     /**
-     * 发送时间
+     * 创建时间
      */
     private String createDate;
 
-    /**
-     * 状态 0.未读 1.已读
-     */
-    private Integer taskStatus;
+    @TableField(exist = false)
+    private String code;
 
     @TableField(exist = false)
-    private String sendUserName;
+    private String userName;
 
     @TableField(exist = false)
-    private String takeUserName;
+    private String materialName;
 }

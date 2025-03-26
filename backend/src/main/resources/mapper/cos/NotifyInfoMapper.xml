@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.NotifyInfoMapper">
+
+    <!-- 分页获取消息通知信息 -->
+    <select id="queryNotifyPage" resultType="java.util.LinkedHashMap">
+        select
+        ni.id,
+        ni.user_code,
+        ni.content,
+        ni.del_flag,
+        ni.create_date,
+        ni.name,
+        ui.name as userName,
+        ui.phone as userPhone,
+        ui.images as userImages
+        from
+        notify_info ni
+        left join user_info ui on
+        (ui.code = ni.user_code)
+        where
+        1 = 1
+        <if test="notifyInfo.userName != null and notifyInfo.userName != ''">
+            AND ui.name LIKE CONCAT('%',#{notifyInfo.userName},'%')
+        </if>
+        <if test="notifyInfo.content != null and notifyInfo.content != ''">
+            AND ni.content LIKE CONCAT('%',#{notifyInfo.content},'%')
+        </if>
+        order by
+        ni.create_date desc
+    </select>
+
+    <!-- 根据用户ID获取消息通知信息 -->
+    <select id="queryNotifyByUser" resultType="java.util.LinkedHashMap">
+        select ni.id,
+               ni.user_code,
+               ni.content,
+               ni.del_flag,
+               ni.create_date,
+               ni.name,
+               ui.name   as userName,
+               ui.phone  as userPhone,
+               ui.images as userImages
+        from notify_info ni
+                 left join user_info ui on
+            (ui.code = ni.user_code)
+        where 1 = 1
+          AND ui.id = #{userId}
+        order by ni.create_date desc
+    </select>
+</mapper>

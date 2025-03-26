@@ -9,6 +9,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -17,6 +18,7 @@ import java.io.File;
 
 @Service
 public class IMailServiceImpl implements IMailService {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -62,6 +64,7 @@ public class IMailServiceImpl implements IMailService {
      * @param content 内容
      */
     @Override
+    @Async
     public void sendHtmlMail(String to, String subject, String content) {
         //获取MimeMessage对象
         MimeMessage message = mailSender.createMimeMessage();
@@ -69,7 +72,7 @@ public class IMailServiceImpl implements IMailService {
         try {
             messageHelper = new MimeMessageHelper(message, true);
             //邮件发送人
-            messageHelper.setFrom("EVA-2<" + from + ">");
+            messageHelper.setFrom("FanK<" + from + ">");
             //邮件接收人
             messageHelper.setTo(to);
             //邮件主题
@@ -112,7 +115,6 @@ public class IMailServiceImpl implements IMailService {
         } catch (MessagingException e) {
             logger.error("发送邮件时发生异常！", e);
         }
-
-
     }
+
 }

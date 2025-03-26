@@ -10,14 +10,14 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * 消息管理
+ * 消息通知
  *
  * @author FanK fan1ke2ke@gmail.com
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class MessageInfo implements Serializable {
+public class NotifyInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,33 +25,41 @@ public class MessageInfo implements Serializable {
     private Integer id;
 
     /**
-     * 发送人
+     * 用户编号
      */
-    private Integer sendUser;
+    private String userCode;
 
     /**
-     * 接收人
+     * 用户编号
      */
-    private Integer takeUser;
+    private Integer userId;
 
     /**
-     * 发送内容
+     * 消息内容
      */
     private String content;
 
     /**
-     * 发送时间
+     * 删除标识
+     */
+    private Integer delFlag;
+
+    /**
+     * 创建时间
      */
     private String createDate;
 
-    /**
-     * 状态 0.未读 1.已读
-     */
-    private Integer taskStatus;
+    private String name;
 
     @TableField(exist = false)
-    private String sendUserName;
+    private String userName;
 
-    @TableField(exist = false)
-    private String takeUserName;
+    public NotifyInfo(String userCode, Integer delFlag, String createDate, String name) {
+        this.userCode = userCode;
+        this.delFlag = delFlag;
+        this.createDate = createDate;
+        this.name = name;
+    }
+    public NotifyInfo() {}
+
 }
