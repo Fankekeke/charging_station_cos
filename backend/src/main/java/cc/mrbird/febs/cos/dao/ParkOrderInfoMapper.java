@@ -92,7 +92,7 @@ public interface ParkOrderInfoMapper extends BaseMapper<ParkOrderInfo> {
     List<LinkedHashMap<String, Object>> selectOrderNumByMonth(@Param("year") String year, @Param("month") String month, @Param("checkDate") String date);
 
     /**
-     * 车位销量比率统计
+     * 充电桩销量比率统计
      *
      * @param year  年费
      * @param month 月份
@@ -101,7 +101,7 @@ public interface ParkOrderInfoMapper extends BaseMapper<ParkOrderInfo> {
     List<LinkedHashMap<String, Object>> selectTypeRateByMonth(@Param("year") String year, @Param("month") String month);
 
     /**
-     * 车位销售比率统计
+     * 充电桩销售比率统计
      *
      * @param year  年费
      * @param month 月份

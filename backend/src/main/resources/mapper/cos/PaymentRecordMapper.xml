@@ -13,16 +13,15 @@
         ui.name as userName,
         ui.phone as userPhone,
         ui.images as userImages,
-        oi.start_address,
-        oi.end_address,
+        oi.total_time,
+        oi.price,
         mi.name as merchantName,
-        mi.principal,
         mi.phone as merchantPhone,
         mi.address
         from payment_record pr
         left join user_info ui on (ui.code = pr.user_code)
-        left join order_info oi on (oi.code = pr.order_code)
-        left join merchant_info mi on (mi.id = pr.merchant_id)
+        left join park_order_info oi on (oi.code = pr.order_code)
+        left join pharmacy_info mi on (mi.id = pr.merchant_id)
         where 1 = 1
         <if test="paymentRecord.userName != null and paymentRecord.userName != ''">
             AND ui.name LIKE CONCAT('%',#{paymentRecord.userName},'%')

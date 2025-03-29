@@ -15,10 +15,10 @@ import java.util.List;
 public interface ISpaceInfoService extends IService<SpaceInfo> {
 
     /**
-     * 分页获取车位信息
+     * 分页获取充电桩信息
      *
      * @param page      分页对象
-     * @param spaceInfo 车位信息
+     * @param spaceInfo 充电桩信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectSpacePage(Page<SpaceInfo> page, SpaceInfo spaceInfo);

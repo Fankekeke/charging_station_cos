@@ -16,6 +16,7 @@
         </a-col>
       </a-row>
       <br/>
+      <br/>
       <div v-if="userInfo != null">
         <a-row style="padding-left: 24px;padding-right: 24px;">
           <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">用户信息</span></a-col>
@@ -30,12 +31,8 @@
           </a-col>
         </a-row>
         <br/>
-        <a-row style="padding-left: 24px;padding-right: 24px;">
-          <a-col :span="8"><b>收货地址：</b>
-            {{ userInfo.address }}
-          </a-col>
-        </a-row>
       </div>
+      <br/>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;" v-if="materialInfo != null">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">物品信息</span></a-col>
@@ -45,6 +42,7 @@
         <a-col :span="8"><b>物品编号：</b>
           {{ materialInfo.code ? materialInfo.code : '- -' }}
         </a-col>
+        <br/>
         <br/>
         <br/>
         <a-col :span="24"><b></b>

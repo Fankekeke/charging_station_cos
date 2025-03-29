@@ -126,10 +126,12 @@ export default {
         dataIndex: 'name'
       }, {
         title: '员工编号',
+        ellipsis: true,
         dataIndex: 'code'
       }, {
         title: '联系方式',
         dataIndex: 'phone',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -176,8 +178,43 @@ export default {
           }
         }
       }, {
+        title: '所属商家',
+        dataIndex: 'merchantName',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家照片',
+        dataIndex: 'merchantImages',
+        customRender: (text, record, index) => {
+          if (!record.merchantImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+          </a-popover>
+        }
+      }, {
+        title: '商家站点',
+        dataIndex: 'address',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
         title: '创建时间',
         dataIndex: 'createDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text

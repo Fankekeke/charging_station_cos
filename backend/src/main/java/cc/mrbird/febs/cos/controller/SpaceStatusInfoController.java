@@ -40,11 +40,13 @@ public class SpaceStatusInfoController {
 
     private final IUserInfoService userInfoService;
 
+    private final INotifyInfoService notifyInfoService;
+
     /**
-     * 分页获取车位状态信息
+     * 分页获取充电桩状态信息
      *
      * @param page            分页对象
-     * @param spaceStatusInfo 车位状态信息
+     * @param spaceStatusInfo 充电桩状态信息
      * @return 结果
      */
     @GetMapping("/page")
@@ -53,7 +55,7 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 获取车位状态图
+     * 获取充电桩状态图
      *
      * @return 结果
      */
@@ -63,9 +65,9 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 车位状态信息详情
+     * 充电桩状态信息详情
      *
-     * @param id 车位状态ID
+     * @param id 充电桩状态ID
      * @return 结果
      */
     @GetMapping("/{id}")
@@ -74,7 +76,7 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 车位状态信息列表
+     * 充电桩状态信息列表
      *
      * @return 结果
      */
@@ -84,9 +86,9 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 新增车位状态信息
+     * 新增充电桩状态信息
      *
-     * @param spaceStatusInfo 车位状态信息
+     * @param spaceStatusInfo 充电桩状态信息
      * @return 结果
      */
     @PostMapping
@@ -95,9 +97,9 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 修改车位状态信息
+     * 修改充电桩状态信息
      *
-     * @param spaceStatusInfo 车位状态信息
+     * @param spaceStatusInfo 充电桩状态信息
      * @return 结果
      */
     @PutMapping
@@ -106,10 +108,10 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 删除车位状态信息
+     * 删除充电桩状态信息
      *
      * @param ids ids
-     * @return 车位状态信息
+     * @return 充电桩状态信息
      */
     @DeleteMapping("/{ids}")
     public R deleteByIds(@PathVariable("ids") List<Integer> ids) {
@@ -117,13 +119,13 @@ public class SpaceStatusInfoController {
     }
 
     /**
-     * 定时任务30秒执行 车辆状态更新
+     * 定时任务30秒执行 状态更新
      */
     @Scheduled(fixedRate = 30000)
     public void scheduledVehicleStatusTask() {
-        // 获取当前车位预约状态
+        // 获取当前充电桩预约状态
         List<ReserveInfo> reserveInfos = reserveInfoService.list(Wrappers.<ReserveInfo>lambdaQuery().eq(ReserveInfo::getStatus,"1"));
-        System.out.println("======== 车辆状态更新");
+        System.out.println("======== 状态更新");
         for (ReserveInfo reserveInfo : reserveInfos) {
             if (!DateUtil.isIn(new Date(), DateUtil.parseDateTime(reserveInfo.getStartDate()), DateUtil.parseDateTime(reserveInfo.getEndDate()))) {
                 spaceStatusInfoService.update(Wrappers.<SpaceStatusInfo>lambdaUpdate().set(SpaceStatusInfo::getStatus, 0).eq(SpaceStatusInfo::getId, reserveInfo.getSpaceId()));
@@ -136,15 +138,16 @@ public class SpaceStatusInfoController {
                 // 用户信息
                 UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, vehicleInfo.getUserId()));
                 // 发送消息
-                MessageInfo messageInfo = new MessageInfo();
-                messageInfo.setUserId(userInfo.getId());
-                messageInfo.setContent("您好，您的"+vehicleInfo.getVehicleNumber()+"超过30分钟预定车位失效");
-                messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-                messageInfoService.save(messageInfo);
+                NotifyInfo notifyInfo = new NotifyInfo();
+                notifyInfo.setUserId(userInfo.getId());
+                notifyInfo.setContent("您好，您的预约订单超过30分钟预定充电桩失效");
+                notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+                notifyInfoService.save(notifyInfo);
+
                 if (StrUtil.isNotEmpty(userInfo.getEmail())) {
                     Context context = new Context();
                     context.setVariable("today", DateUtil.formatDate(new Date()));
-                    context.setVariable("custom", userInfo.getName() + " 您好，您的"+vehicleInfo.getVehicleNumber()+"超过30分钟预定车位失效");
+                    context.setVariable("custom", userInfo.getName() + " 您好，您的"+vehicleInfo.getVehicleNumber()+"超过30分钟预定充电桩失效");
                     String emailContent = templateEngine.process("registerEmail", context);
                     mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "预定提示", emailContent);
                 }

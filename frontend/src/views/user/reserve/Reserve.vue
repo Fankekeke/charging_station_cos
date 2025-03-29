@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位名称"
+                label="充电桩名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.spaceName"/>
@@ -154,7 +154,7 @@ export default {
           }
         }
       }, {
-        title: '车位名称',
+        title: '充电桩名称',
         dataIndex: 'spaceName',
         customRender: (text, row, index) => {
           if (text !== null) {

@@ -53,6 +53,8 @@ public class ParkOrderInfoController {
 
     private final IVehicleInfoService vehicleInfoService;
 
+    private final INotifyInfoService notifyInfoService;
+
     /**
      * 分页获取订单信息
      *
@@ -106,20 +108,21 @@ public class ParkOrderInfoController {
         }
 
         // 发送消息
-        MessageInfo messageInfo = new MessageInfo();
-        messageInfo.setUserId(userInfo.getId());
-        messageInfo.setContent("您好，您的车辆 " + vehicleInfo.getVehicleNumber() + "已驶出，请前往订单缴费");
-        messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        messageInfoService.save(messageInfo);
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您的充电已结束，请前往订单缴费");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
         if (StrUtil.isNotEmpty(userInfo.getEmail())) {
             Context context = new Context();
             context.setVariable("today", DateUtil.formatDate(new Date()));
             context.setVariable("custom", userInfo.getName() + " 您好，您的车辆 " + vehicleInfo.getVehicleNumber() + "已驶出，请前往订单缴费");
             String emailContent = templateEngine.process("registerEmail", context);
-            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "车位订单提示", emailContent);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "充电桩订单提示", emailContent);
         }
 
-        // 车位状态变更
+        // 充电桩状态变更
         SpaceStatusInfo spaceStatusInfo = spaceStatusInfoService.getOne(Wrappers.<SpaceStatusInfo>lambdaQuery().eq(SpaceStatusInfo::getSpaceId, orderInfo.getSpaceId()));
         spaceStatusInfo.setStatus("0");
         spaceStatusInfoService.updateById(spaceStatusInfo);
@@ -190,14 +193,14 @@ public class ParkOrderInfoController {
 
             List<Integer> spaceIds = reserveInfoList.stream().map(ReserveInfo::getSpaceId).collect(Collectors.toList());
             reserveInfoService.update(Wrappers.<ReserveInfo>lambdaUpdate().set(ReserveInfo::getStatus, "0").in(ReserveInfo::getId, ids));
-            // 更新预约车位状态
+            // 更新预约充电桩状态
             spaceStatusInfoService.update(Wrappers.<SpaceStatusInfo>lambdaUpdate().set(SpaceStatusInfo::getStatus, "0").in(SpaceStatusInfo::getSpaceId, spaceIds));
         }
 
-        // 车位信息
+        // 充电桩信息
         SpaceInfo spaceInfo = spaceInfoService.getById(parkOrderInfo.getSpaceId());
 
-        // 更新车位状态
+        // 更新充电桩状态
         spaceStatusInfoService.update(Wrappers.<SpaceStatusInfo>lambdaUpdate().set(SpaceStatusInfo::getStatus, "1").eq(SpaceStatusInfo::getSpaceId, spaceInfo.getId()));
 
         // 车辆信息
@@ -206,17 +209,18 @@ public class ParkOrderInfoController {
         UserInfo userInfo = userInfoService.getById(vehicleInfo.getUserId());
 
         // 发送消息
-        MessageInfo messageInfo = new MessageInfo();
-        messageInfo.setUserId(userInfo.getId());
-        messageInfo.setContent("您好，您的车辆 " + vehicleInfo.getVehicleNumber() + "订单已生成，请注意查看");
-        messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        messageInfoService.save(messageInfo);
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您的订单 “" + parkOrderInfo.getCode() + "”已生成，请注意查看");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
         if (StrUtil.isNotEmpty(userInfo.getEmail())) {
             Context context = new Context();
             context.setVariable("today", DateUtil.formatDate(new Date()));
-            context.setVariable("custom", userInfo.getName() + " 您好。您的车辆 "+vehicleInfo.getVehicleNumber()+" 订单已生成，请注意查看");
+            context.setVariable("custom", userInfo.getName() + " 您好。您的车辆 " + vehicleInfo.getVehicleNumber() + " 订单已生成，请注意查看");
             String emailContent = templateEngine.process("registerEmail", context);
-            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "车位订单提示", emailContent);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "充电桩订单提示", emailContent);
         }
 
         // 订单信息

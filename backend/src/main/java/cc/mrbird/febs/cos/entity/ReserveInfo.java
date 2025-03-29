@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 车位预约信息
+ * 充电桩预约信息
  *
  * @author Fank gmail - fan1ke2ke@gmail.com
  */

@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位名称"
+                label="充电桩名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.spaceName"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位编号"
+                label="充电桩编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -104,7 +104,7 @@ export default {
     }),
     columns () {
       return [ {
-        title: '车位编号',
+        title: '充电桩编号',
         dataIndex: 'code',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -114,7 +114,7 @@ export default {
           }
         }
       }, {
-        title: '车位名称',
+        title: '充电桩名称',
         dataIndex: 'spaceName',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -124,7 +124,7 @@ export default {
           }
         }
       }, {
-        title: '车位图片',
+        title: '充电桩图片',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />
@@ -159,6 +159,40 @@ export default {
             default:
               return '- -'
           }
+        }
+      }, {
+        title: '所属商家',
+        dataIndex: 'merchantName',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家站点',
+        dataIndex: 'address',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家照片',
+        dataIndex: 'merchantImages',
+        customRender: (text, record, index) => {
+          if (!record.merchantImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+          </a-popover>
         }
       }]
     }

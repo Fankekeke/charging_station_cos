@@ -60,7 +60,7 @@ public class PharmacyInfoServiceImpl extends ServiceImpl<PharmacyInfoMapper, Pha
         // 所有商家信息
         List<PharmacyInfo> pharmacyInfoList = this.list(Wrappers.<PharmacyInfo>lambdaQuery().eq(PharmacyInfo::getBusinessStatus, 1));
         // 本月订单数据
-        List<ParkOrderInfo> goodsOrderInfoList = orderInfoMapper.selectOrderByMonth(null);
+        List<ParkOrderInfo> goodsOrderInfoList = baseMapper.selectOrderByMonth(null);
         if (CollectionUtil.isEmpty(goodsOrderInfoList) || CollectionUtil.isEmpty(pharmacyInfoList)) {
             return Collections.emptyList();
         }
@@ -102,7 +102,7 @@ public class PharmacyInfoServiceImpl extends ServiceImpl<PharmacyInfoMapper, Pha
             LinkedHashMap<String, Object> item = new LinkedHashMap<String, Object>() {
                 {
                     put("name", e.getName());
-                    put("value", orderInfoMapper.selectOrderPriceWithinDays(e.getId()));
+                    put("value", baseMapper.selectOrderPriceWithinDays(e.getId()));
                 }
             };
             result.add(item);
@@ -128,7 +128,7 @@ public class PharmacyInfoServiceImpl extends ServiceImpl<PharmacyInfoMapper, Pha
             LinkedHashMap<String, Object> item = new LinkedHashMap<String, Object>() {
                 {
                     put("name", e.getName());
-                    put("value", orderInfoMapper.selectOrderNumWithinDays(e.getId()));
+                    put("value", baseMapper.selectOrderNumWithinDays(e.getId()));
                 }
             };
             result.add(item);

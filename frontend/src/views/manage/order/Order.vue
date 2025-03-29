@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位名称"
+                label="充电桩名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.spaceName"/>
@@ -141,10 +141,12 @@ export default {
     columns () {
       return [ {
         title: '订单用户',
+        ellipsis: true,
         dataIndex: 'name'
       }, {
         title: '车牌号码',
         dataIndex: 'vehicleNumber',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -165,8 +167,9 @@ export default {
           </a-popover>
         }
       }, {
-        title: '车位名称',
+        title: '充电桩名称',
         dataIndex: 'spaceName',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -175,8 +178,9 @@ export default {
           }
         }
       }, {
-        title: '驶入时间',
+        title: '充电开始时间',
         dataIndex: 'startDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -185,8 +189,9 @@ export default {
           }
         }
       }, {
-        title: '驶出时间',
+        title: '充电结束时间',
         dataIndex: 'endDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -197,6 +202,7 @@ export default {
       }, {
         title: '总时长（分钟）',
         dataIndex: 'totalTime',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -207,6 +213,7 @@ export default {
       }, {
         title: '总费用（元）',
         dataIndex: 'totalPrice',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -225,6 +232,28 @@ export default {
               return <a-tag color="green">已缴费</a-tag>
             default:
               return '- -'
+          }
+        }
+      }, {
+        title: '所属商家',
+        dataIndex: 'merchantName',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家站点',
+        dataIndex: 'address',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
           }
         }
       }, {

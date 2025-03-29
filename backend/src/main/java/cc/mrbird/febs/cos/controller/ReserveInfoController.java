@@ -44,11 +44,13 @@ public class ReserveInfoController {
 
     private final IUserInfoService userInfoService;
 
+    private final INotifyInfoService notifyInfoService;
+
     /**
-     * 分页获取车位预约信息
+     * 分页获取充电桩预约信息
      *
      * @param page        分页对象
-     * @param reserveInfo 车位预约信息
+     * @param reserveInfo 充电桩预约信息
      * @return 结果
      */
     @GetMapping("/page")
@@ -57,9 +59,9 @@ public class ReserveInfoController {
     }
 
     /**
-     * 车位预约信息详情
+     * 充电桩预约信息详情
      *
-     * @param id 车位预约ID
+     * @param id 充电桩预约ID
      * @return 结果
      */
     @GetMapping("/{id}")
@@ -68,7 +70,7 @@ public class ReserveInfoController {
     }
 
     /**
-     * 车位预约信息列表
+     * 充电桩预约信息列表
      *
      * @return 结果
      */
@@ -78,9 +80,9 @@ public class ReserveInfoController {
     }
 
     /**
-     * 新增车位预约信息
+     * 新增充电桩预约信息
      *
-     * @param reserveInfo 车位预约信息
+     * @param reserveInfo 充电桩预约信息
      * @return 结果
      */
     @PostMapping
@@ -103,7 +105,7 @@ public class ReserveInfoController {
         reserveInfo.setEndDate(DateUtil.formatDateTime(DateUtil.offsetMinute(new Date(), 30)));
         reserveInfo.setStatus("1");
 
-        // 车位状态更新
+        // 充电桩状态更新
         SpaceStatusInfo statusInfo = spaceStatusInfoService.getOne(Wrappers.<SpaceStatusInfo>lambdaQuery().eq(SpaceStatusInfo::getSpaceId, reserveInfo.getSpaceId()));
         statusInfo.setStatus("-1");
         spaceStatusInfoService.updateById(statusInfo);
@@ -115,15 +117,16 @@ public class ReserveInfoController {
         UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, vehicleInfo.getUserId()));
 
         // 发送消息
-        MessageInfo messageInfo = new MessageInfo();
-        messageInfo.setUserId(userInfo.getId());
-        messageInfo.setContent("您好，您的"+vehicleInfo.getVehicleNumber()+"预定车位已预定成功，截至"+reserveInfo.getEndDate()+"失效");
-        messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        messageInfoService.save(messageInfo);
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您预定充电桩已预定成功，截至"+reserveInfo.getEndDate()+"失效");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
         if (StrUtil.isNotEmpty(userInfo.getEmail())) {
             Context context = new Context();
             context.setVariable("today", DateUtil.formatDate(new Date()));
-            context.setVariable("custom", userInfo.getName() + " 您好，您的"+vehicleInfo.getVehicleNumber()+"预定车位已预定成功，截至"+reserveInfo.getEndDate()+"失效");
+            context.setVariable("custom", userInfo.getName() + " 您好，您的"+vehicleInfo.getVehicleNumber()+"预定充电桩已预定成功，截至"+reserveInfo.getEndDate()+"失效");
             String emailContent = templateEngine.process("registerEmail", context);
             mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "预定提示", emailContent);
         }
@@ -132,9 +135,9 @@ public class ReserveInfoController {
     }
 
     /**
-     * 修改车位预约信息
+     * 修改充电桩预约信息
      *
-     * @param reserveInfo 车位预约信息
+     * @param reserveInfo 充电桩预约信息
      * @return 结果
      */
     @PutMapping
@@ -143,10 +146,10 @@ public class ReserveInfoController {
     }
 
     /**
-     * 删除车位预约信息
+     * 删除充电桩预约信息
      *
      * @param ids ids
-     * @return 车位预约信息
+     * @return 充电桩预约信息
      */
     @DeleteMapping("/{ids}")
     @Transactional(rollbackFor = Exception.class)

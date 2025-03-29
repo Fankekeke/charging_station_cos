@@ -10,8 +10,11 @@
             name,
             images,
             sex,
+            integral,
             create_date,
             phone,
+            open_id,
+            avatar,
             email
         from
             user_info

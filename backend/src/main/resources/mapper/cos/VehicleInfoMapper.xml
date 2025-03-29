@@ -14,6 +14,7 @@
             vi.emission_standard,
             vi.fuel_type,
             vi.images,
+            vi.vehicle_type,
             vi.content,
             vi.create_date,
             vi.user_id,

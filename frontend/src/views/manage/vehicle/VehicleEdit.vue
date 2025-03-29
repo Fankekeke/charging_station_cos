@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="修改车辆" @cancel="onClose" :width="1200">
+  <a-modal v-model="show" title="修改车辆" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -24,6 +24,21 @@
             'name',
             { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item label='车辆类型' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'vehicleType',
+              { rules: [{ required: true, message: '请输入车辆类型!' }] }
+              ]">
+              <a-select-option value="1">72V以上电动车</a-select-option>
+              <a-select-option value="2">60V-72V电动车</a-select-option>
+              <a-select-option value="3">48V电动车</a-select-option>
+              <a-select-option value="4">老年助力三轮车</a-select-option>
+              <a-select-option value="5">摩托车</a-select-option>
+              <a-select-option value="6">燃油车</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -202,7 +217,7 @@ export default {
     },
     setFormValues ({...vehicle}) {
       this.rowId = vehicle.id
-      let fields = ['vehicleNo', 'vehicleNumber', 'vehicleColor', 'name', 'engineNo', 'carryPassengers', 'principal', 'brand', 'phone', 'userId', 'factoryDate', 'useType', 'emissionStandard', 'fuelType', 'content', 'shopId', 'dayPrice']
+      let fields = ['vehicleNo', 'vehicleNumber', 'vehicleColor', 'name', 'engineNo', 'carryPassengers', 'principal', 'brand', 'phone', 'userId', 'factoryDate', 'useType', 'emissionStandard', 'fuelType', 'content', 'shopId', 'vehicleType']
       let obj = {}
       Object.keys(vehicle).forEach((key) => {
         setTimeout(() => {

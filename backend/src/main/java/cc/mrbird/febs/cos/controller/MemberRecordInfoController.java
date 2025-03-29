@@ -46,6 +46,8 @@ public class MemberRecordInfoController {
 
     private final IMessageInfoService messageInfoService;
 
+    private final INotifyInfoService notifyInfoService;
+
     /**
      * 分页获取会员信息
      *
@@ -92,11 +94,12 @@ public class MemberRecordInfoController {
             memberInfoService.save(memberInfo);
 
             // 发送消息
-            MessageInfo messageInfo = new MessageInfo();
-            messageInfo.setUserId(userInfo.getId());
-            messageInfo.setContent("您好，您已缴费会员成功，会员截至 "+ memberInfo.getEndDate() +"");
-            messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-            messageInfoService.save(messageInfo);
+            NotifyInfo notifyInfo = new NotifyInfo();
+            notifyInfo.setUserId(userInfo.getId());
+            notifyInfo.setContent("您好，您已缴费会员成功，会员截至 "+ memberInfo.getEndDate() +"");
+            notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+            notifyInfoService.save(notifyInfo);
+
             if (StrUtil.isNotEmpty(userInfo.getEmail())) {
                 Context context = new Context();
                 context.setVariable("today", DateUtil.formatDate(new Date()));
@@ -113,11 +116,11 @@ public class MemberRecordInfoController {
             parkOrderInfoService.updateById(parkOrderInfo);
 
             // 发送消息
-            MessageInfo messageInfo = new MessageInfo();
-            messageInfo.setUserId(userInfo.getId());
-            messageInfo.setContent("您好，您的订单 "+orderCode+"已缴费成功，祝您一路顺风");
-            messageInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-            messageInfoService.save(messageInfo);
+            NotifyInfo notifyInfo = new NotifyInfo();
+            notifyInfo.setUserId(userInfo.getId());
+            notifyInfo.setContent("您好，您的订单 "+orderCode+"已缴费成功，祝您一路顺风");
+            notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+            notifyInfoService.save(notifyInfo);
             if (StrUtil.isNotEmpty(userInfo.getEmail())) {
                 Context context = new Context();
                 context.setVariable("today", DateUtil.formatDate(new Date()));

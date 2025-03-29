@@ -115,6 +115,7 @@ export default {
       return [{
         title: '评价用户',
         dataIndex: 'userName',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -137,6 +138,7 @@ export default {
       }, {
         title: '订单编号',
         dataIndex: 'orderCode',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -146,7 +148,8 @@ export default {
         }
       }, {
         title: '折后价格',
-        dataIndex: 'afterOrderPrice',
+        dataIndex: 'totalPrice',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text + '元'
@@ -167,6 +170,7 @@ export default {
       }, {
         title: '评价内容',
         dataIndex: 'content',
+        ellipsis: true,
         scopedSlots: {customRender: 'evaluateShow'}
       }, {
         title: '评价图片',
@@ -181,8 +185,20 @@ export default {
           </a-popover>
         }
       }, {
+        title: '充电时常',
+        dataIndex: 'totalTime',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text + '分钟'
+          } else {
+            return '- -'
+          }
+        }
+      }, {
         title: '获得积分',
-        dataIndex: 'integral',
+        dataIndex: 'totalPrice',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -193,6 +209,7 @@ export default {
       }, {
         title: '评价时间',
         dataIndex: 'createDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -200,10 +217,6 @@ export default {
             return '- -'
           }
         }
-      }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
       }]
     }
   },

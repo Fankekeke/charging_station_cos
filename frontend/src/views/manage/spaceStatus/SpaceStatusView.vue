@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="车位预约详情" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="充电桩预约详情" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose" type="danger">
         关闭
@@ -33,13 +33,13 @@
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>车位名称：</b>
+        <a-col :span="8"><b>充电桩名称：</b>
           {{ reserveData.spaceName }}
         </a-col>
         <a-col :span="8"><b>车牌号码：</b>
           {{ reserveData.vehicleNumber }}
         </a-col>
-        <a-col :span="8"><b>车位地点：</b>
+        <a-col :span="8"><b>充电桩地点：</b>
           {{ reserveData.spaceAddress }}
         </a-col>
       </a-row>

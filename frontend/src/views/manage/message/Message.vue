@@ -5,6 +5,22 @@
       <a-form layout="horizontal">
         <a-row :gutter="15">
           <div :class="advanced ? null: 'fold'">
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="用户名称"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.userName"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="消息内容"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.content"/>
+              </a-form-item>
+            </a-col>
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
@@ -15,7 +31,7 @@
     </div>
     <div>
       <div class="operator">
-        <!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
+<!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
         <a-button @click="batchDelete">删除</a-button>
       </div>
       <!-- 表格区域 -->
@@ -28,49 +44,52 @@
                :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
                :scroll="{ x: 900 }"
                @change="handleTableChange">
-        <template slot="avatarShow" slot-scope="text, record">
-          <template>
-            <img alt="头像" :src="'static/avatar/' + text">
-          </template>
-        </template>
         <template slot="contentShow" slot-scope="text, record">
           <template>
             <a-tooltip>
               <template slot="title">
                 {{ record.content }}
               </template>
-              {{ record.content.slice(0, 30) }} ...
+              {{ record.content.slice(0, 20) }} ...
             </a-tooltip>
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
+          <a-icon type="file-search" @click="memberViewOpen(record)" title="详 情" style="margin-left: 15px"></a-icon>
         </template>
       </a-table>
     </div>
-    <user-view
-      @close="handleUserViewClose"
-      :userShow="userView.visiable"
-      :userData="userView.data">
-    </user-view>
+    <member-view
+      @close="handlememberViewClose"
+      :memberShow="memberView.visiable"
+      :memberData="memberView.data">
+    </member-view>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
+import memberView from './MessageView.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
-  name: 'User',
-  components: {RangeDate},
+  name: 'member',
+  components: {memberView, RangeDate},
   data () {
     return {
-      userView: {
+      advanced: false,
+      memberAdd: {
+        visiable: false
+      },
+      memberEdit: {
+        visiable: false
+      },
+      memberView: {
         visiable: false,
         data: null
       },
-      advanced: false,
       queryParams: {},
       filteredInfo: null,
       sortedInfo: null,
@@ -94,9 +113,12 @@ export default {
       currentUser: state => state.account.user
     }),
     columns () {
-      return [{
+      return [ {
+        title: '用户编号',
+        dataIndex: 'code'
+      }, {
         title: '用户名称',
-        dataIndex: 'sendUserName',
+        dataIndex: 'name',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -105,8 +127,8 @@ export default {
           }
         }
       }, {
-        title: '员工名称',
-        dataIndex: 'takeUserName',
+        title: '联系方式',
+        dataIndex: 'phone',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -116,32 +138,33 @@ export default {
         }
       }, {
         title: '用户头像',
-        dataIndex: 'sendUserAvatar',
+        dataIndex: 'images',
         customRender: (text, record, index) => {
-          if (!record.sendUserAvatar) return <a-avatar shape="square" icon="user" />
+          if (!record.images) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.sendUserAvatar } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images.split(',')[0] } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.sendUserAvatar } />
-          </a-popover>
-        }
-      }, {
-        title: '员工头像',
-        dataIndex: 'takeUserAvatar',
-        customRender: (text, record, index) => {
-          if (!record.takeUserAvatar) return <a-avatar shape="square" icon="user" />
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.takeUserAvatar } />
-            </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.takeUserAvatar } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images.split(',')[0] } />
           </a-popover>
         }
       }, {
         title: '消息内容',
         dataIndex: 'content',
-        scopedSlots: {customRender: 'contentShow'}
+        scopedSlots: { customRender: 'contentShow' }
+      }, {
+        title: '消息状态',
+        dataIndex: 'delFlag',
+        customRender: (text, row, index) => {
+          switch (text) {
+            case 0:
+              return <a-tag>未读</a-tag>
+            case 1:
+              return <a-tag>已读</a-tag>
+            default:
+              return '- -'
+          }
+        }
       }, {
         title: '发送时间',
         dataIndex: 'createDate',
@@ -152,6 +175,10 @@ export default {
             return '- -'
           }
         }
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     }
   },
@@ -159,18 +186,41 @@ export default {
     this.fetch()
   },
   methods: {
-    view (row) {
-      this.userView.data = row
-      this.userView.visiable = true
-    },
-    handleUserViewClose () {
-      this.userView.visiable = false
-    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
     toggleAdvanced () {
       this.advanced = !this.advanced
+    },
+    add () {
+      this.memberAdd.visiable = true
+    },
+    handlememberAddClose () {
+      this.memberAdd.visiable = false
+    },
+    handlememberAddSuccess () {
+      this.memberAdd.visiable = false
+      this.$message.success('新增会员成功')
+      this.search()
+    },
+    edit (record) {
+      this.$refs.memberEdit.setFormValues(record)
+      this.memberEdit.visiable = true
+    },
+    memberViewOpen (row) {
+      this.memberView.data = row
+      this.memberView.visiable = true
+    },
+    handlememberViewClose () {
+      this.memberView.visiable = false
+    },
+    handlememberEditClose () {
+      this.memberEdit.visiable = false
+    },
+    handlememberEditSuccess () {
+      this.memberEdit.visiable = false
+      this.$message.success('修改会员成功')
+      this.search()
     },
     handleDeptChange (value) {
       this.queryParams.deptId = value || ''
@@ -187,7 +237,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/message-info/' + ids).then(() => {
+          that.$delete('/cos/notify-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -257,10 +307,10 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      if (params.readStatus === undefined) {
-        delete params.readStatus
+      if (params.delFlag === undefined) {
+        delete params.delFlag
       }
-      this.$get('/cos/message-info/page', {
+      this.$get('/cos/notify-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

@@ -11,10 +11,10 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='选择车位' v-bind="formItemLayout">
+          <a-form-item label='选择充电桩' v-bind="formItemLayout">
             <a-select v-decorator="[
               'spaceId',
-              { rules: [{ required: true, message: '请输入所属车位!' }] }
+              { rules: [{ required: true, message: '请输入所属充电桩!' }] }
               ]">
               <a-select-option :value="item.id" v-for="(item, index) in spaceList" :key="index">{{ item.name }}</a-select-option>
             </a-select>

@@ -12,7 +12,7 @@
         pi.images,
         pi.create_date AS createDate,
         ui.name AS userName,
-        ui.avatar AS avatar
+        ui.images AS avatar
         FROM
         post_info pi
         LEFT JOIN user_info ui ON ( ui.id = pi.user_id )
@@ -38,7 +38,7 @@
         ri.content,
         ri.create_date AS createDate,
         ui.name AS userName,
-        ui.avatar AS avatar
+        ui.images AS avatar
         FROM
         reply_info ri
         LEFT JOIN user_info ui ON ( ui.id = ri.user_id )
@@ -58,7 +58,7 @@
         pi.images,
         pi.create_date AS createDate,
         ui.name AS userName,
-        ui.avatar AS avatar,
+        ui.images AS avatar,
         COUNT(ri.post_id) replyNum
         FROM
         post_info pi
@@ -78,7 +78,7 @@
         pi.images,
         pi.create_date AS createDate,
         ui.name AS userName,
-        ui.avatar AS avatar
+        ui.images AS avatar
         FROM
         post_info pi
         LEFT JOIN user_info ui ON ( pi.user_id = ui.id )

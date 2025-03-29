@@ -7,17 +7,19 @@
         select
         ni.id,
         ni.user_code,
+        ni.user_id,
         ni.content,
         ni.del_flag,
         ni.create_date,
-        ni.name,
-        ui.name as userName,
-        ui.phone as userPhone,
-        ui.images as userImages
+        ui.code,
+        ui.name,
+        ui.phone,
+        ui.email,
+        ui.images
         from
         notify_info ni
         left join user_info ui on
-        (ui.code = ni.user_code)
+        (ui.id = ni.user_id)
         where
         1 = 1
         <if test="notifyInfo.userName != null and notifyInfo.userName != ''">
@@ -34,16 +36,16 @@
     <select id="queryNotifyByUser" resultType="java.util.LinkedHashMap">
         select ni.id,
                ni.user_code,
+               ni.user_id,
                ni.content,
                ni.del_flag,
                ni.create_date,
-               ni.name,
                ui.name   as userName,
                ui.phone  as userPhone,
                ui.images as userImages
         from notify_info ni
                  left join user_info ui on
-            (ui.code = ni.user_code)
+            (ui.id = ni.user_id)
         where 1 = 1
           AND ui.id = #{userId}
         order by ni.create_date desc

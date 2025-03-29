@@ -8,6 +8,7 @@
     <div style="font-size: 13px;font-family: SimHei" v-if="recordData !== null">
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">基础信息</span></a-col>
+        <br/>
         <a-col :span="8"><b>用户编号：</b>
           {{ recordData.userCode ? recordData.userCode : '- -' }}
         </a-col>
@@ -18,6 +19,7 @@
           {{ recordData.phone }}
         </a-col>
       </a-row>
+      <br/>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="8"><b>订单编号：</b>
@@ -31,6 +33,7 @@
           <span v-if="recordData.status == 1" style="color: green">已支付</span>
         </a-col>
       </a-row>
+      <br/>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="8"><b>支付时间：</b>

@@ -14,10 +14,10 @@ import java.util.LinkedHashMap;
 public interface IReserveInfoService extends IService<ReserveInfo> {
 
     /**
-     * 分页获取车位预约信息
+     * 分页获取充电桩预约信息
      *
      * @param page        分页对象
-     * @param reserveInfo 车位预约信息
+     * @param reserveInfo 充电桩预约信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectReservePage(Page<ReserveInfo> page, ReserveInfo reserveInfo);

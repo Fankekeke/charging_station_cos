@@ -24,7 +24,7 @@ import java.util.List;
  * @author FanK
  */
 @RestController
-@RequestMapping("/stock/pharmacy-info")
+@RequestMapping("/cos/pharmacy-info")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PharmacyInfoController {
 
@@ -125,7 +125,7 @@ public class PharmacyInfoController {
     public R save(PharmacyInfo pharmacyInfo) throws Exception {
         pharmacyInfo.setCode("PM-" + System.currentTimeMillis());
         pharmacyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        userService.registPharmacy(pharmacyInfo.getCode(), "1234qwer", pharmacyInfo);
+//        userService.registPharmacy(pharmacyInfo.getCode(), "1234qwer", pharmacyInfo);
         return R.ok(true);
     }
 

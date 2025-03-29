@@ -64,7 +64,7 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
         Integer userNum = userInfoService.count();
         // 车辆数量
         Integer staffNum = vehicleInfoService.count();
-        // 车位数量
+        // 充电桩数量
         Integer roomNum = spaceInfoService.count();
         // 总收益
         BigDecimal amount = baseMapper.selectAmountPrice();

@@ -16,40 +16,26 @@
         ui.phone as userPhone,
         ui.images as userImages,
 
-        oi.total,
-        oi.create_date,
-        oi.remark,
-        oi.status,
-        oi.staff_ids,
+        oi.start_date,
+        oi.end_date,
+        oi.total_time,
+        oi.price,
+        oi.total_price,
         oi.pay_date,
-        oi.goods_type,
-        oi.images,
-        oi.weight,
-        oi.height,
-        oi.width,
-        oi.start_address_id,
-        oi.end_address_id,
-        oi.delivery_date,
-        oi.logistics_info,
-        oi.finish_date,
-        oi.kilometre,
-        oi.distribution_price,
-        oi.order_price,
-        oi.discount_id,
-        oi.after_order_price,
+        oi.pharmacy_id,
 
-        si.name as staffName,
-        si.images as staffImages,
-        si.phone as staffPhone,
-        si.code as staffCode
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
         from
         complaint_info ci
         left join user_info ui on
         (ui.id = ci.user_id)
-        left join order_info oi on
+        left join park_order_info oi on
         (oi.code = ci.order_code)
-        left join staff_info si on
-        (si.id = ci.staff_id)
+        left join pharmacy_info pi on
+        (pi.id = oi.pharmacy_id)
         where
         1 = 1
         <if test="complaintInfo.userName != null and complaintInfo.userName != ''">

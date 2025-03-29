@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位编号"
+                label="充电桩编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.code"/>
@@ -15,7 +15,7 @@
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位名称"
+                label="充电桩名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.name"/>
@@ -130,11 +130,13 @@ export default {
     }),
     columns () {
       return [{
-        title: '车位编号',
+        title: '充电桩编号',
+        ellipsis: true,
         dataIndex: 'code'
       }, {
-        title: '车位名称',
+        title: '充电桩名称',
         dataIndex: 'name',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -143,8 +145,9 @@ export default {
           }
         }
       }, {
-        title: '车位地点',
+        title: '充电桩地点',
         dataIndex: 'space',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -163,7 +166,7 @@ export default {
           }
         }
       }, {
-        title: '车位图片',
+        title: '充电桩图片',
         dataIndex: 'images',
         customRender: (text, record, index) => {
           if (!record.images) return <a-avatar shape="square" icon="user" />
@@ -177,12 +180,47 @@ export default {
       }, {
         title: '创建时间',
         dataIndex: 'createDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text + '元'
           } else {
             return '- -'
           }
+        }
+      }, {
+        title: '所属商家',
+        dataIndex: 'merchantName',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家站点',
+        dataIndex: 'address',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '商家照片',
+        dataIndex: 'merchantImages',
+        customRender: (text, record, index) => {
+          if (!record.merchantImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages.split(',')[0] } />
+          </a-popover>
         }
       }, {
         title: '操作',
@@ -209,7 +247,7 @@ export default {
     },
     handlespaceAddSuccess () {
       this.spaceAdd.visiable = false
-      this.$message.success('新增车位成功')
+      this.$message.success('新增充电桩成功')
       this.search()
     },
     edit (record) {
@@ -221,7 +259,7 @@ export default {
     },
     handlespaceEditSuccess () {
       this.spaceEdit.visiable = false
-      this.$message.success('修改车位成功')
+      this.$message.success('修改充电桩成功')
       this.search()
     },
     handleDeptChange (value) {

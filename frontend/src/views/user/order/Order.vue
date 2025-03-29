@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="车位名称"
+                label="充电桩名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
                 <a-input v-model="queryParams.spaceName"/>
@@ -154,7 +154,7 @@ export default {
           </a-popover>
         }
       }, {
-        title: '车位名称',
+        title: '充电桩名称',
         dataIndex: 'spaceName',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -164,7 +164,7 @@ export default {
           }
         }
       }, {
-        title: '驶入时间',
+        title: '充电开始时间',
         dataIndex: 'startDate',
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -174,7 +174,7 @@ export default {
           }
         }
       }, {
-        title: '驶出时间',
+        title: '充电结束时间',
         dataIndex: 'endDate',
         customRender: (text, row, index) => {
           if (text !== null) {

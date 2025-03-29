@@ -2,34 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.ReserveInfoMapper">
 
-    <!-- 分页获取车位预约信息 -->
+    <!-- 分页获取充电桩预约信息 -->
     <select id="selectReservePage" resultType="java.util.LinkedHashMap">
         select
-            ri.id,
-            ri.space_id,
-            ri.vehicle_id,
-            ri.start_date,
-            ri.end_date,
-            ri.status,
-            si.name as spaceName,
-            si.`space` as spaceAddress,
-            vi.vehicle_number ,
-            vi.images as vehicleImages,
-            ui.code,
-            ui.name,
-            ui.images,
-            ui.phone,
-            ui.email
+        ri.id,
+        ri.space_id,
+        ri.vehicle_id,
+        ri.start_date,
+        ri.end_date,
+        ri.status,
+        si.name as spaceName,
+        si.`space` as spaceAddress,
+        vi.vehicle_number ,
+        vi.images as vehicleImages,
+        ui.code,
+        ui.name,
+        ui.images,
+        ui.phone,
+        ui.email,
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
         from
-            reserve_info ri
-                left join space_info si on
-                (si.id = ri.space_id)
-                left join vehicle_info vi on
-                (vi.id = ri.vehicle_id)
-                left join user_info ui on
-                (ui.id = vi.user_id)
+        reserve_info ri
+        left join space_info si on
+        (si.id = ri.space_id)
+        left join vehicle_info vi on
+        (vi.id = ri.vehicle_id)
+        left join user_info ui on
+        (ui.id = vi.user_id)
+        left join pharmacy_info pi on (pi.id = si.pharmacy_id)
         where
-            1 = 1
+        1 = 1
         <if test="reserveInfo.spaceName != null and reserveInfo.spaceName != ''">
             AND si.name LIKE CONCAT('%',#{reserveInfo.spaceName},'%')
         </if>
@@ -43,7 +48,7 @@
             AND ui.user_id = #{reserveInfo.userId}
         </if>
         order by
-            ri.start_date desc
+        ri.start_date desc
 
     </select>
 </mapper>

@@ -101,6 +101,7 @@ export default {
     columns () {
       return [{
         title: '订单编号',
+        ellipsis: true,
         dataIndex: 'orderCode'
       }, {
         title: '头像',
@@ -117,6 +118,7 @@ export default {
       }, {
         title: '客户名称',
         dataIndex: 'userName',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -127,6 +129,7 @@ export default {
       }, {
         title: '联系方式',
         dataIndex: 'userPhone',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -145,8 +148,30 @@ export default {
           }
         }
       }, {
-        title: '起始地址',
-        dataIndex: 'startAddress',
+        title: '充电时常',
+        dataIndex: 'totalTime',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text + '分钟'
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '单价/时',
+        dataIndex: 'price',
+        ellipsis: true,
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text + '元'
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '所属商家',
+        dataIndex: 'merchantName',
         ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -156,8 +181,8 @@ export default {
           }
         }
       }, {
-        title: '运输地址',
-        dataIndex: 'endAddress',
+        title: '站点地址',
+        dataIndex: 'address',
         ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
@@ -169,6 +194,7 @@ export default {
       }, {
         title: '缴费时间',
         dataIndex: 'createDate',
+        ellipsis: true,
         customRender: (text, row, index) => {
           if (text !== null) {
             return text

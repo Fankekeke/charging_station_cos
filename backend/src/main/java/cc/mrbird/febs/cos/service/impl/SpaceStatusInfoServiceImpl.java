@@ -18,10 +18,10 @@ import java.util.List;
 public class SpaceStatusInfoServiceImpl extends ServiceImpl<SpaceStatusInfoMapper, SpaceStatusInfo> implements ISpaceStatusInfoService {
 
     /**
-     * 分页获取车位状态信息
+     * 分页获取充电桩状态信息
      *
      * @param page            分页对象
-     * @param spaceStatusInfo 车位状态信息
+     * @param spaceStatusInfo 充电桩状态信息
      * @return 结果
      */
     @Override
@@ -30,7 +30,7 @@ public class SpaceStatusInfoServiceImpl extends ServiceImpl<SpaceStatusInfoMappe
     }
 
     /**
-     * 获取车位状态图
+     * 获取充电桩状态图
      *
      * @return 结果
      */

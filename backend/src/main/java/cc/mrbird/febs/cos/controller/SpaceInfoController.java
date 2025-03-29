@@ -28,10 +28,10 @@ public class SpaceInfoController {
     private final ISpaceStatusInfoService spaceStatusInfoService;
 
     /**
-     * 分页获取车位信息
+     * 分页获取充电桩信息
      *
      * @param page      分页对象
-     * @param spaceInfo 车位信息
+     * @param spaceInfo 充电桩信息
      * @return 结果
      */
     @GetMapping("/page")
@@ -40,9 +40,9 @@ public class SpaceInfoController {
     }
 
     /**
-     * 车位信息详情
+     * 充电桩信息详情
      *
-     * @param id 车位ID
+     * @param id 充电桩ID
      * @return 结果
      */
     @GetMapping("/{id}")
@@ -51,7 +51,7 @@ public class SpaceInfoController {
     }
 
     /**
-     * 车位信息列表
+     * 充电桩信息列表
      *
      * @return 结果
      */
@@ -71,9 +71,9 @@ public class SpaceInfoController {
     }
 
     /**
-     * 新增车位信息
+     * 新增充电桩信息
      *
-     * @param spaceInfo 车位信息
+     * @param spaceInfo 充电桩信息
      * @return 结果
      */
     @PostMapping
@@ -82,7 +82,7 @@ public class SpaceInfoController {
         spaceInfo.setCode("SP-" + System.currentTimeMillis());
 
         spaceInfoService.save(spaceInfo);
-        // 添加车位状态
+        // 添加充电桩状态
         SpaceStatusInfo spaceStatusInfo = new SpaceStatusInfo();
         spaceStatusInfo.setStatus("0");
         spaceStatusInfo.setSpaceId(spaceInfo.getId());
@@ -91,9 +91,9 @@ public class SpaceInfoController {
     }
 
     /**
-     * 修改车位信息
+     * 修改充电桩信息
      *
-     * @param spaceInfo 车位信息
+     * @param spaceInfo 充电桩信息
      * @return 结果
      */
     @PutMapping
@@ -102,10 +102,10 @@ public class SpaceInfoController {
     }
 
     /**
-     * 删除车位信息
+     * 删除充电桩信息
      *
      * @param ids ids
-     * @return 车位信息
+     * @return 充电桩信息
      */
     @DeleteMapping("/{ids}")
     public R deleteByIds(@PathVariable("ids") List<Integer> ids) {

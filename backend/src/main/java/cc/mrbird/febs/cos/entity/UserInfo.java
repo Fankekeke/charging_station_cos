@@ -1,5 +1,6 @@
 package cc.mrbird.febs.cos.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -61,7 +62,10 @@ public class UserInfo implements Serializable {
      * 邮箱
      */
     private String email;
+    private String openId;
+    private String avatar;
 
     private Integer userId;
+    private BigDecimal integral;
 
 }

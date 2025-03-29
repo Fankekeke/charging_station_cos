@@ -139,25 +139,25 @@ export default {
         ellipsis: true,
         dataIndex: 'userPhone'
       }, {
-        title: '员工名称',
+        title: '投诉商家',
         ellipsis: true,
-        dataIndex: 'staffName'
+        dataIndex: 'merchantName'
       }, {
-        title: '员工头像',
-        dataIndex: 'staffImages',
+        title: '商家头像',
+        dataIndex: 'merchantImages',
         customRender: (text, record, index) => {
-          if (!record.staffImages) return <a-avatar shape="square" icon="user" />
+          if (!record.merchantImages) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.staffImages } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.staffImages } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.merchantImages } />
           </a-popover>
         }
       }, {
-        title: '员工联系方式',
+        title: '商家联系方式',
         ellipsis: true,
-        dataIndex: 'staffPhone',
+        dataIndex: 'merchantPhone',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text

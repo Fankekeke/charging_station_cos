@@ -78,6 +78,7 @@ public class ParkOrderInfo implements Serializable {
      * 支付状态（0.未支付 1.已支付）
      */
     private String status;
+    private Integer pharmacyId;
 
     /**
      * 备注

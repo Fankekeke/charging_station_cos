@@ -136,8 +136,8 @@ export default {
           </a-popover>
         }
       }, {
-        title: '邮箱地址',
-        dataIndex: 'mail',
+        title: '联系方式',
+        dataIndex: 'phone',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text

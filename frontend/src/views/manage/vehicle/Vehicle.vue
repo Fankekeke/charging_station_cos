@@ -138,13 +138,24 @@ export default {
         title: '车辆名称',
         dataIndex: 'name'
       }, {
-        title: '发动机编号',
-        dataIndex: 'engineNo',
+        title: '车辆类型',
+        dataIndex: 'vehicleType',
         customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
+          switch (text) {
+            case '1':
+              return <a-tag>72V以上电动车</a-tag>
+            case '2':
+              return <a-tag>60V-72V电动车</a-tag>
+            case '3':
+              return <a-tag>48V电动车</a-tag>
+            case '4':
+              return <a-tag>老年助力三轮车</a-tag>
+            case '5':
+              return <a-tag>摩托车</a-tag>
+            case '6':
+              return <a-tag>燃油车</a-tag>
+            default:
+              return '- -'
           }
         }
       }, {

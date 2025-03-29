@@ -2,18 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.SpaceInfoMapper">
 
-    <!-- 分页获取车位信息 -->
+    <!-- 分页获取充电桩信息 -->
     <select id="selectSpacePage" resultType="java.util.LinkedHashMap">
         select
-            id,
-            code,
-            name,
-            `space`,
-            create_date,
-            images,
-            price
+        si.id,
+        si.code,
+        si.name,
+        si.`space`,
+        si.create_date,
+        si.images,
+        si.price,
+        si.pharmacy_id,
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
         from
-            space_info
+        space_info si
+        left join pharmacy_info pi on (pi.id = si.pharmacy_id)
         where 1 = 1
         <if test="spaceInfo.code != null and spaceInfo.code != ''">
             AND code LIKE CONCAT('%',#{spaceInfo.code},'%')
@@ -33,11 +39,16 @@
         si.`space`,
         si.create_date,
         si.images,
-        si.price
+        si.pharmacy_id,
+        si.price,
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
         from
         space_info si
-        left join space_status_info ssi on
-        (ssi.space_id = si.id)
+        left join pharmacy_info pi on (pi.id = si.pharmacy_id)
+        left join space_status_info ssi on (ssi.space_id = si.id)
         where 1 = 1
         and ssi.status = '0'
         order by create_date desc

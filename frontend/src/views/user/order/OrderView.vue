@@ -52,19 +52,19 @@
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">订单信息</span></a-col>
-        <a-col :span="8"><b>车位名称：</b>
+        <a-col :span="8"><b>充电桩名称：</b>
           {{ orderData.spaceName ? orderData.spaceName : '- -' }}
         </a-col>
-        <a-col :span="16"><b>车位地点：</b>
+        <a-col :span="16"><b>充电桩地点：</b>
           {{ orderData.spaceAddress ? orderData.spaceAddress : '- -' }}
         </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="8"><b>驶入时间：</b>
+        <a-col :span="8"><b>充电开始时间：</b>
           {{ orderData.startDate ? orderData.startDate : '- -' }}
         </a-col>
-        <a-col :span="8"><b>驶出时间：</b>
+        <a-col :span="8"><b>充电结束时间：</b>
           {{ orderData.endDate ? orderData.endDate : '- -' }}
         </a-col>
         <a-col :span="8"><b>总时长（分钟）：</b>
