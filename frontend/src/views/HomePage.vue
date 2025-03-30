@@ -22,7 +22,7 @@
               <a-col :span="4"></a-col>
               <a-col :span="4"></a-col>
               <a-col :span="4">
-                <head-info title="车辆数量" :content="titleData.staffNum" :center="false" :bordered="false"/>
+                <head-info title="登记车辆" :content="titleData.staffNum" :center="false" :bordered="false"/>
               </a-col>
               <a-col :span="4">
                 <head-info title="总收益" :content="titleData.totalRevenue" :center="false" :bordered="false"/>
@@ -38,8 +38,8 @@
         </a-col>
       </a-card>
     </a-row>
-    <home v-if="user.roleId == 74 || user.roleId == 76" @setTitle="setTitleData"></home>
-    <work v-if="user.roleId == 75"></work>
+    <home v-if="user.roleId == 74 || user.roleId == 77" @setTitle="setTitleData"></home>
+<!--    <work v-if="user.roleId == 75"></work>-->
     <a-row :gutter="8" class="count-info" style="margin-top: 15px" v-show="user.roleId == 74">
       <a-col :span="12" class="visit-count-wrapper">
         <a-card class="visit-count" hoverable>

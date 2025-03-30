@@ -23,35 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b51975f-5e37-45a1-bd9d-0f3c12f944d0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/admin/evaluate/Evaluate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/evaluate/EvaluateView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/evaluate/OrderView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/order/Order.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/order/OrderAdd.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/order/OrderEdit.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/order/OrderOver.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/order/OrderView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/pharmacy/Pharmacy.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/pharmacy/PharmacyAdd.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/pharmacy/PharmacyEdit.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/pharmacy/PharmacyView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/reserve/OrderAdd.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/reserve/Reserve.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/reserve/ReserveView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/space/Space.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/space/SpaceAdd.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/space/SpaceEdit.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/spaceStatus/SpaceStatus.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/spaceStatus/SpaceStatusView.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/staff/Staff.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/staff/StaffAdd.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/admin/staff/StaffEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/entity/ReserveInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/entity/ReserveInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/PharmacyInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/PharmacyInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/ReserveInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/ReserveInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/SpaceInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/SpaceInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/SpaceStatusInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/SpaceStatusInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/admin/pharmacy/Pharmacy.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin/pharmacy/Pharmacy.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/manage/component/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/component/home/Home.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,21 +56,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/Project/20250321充电桩小程序/charging_station_cos/frontend/src/views/admin",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Project/20250330公寓报修系统/apartment_repair_cos/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Project\20250321充电桩小程序\charging_station_cos\frontend\src\views\admin" />
@@ -240,7 +216,9 @@
       <workItem from="1710578030257" duration="4656000" />
       <workItem from="1710644586002" duration="291000" />
       <workItem from="1743255651038" duration="9974000" />
-      <workItem from="1743302822668" duration="3276000" />
+      <workItem from="1743302822668" duration="3727000" />
+      <workItem from="1743332952298" duration="14000" />
+      <workItem from="1743346610775" duration="737000" />
     </task>
     <servers />
   </component>

@@ -125,7 +125,7 @@ public class PharmacyInfoController {
     public R save(PharmacyInfo pharmacyInfo) throws Exception {
         pharmacyInfo.setCode("PM-" + System.currentTimeMillis());
         pharmacyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-//        userService.registPharmacy(pharmacyInfo.getCode(), "1234qwer", pharmacyInfo);
+        userService.registPharmacy(pharmacyInfo, "1234qwer");
         return R.ok(true);
     }
 
