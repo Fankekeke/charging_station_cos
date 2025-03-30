@@ -34,6 +34,9 @@
         <if test="pharmacyInfo.businessStatus != null">
             AND phi.business_status = #{pharmacyInfo.businessStatus}
         </if>
+        <if test="pharmacyInfo.pharmacyId != null and pharmacyInfo.pharmacyId != ''">
+            AND phi.user_id = #{pharmacyInfo.pharmacyId}
+        </if>
         order by
         phi.create_date desc
     </select>

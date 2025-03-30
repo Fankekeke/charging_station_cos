@@ -64,4 +64,7 @@ public class ReserveInfo implements Serializable {
 
     @TableField(exist = false)
     private Integer userId;
+
+    @TableField(exist = false)
+    private Integer pharmacyId;
 }

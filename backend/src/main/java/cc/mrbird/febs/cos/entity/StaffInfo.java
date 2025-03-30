@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -66,6 +67,8 @@ public class StaffInfo implements Serializable {
      * 所属账户
      */
     private Long userId;
+
+    private Long pharmacyId;
 
     /**
      * 离职时间

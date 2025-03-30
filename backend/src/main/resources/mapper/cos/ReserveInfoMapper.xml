@@ -47,6 +47,9 @@
         <if test="reserveInfo.userId != null and reserveInfo.userId != ''">
             AND ui.user_id = #{reserveInfo.userId}
         </if>
+        <if test="reserveInfo.pharmacyId != null and reserveInfo.pharmacyId != ''">
+            AND pi.user_id = #{reserveInfo.pharmacyId}
+        </if>
         order by
         ri.start_date desc
 

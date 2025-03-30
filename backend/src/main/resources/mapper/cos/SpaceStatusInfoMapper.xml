@@ -29,6 +29,9 @@
         <if test="spaceStatusInfo.code != null and spaceStatusInfo.code != ''">
             AND si.code LIKE CONCAT('%',#{spaceStatusInfo.code},'%')
         </if>
+        <if test="spaceStatusInfo.pharmacyId != null and spaceStatusInfo.pharmacyId != ''">
+            AND pi.user_id = #{spaceStatusInfo.pharmacyId}
+        </if>
         order by
         si.create_date desc
     </select>

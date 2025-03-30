@@ -70,4 +70,7 @@ public class EvaluateInfo implements Serializable {
 
     @TableField(exist = false)
     private Integer staffId;
+
+    @TableField(exist = false)
+    private Integer pharmacyId;
 }

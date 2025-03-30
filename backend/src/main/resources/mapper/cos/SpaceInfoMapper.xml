@@ -22,10 +22,13 @@
         left join pharmacy_info pi on (pi.id = si.pharmacy_id)
         where 1 = 1
         <if test="spaceInfo.code != null and spaceInfo.code != ''">
-            AND code LIKE CONCAT('%',#{spaceInfo.code},'%')
+            AND si.code LIKE CONCAT('%',#{spaceInfo.code},'%')
         </if>
         <if test="spaceInfo.name != null and spaceInfo.name != ''">
-            AND name LIKE CONCAT('%',#{spaceInfo.name},'%')
+            AND si.name LIKE CONCAT('%',#{spaceInfo.name},'%')
+        </if>
+        <if test="spaceInfo.pharmacyId != null and spaceInfo.pharmacyId != ''">
+            AND pi.user_id = #{spaceInfo.pharmacyId}
         </if>
         order by create_date desc
     </select>

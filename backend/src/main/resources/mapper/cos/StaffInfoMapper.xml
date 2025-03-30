@@ -30,6 +30,9 @@
         <if test="staffInfo.name != null and staffInfo.name != ''">
             AND name LIKE CONCAT('%',#{staffInfo.name},'%')
         </if>
+        <if test="staffInfo.pharmacyId != null and staffInfo.pharmacyId != ''">
+            AND pi.user_id = #{staffInfo.pharmacyId}
+        </if>
         order by create_date desc
     </select>
 </mapper>
