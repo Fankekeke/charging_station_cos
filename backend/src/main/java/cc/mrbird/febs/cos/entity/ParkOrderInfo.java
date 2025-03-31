@@ -3,6 +3,7 @@ package cc.mrbird.febs.cos.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -68,6 +69,8 @@ public class ParkOrderInfo implements Serializable {
      * 总价格
      */
     private BigDecimal totalPrice;
+    private BigDecimal afterOrderPrice;
+
 
     /**
      * 支付时间
@@ -75,10 +78,13 @@ public class ParkOrderInfo implements Serializable {
     private String payDate;
 
     /**
-     * 支付状态（0.未支付 1.已支付）
+     * 支付状态（-1.使用中 0.未支付 1.已支付）
      */
     private String status;
     private Integer pharmacyId;
+
+    @TableField(exist = false)
+    private boolean useDiscount;
 
     /**
      * 备注
@@ -96,4 +102,9 @@ public class ParkOrderInfo implements Serializable {
 
     @TableField(exist = false)
     private Integer userId;
+
+    @TableField(exist = false)
+    private List<DiscountInfo> discountInfos;
+    private Integer discountId;
+    private BigDecimal discountAmount;
 }

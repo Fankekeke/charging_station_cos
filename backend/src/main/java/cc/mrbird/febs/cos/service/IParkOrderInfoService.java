@@ -1,5 +1,6 @@
 package cc.mrbird.febs.cos.service;
 
+import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.cos.entity.ParkOrderInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,6 +29,14 @@ public interface IParkOrderInfoService extends IService<ParkOrderInfo> {
      * @return 结果
      */
     LinkedHashMap<String, Object> homeData();
+
+    /**
+     * 获取订单付款信息
+     *
+     * @param orderInfo 订单信息
+     * @return 结果
+     */
+    ParkOrderInfo getPriceTotal(ParkOrderInfo orderInfo) throws FebsException;
 
     /**
      * 数据统计
