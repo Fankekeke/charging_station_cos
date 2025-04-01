@@ -64,6 +64,7 @@ public class UserInfo implements Serializable {
     private String email;
     private String openId;
     private String avatar;
+    private String userName;
 
     private Integer userId;
     private BigDecimal integral;

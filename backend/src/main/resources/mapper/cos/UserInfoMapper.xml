@@ -15,6 +15,7 @@
             phone,
             open_id,
             avatar,
+            user_name,
             email
         from
             user_info

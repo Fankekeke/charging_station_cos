@@ -148,7 +148,6 @@ public class WebController {
             }
             System.out.println(warning);
             user.setImages(warning);
-            user.setType("1");
             userInfoService.save(user);
             return R.ok(user);
         }

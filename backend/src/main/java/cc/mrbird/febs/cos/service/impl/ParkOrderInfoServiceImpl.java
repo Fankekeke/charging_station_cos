@@ -1,6 +1,7 @@
 package cc.mrbird.febs.cos.service.impl;
 
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.LocationUtils;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.dao.ParkOrderInfoMapper;
 import cc.mrbird.febs.cos.service.*;
@@ -18,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +37,8 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
     private final IMemberInfoService memberInfoService;
 
     private final IDiscountInfoService discountInfoService;
+
+    private final IPharmacyInfoService pharmacyInfoService;
 
     /**
      * 分页获取订单信息
@@ -209,6 +209,64 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
         List<LinkedHashMap<String, Object>> typePriceRateByMonth = baseMapper.selectTypePriceRateByMonth(year, month);
         result.put("typePriceRateByMonth", typePriceRateByMonth);
 
+        return result;
+    }
+
+    /**
+     * 员工获取推荐订单
+     *
+     * @param longitude 经度
+     * @param latitude  纬度
+     * @return 结果
+     */
+    @Override
+    public List<PharmacyInfo> queryOrderRecommend(BigDecimal longitude, BigDecimal latitude) {
+
+        // 获取所有充电商家
+        List<PharmacyInfo> pharmacyInfoList = pharmacyInfoService.list(Wrappers.<PharmacyInfo>lambdaQuery().eq(PharmacyInfo::getBusinessStatus, 1));
+        if (CollectionUtil.isEmpty(pharmacyInfoList)) {
+            return Collections.emptyList();
+        }
+
+        // 计算当前位置与商家地址之间的距离
+        for (PharmacyInfo pharmacyInfo : pharmacyInfoList) {
+            double distance = LocationUtils.getDistance(pharmacyInfo.getLongitude().doubleValue(), pharmacyInfo.getLatitude().doubleValue(), longitude.doubleValue(), latitude.doubleValue());
+            pharmacyInfo.setKilometre(NumberUtil.div(distance, 1000, 2));
+        }
+        // 按距离从小到大排序
+        pharmacyInfoList.sort(Comparator.comparing(PharmacyInfo::getKilometre));
+        return pharmacyInfoList;
+    }
+
+    /**
+     * 根据用户ID获取主页信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> queryHomeByUserId(BigDecimal longitude, BigDecimal latitude, Integer userId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("userInfo", null);
+                put("staffInfo", null);
+                put("orderList", Collections.emptyList());
+                put("withdraw", null);
+            }
+        };
+        // 获取用户信息
+        UserInfo userInfo = userInfoService.getById(userId);
+        if (userInfo != null) {
+            result.put("userInfo", userInfo);
+        } else {
+            return null;
+        }
+        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
+        result.put("staffInfo", staffInfo);
+        result.put("withdraw", staffInfo == null ? null : withdrawInfoService.getOne(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStaffId, staffInfo.getId()).eq(WithdrawInfo::getStatus, "0")));
+        // 获取待接单订单
+        result.put("orderList", this.queryOrderRecommend(longitude, latitude));
         return result;
     }
 }

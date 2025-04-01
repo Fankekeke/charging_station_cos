@@ -96,4 +96,7 @@ public class PharmacyInfo implements Serializable {
 
     @TableField(exist = false)
     private Integer pharmacyId;
+
+    @TableField(exist = false)
+    private Double kilometre;
 }

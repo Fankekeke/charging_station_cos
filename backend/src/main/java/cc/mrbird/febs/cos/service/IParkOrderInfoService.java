@@ -2,12 +2,15 @@ package cc.mrbird.febs.cos.service;
 
 import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.cos.entity.ParkOrderInfo;
+import cc.mrbird.febs.cos.entity.PharmacyInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author Fank gmail - fan1ke2ke@gmail.com
@@ -45,4 +48,21 @@ public interface IParkOrderInfoService extends IService<ParkOrderInfo> {
      * @return 结果
      */
     LinkedHashMap<String, Object> selectStatistics(String checkDate);
+
+    /**
+     * 员工获取推荐订单
+     *
+     * @param longitude 经度
+     * @param latitude  纬度
+     * @return 结果
+     */
+    List<PharmacyInfo> queryOrderRecommend(BigDecimal longitude, BigDecimal latitude);
+
+    /**
+     * 根据用户ID获取主页信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryHomeByUserId(BigDecimal longitude, BigDecimal latitude, Integer userId);
 }
