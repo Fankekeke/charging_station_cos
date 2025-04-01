@@ -44,6 +44,7 @@
         si.images,
         si.pharmacy_id,
         si.price,
+        ssi.status,
         pi.name as merchantName,
         pi.phone as merchantPhone,
         pi.images as merchantImages,
@@ -53,7 +54,10 @@
         left join pharmacy_info pi on (pi.id = si.pharmacy_id)
         left join space_status_info ssi on (ssi.space_id = si.id)
         where 1 = 1
-        and ssi.status = '0'
+--         and ssi.status = '0'
+        <if test="pharmacyId != null and pharmacyId != ''">
+            AND si.pharmacy_id = #{pharmacyId}
+        </if>
         order by create_date desc
     </select>
 </mapper>

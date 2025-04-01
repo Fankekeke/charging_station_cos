@@ -67,7 +67,7 @@ public class SpaceInfoController {
      */
     @GetMapping("/selectFreeSpace/list")
     public R selectFreeSpace() {
-        return R.ok(spaceInfoService.selectFreeSpace());
+        return R.ok(spaceInfoService.selectFreeSpace(null));
     }
 
     /**

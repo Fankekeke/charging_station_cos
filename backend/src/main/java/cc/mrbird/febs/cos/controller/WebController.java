@@ -505,6 +505,17 @@ public class WebController {
     }
 
     /**
+     * 根据商家获取充电桩信息
+     *
+     * @param pharmacyId 商家ID
+     * @return 结果
+     */
+    @GetMapping("/querySpaceById")
+    public R querySpaceById(Integer pharmacyId) {
+        return R.ok(spaceInfoService.selectFreeSpace(pharmacyId));
+    }
+
+    /**
      * 添加评价信息
      *
      * @param evaluation

@@ -28,5 +28,5 @@ public interface ISpaceInfoService extends IService<SpaceInfo> {
      *
      * @return 结果
      */
-    List<SpaceInfo> selectFreeSpace();
+    List<SpaceInfo> selectFreeSpace(Integer pharmacyId);
 }

@@ -35,7 +35,7 @@ public class SpaceInfoServiceImpl extends ServiceImpl<SpaceInfoMapper, SpaceInfo
      * @return 结果
      */
     @Override
-    public List<SpaceInfo> selectFreeSpace() {
-        return baseMapper.selectFreeSpace();
+    public List<SpaceInfo> selectFreeSpace(Integer pharmacyId) {
+        return baseMapper.selectFreeSpace(pharmacyId);
     }
 }

@@ -28,5 +28,5 @@ public interface SpaceInfoMapper extends BaseMapper<SpaceInfo> {
      *
      * @return 结果
      */
-    List<SpaceInfo> selectFreeSpace();
+    List<SpaceInfo> selectFreeSpace(@Param("pharmacyId") Integer pharmacyId);
 }
