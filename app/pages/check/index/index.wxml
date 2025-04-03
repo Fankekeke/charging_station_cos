@@ -1,0 +1,78 @@
+<!--状态栏区域-->
+<view class="cu-custom" style="0px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <view class="head-title canui-head-title"></view>
+    </view>
+</view>
+
+<view class="cu-bar bg-white margin-top solid-bottom" wx:if="{{ staffInfo.type == 1 }}">
+    <view class='action'>
+        <text class='icon-title text-green'></text>
+        <text style="font-size: 14px">申请成为配送员</text>
+    </view>
+    <navigator hover-class='none' url="/pages/user/audit/index">
+        <view class='action' style="font-size: 27rpx;"> 申请 <view class='icon-right'></view> </view>
+    </navigator>
+</view>
+<view class="cu-bar bg-white margin-top solid-bottom" wx:if="{{ staffInfo.type == 2 }}">
+    <view class='action'>
+        <text class='icon-title text-green'></text>
+        <text style="font-size: 14px">我的配送订单</text>
+    </view>
+    <navigator hover-class='none' url="/pages/order/staff/index">
+        <view class='action' style="font-size: 27rpx;"> 查看 <view class='icon-right'></view> </view>
+    </navigator>
+</view>
+<view class="cu-bar bg-white solid-bottom" wx:if="{{ staffInfo.type == 2 }}">
+    <view class='action'>
+        <text class='icon-pay text-green'></text>
+        <text style="font-size: 14px">我的收益 {{staffData.price}} 元</text>
+    </view>
+    <navigator hover-class='none' wx:if="{{staffData.price > 0 && withdraw == null}}">
+        <view class='action' bindtap='withdrawal' style="font-size: 27rpx;"> 余额提现 <view class='icon-right'></view> </view>
+    </navigator>
+    <navigator hover-class='none' wx:if="{{withdraw != null}}">
+        <view class='action' style="font-size: 27rpx;"> 正在等待管理员审核 </view>
+    </navigator>
+</view>
+<view class="cu-bar bg-white margin-top solid-bottom">
+    <view class='action'>
+        <text class='icon-list text-green'></text>
+        <text style="font-size: 14px">接单中心</text>
+    </view>
+    <navigator hover-class='none' url="/pages/order/staff/index">
+    </navigator>
+</view>
+<view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
+    <view class='nav-list canui-flex-car'>
+        <navigator wx:for="{{ orderList }}" open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{ item.id }}" class="nav-li canui-yx-url">
+            <view class="flex-sub cu-card case shadow-warp bg-white">
+                <view class="cu-item shadow">
+                    <view class='image'>
+                        <image src="http://127.0.0.1:9527/imagesWeb/{{ item.image }}" mode="widthFix"></image>
+                    </view>
+                    <view class="cu-list menu menu-avatar">
+                        <view class="cu-item">
+                            <view class='content flex-sub'>
+                                <view class='text-gray text-sm flex justify-between'>
+                                    <view class='text-grey' style="font-size: 12px;color: red">{{ item.afterOrderPrice }}元 </view> 
+                                </view>
+                                <view class='text-gray text-sm flex justify-between'>
+                                   距离当前位置{{ item.staffKilometre }} 千米  
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.userImages }});"></view>
+                </view>
+            </view>
+        </navigator>
+    </view>
+    <view style="padding: 20px;display: block" wx:if="{{orderList.length == 0}}">
+        <view class="flex-sub text-center">
+            <view class="solid-bottom text-xl padding">
+                <text class="text-black">暂无订单信息</text>
+            </view>
+        </view>
+    </view>
+</view>

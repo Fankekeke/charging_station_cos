@@ -1,0 +1,139 @@
+<!--背景效果-->
+<image
+    src="https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/abstract04.jpg"
+    mode="aspectFill" class="canui-head-vague"></image>
+<view class="canui-head-gradient"></view>
+
+<!--标题栏区域-->
+<view class="canui-head-custom" style="top:{{StatusBar}}px;">
+    <view class='canui-shop-title' bindtap='btnback'>
+        <text class="icon-back"></text>
+        <txet>{{ shopInfo.name }}</txet>
+    </view>
+    <view class="canui-shop-synopsis text-sm">
+        <text class="canui-xzwz">{{ shopInfo.content }}</text>
+    </view>
+</view>
+
+<!--关注按钮-->
+<view class="canui-head-box" style="top:{{StatusBar}}px;">
+    <navigator open-type="navigate" hover-class='none' bindtap='message'>
+        <text class="icon-vipcard"></text> 客服
+    </navigator>
+</view>
+
+
+<!--搜索框-->
+<!-- <view class="cu-bar search" style="margin-top:{{StatusBar}}px;">
+    <view class='search-form round'>
+        <text class="icon-search"></text>
+        <input type="text" bindinput='getKeyValue' value="{{key}}" placeholder="搜索店铺内的商品" confirm-type="search" placeholder-class="canui-input-placeholder"></input>
+    </view>
+    <view class='action'>
+        <button class='cu-btn shadow-blur round canui-btn-wxjn' bindtap="search">搜索</button>
+    </view>
+</view> -->
+
+<!--菜单导航栏-->
+<!-- <scroll-view scroll-x class="nav text-left canui-shop-table">
+    <view wx:for="{{SortMenu}}" wx:key class="cu-item {{item.id==TabCur?'cur':''}}" bindtap='tabSelect' data-id="{{item.id}}">
+        {{item.name}}
+    </view>
+</scroll-view> -->
+
+<!--商品列表-->
+<!-- <view class='nav-list canui-shop-goods-list'>
+    <navigator wx:for="{{ShopList}}" wx:key="{{item.index}}" class="nav-li" open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{item.index}}">
+        <image src="http://127.0.0.1:9527/imagesWeb/{{item.image}}" mode="aspectFill"></image>
+        <view class="nav-li-box">
+            <view class="nav-title canui-xzwz text-sm">{{item.title}}</view>
+            <view class="shop-zx">
+                <text class="text-price text-red text-xs">{{item.price}} </text>
+                <text class="text-gray text-sm">{{item.sales}}销量</text>
+            </view>
+        </view>
+    </navigator>
+</view> -->
+
+<view style="margin-top: 50px;padding: 10px">
+
+    <view class="cu-list menu menu-avatar">
+            <view class="cu-item">
+                <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ shopInfo.image }});"></view>
+                <view class='content'>
+                    <view class='text-grey'>{{ shopInfo.name }}</view>
+                    <view class='text-gray text-sm'>店铺编号：{{ shopInfo.code }}</view>
+                </view>
+            </view>
+            <view class="cu-item canui-jsd">
+                <view class='text-gray text-sm'>{{ shopInfo.content }}</view>
+            </view>
+        </view>
+
+        <view class="cu-bar bg-white solid-bottom margin-top">
+            <view class='action'>
+                <text class='icon-title text-red'></text> 店铺信息
+            </view>
+        </view>
+        <view class="cu-list menu">
+            <view class="cu-item">
+                <view class='content'>
+                    <text class='text-gray'>店铺地址</text>
+                </view>
+                <view class='action'>
+                    <text class='text-gray text-sm'>{{ shopInfo.address }}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class='content'>
+                    <text class='text-gray'>店主名称</text>
+                </view>
+                <view class='action'>
+                    <text class='text-gray text-sm'>{{ shopInfo.principal }}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class='content'>
+                    <text class='text-gray'>联系电话</text>
+                </view>
+                <view class='action'>
+                    <text class='text-gray text-sm'>{{ shopInfo.phone }}</text>
+                </view>
+            </view>
+            <view class="cu-item">
+                <view class='content'>
+                    <text class='text-gray'>开店时间</text>
+                </view>
+                <view class='action'>
+                    <text class='text-gray text-sm'>{{ shopInfo.createDate }}</text>
+                </view>
+            </view>
+        </view>
+
+    <view class="cu-bar bg-white solid-bottom margin-top">
+        <view class='action'>
+            <text class='icon-title text-orange'></text> 订单评价
+        </view>
+        <!-- <navigator hover-class='none' url="/pages/home/groom/index">
+        <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
+    </navigator> -->
+    </view>
+    <view class="cu-list menu menu-avatar">
+        <view class="cu-item " wx:for="{{ShopList}}" wx:key="{{item.index}}">
+            <view class="cu-avatar radius lg"
+                style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+            <view class='content'>
+                <view class="text-titile" style="font-size: 14px">{{ item.userName }}</view>
+                <view class='text-gray text-sm'>{{ item.content }}</view>
+            </view>
+            <view class='action'>
+                <view class='text-grey text-xs'>{{ item.userName }}</view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{ ShopList.length === 0 }}">
+        <van-empty style="height: 400px;margin: 0 auto" description="无评价信息" />
+    </view>
+</view>
+
+<view class='cu-tabbar-height'></view>

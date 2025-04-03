@@ -1,0 +1,180 @@
+<!--状态栏区域-->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text> 结算订单
+        </navigator>
+    </view>
+</view>
+
+<view class="box" style="top: {{CustomBar}}px;">
+    <view class="canui-address">
+        <view class="cu-list menu bg-white">
+            <view class="cu-item">
+                <view class='content'>
+                    <view class="text-df" style="margin-bottom: 10px;font-size: 14px">{{ userInfo.name }}
+                        <text>{{ userInfo.phone ? userInfo.phone : '- -' }}</text></view>
+                    <view class='text-gray text-sm canui-xzwz' style="margin-bottom: 8px">
+                        物品地址：{{ startPoint.address }}</view>
+                    <view class='text-gray text-sm canui-xzwz'>收货地址：{{ endPoint.address }}</view>
+                </view>
+                <!-- <view class='action'><view class='text-grey icon-right'></view></view> -->
+            </view>
+            <view class="canui-lines"></view>
+        </view>
+    </view>
+
+    <view style="margin:  0 10px 20px 10px">
+        <view class="bg-white canui-coupon">
+            <van-cell-group inset border="{{true}}">
+                <van-field value="{{ weight }}" type="number" label="重量(KG)" placeholder="请输入物品重量(KG)" border="{{ true }}" data-type="1" bind:change="formChange" />
+                <van-field value="{{ width }}" type="number" label="宽度(厘米)" placeholder="请输入物品宽度(厘米)" border="{{ true }}" data-type="2" bind:change="formChange" />
+                <van-field value="{{ height }}" type="number" label="高度(厘米)" placeholder="请输入物品高度(厘米)" border="{{ true }}" data-type="3" bind:change="formChange" />
+                <van-cell is-link clickable arrow-direction="left" border="{{true}}" center title="物品类型"
+                    label="{{ goodsType.label }}" is-link data-type="1" bindtap="openPopup" />
+                <!-- <van-cell is-link clickable arrow-direction="left" border="{{true}}" center title="物品重量（KG）"
+                    label="{{ staff.label }}" is-link data-type="2" bindtap="openPopup" />
+                <van-cell is-link clickable arrow-direction="left" border="{{true}}" center title="物品宽度（厘米）"
+                    label="{{ elevator.label }}" is-link data-type="3" bindtap="openPopup" /> -->
+                <!-- <van-cell is-link clickable arrow-direction="left" border="{{true}}" center title="预约时间"
+                    label="{{ appointmentTime }}" is-link data-type="4" bindtap="openPopup" /> -->
+                <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead"
+                    style="display: block;margin-top: 15px;" />
+                <van-field value="{{ remark.value }}" label="其他需求" type="textarea" placeholder="请输入其他需求" autosize
+                    border="{{ true }}" bind:change="onRemarkChange" />
+            </van-cell-group>
+        </view>
+        <van-button type="info" block style="width: 100%" bind:click="calculateAmountResult" color="#cf2d2d">保存配置
+        </van-button>
+    </view>
+
+    <van-popup close-on-click-overlay round show="{{ goodsType.show }}" data-type="1" bind:close="onClose"
+        position="bottom">
+        <van-picker columns="{{ goodsType.options }}" data-type="1" bind:cancel="onClose" bind:confirm="onChange"
+            show-toolbar />
+    </van-popup>
+
+    <van-popup close-on-click-overlay round show="{{ staff.show }}" data-type="2" bind:close="onClose"
+        position="bottom">
+        <van-picker columns="{{ staff.options }}" data-type="2" bind:cancel="onClose" bind:confirm="onChange"
+            show-toolbar />
+    </van-popup>
+
+    <van-popup close-on-click-overlay round show="{{ elevator.show }}" data-type="3" bind:close="onClose"
+        position="bottom">
+        <van-picker columns="{{ elevator.options }}" data-type="3" bind:cancel="onClose" bind:confirm="onChange"
+            show-toolbar />
+    </van-popup>
+
+    <van-calendar color="#0b438d" show="{{ appointmentTimeShow }}" bind:close="onClose" position="bottom"
+        bind:confirm="onConfirm" />
+
+    <!-- <view class="canui-card-order">
+        <view class="canui-order-item bg-white" wx:for="{{ orderList }}">
+            <view class="head-title-box">
+                <text class="icon-shop"></text>
+                <text>{{ item.userName }}的小店</text>
+                <text class="icon-right"></text>
+            </view>
+            <navigator open-type="navigate" hover-class='none' url="/pages/order/details/index">
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+                        <view class='content canui-xzwz tow' style="padding: 10px;">
+                            {{ item.name }}
+                            <view wx:if="{{ item.type == 1 }}">食品</view>
+                            <view wx:if="{{ item.type == 2 }}">饮品</view>
+                            <view wx:if="{{ item.type == 3 }}">药品</view>
+                        </view>
+                        <view class='action'>
+                            <view class='text-price'>{{ item.price }}</view>
+                            <view class="text-xs text-right text-gray">x1</view>
+                        </view>
+                    </view>
+                </view>
+            </navigator>
+            <view class="cu-list menu bg-white solid-bottom canui-selet">
+                <view class="cu-item">
+                    <view class='content'>
+                        共 <text class="text-red"> 1</text> 件商品
+                    </view>
+                    <view class='action'>
+                        合计 <text class="text-price text-red">{{ item.price }}</text>
+                    </view>
+                </view>
+                <view class="cu-item arrow">
+                    <view class='content'>会员卡</view>
+                    <view class='action'>
+                        无可用
+                    </view>
+                </view>
+            </view>
+            <view class="cu-form-group bg-white canui-input">
+                <view class='title'>备注</view>
+                <input placeholder="两字短标题" class='radius' name='input'></input>
+            </view>
+        </view>
+    </view> -->
+
+    <view class="canui-coupon">
+        <view class="cu-list menu bg-white solid-bottom canui-selet">
+            <view class="cu-item arrow">
+                <view class='content'>优惠券</view>
+                <view class='action' wx:if="{{discount.options.length === 0}}">
+                    无可用
+                </view>
+                <view wx:if="{{discount.options.length !== 0}}" class='action' data-type="5" bindtap="openPopup">
+                    <text wx:if="{{discount.value}}">{{discount.label}}</text>
+                    <text wx:else>选择</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <van-popup close-on-click-overlay round show="{{ discount.show }}" data-type="5" bind:close="onClose"
+        position="bottom">
+        <van-picker columns="{{ discount.options }}" data-type="5" bind:cancel="onClose" bind:confirm="onChange"
+            show-toolbar />
+    </van-popup>
+
+    <view class="order-price-log" wx:if="{{calculateAmountInfo != null}}">
+        <view class="bg-white log-card" style="font-size: 12px">
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>基础金额</text> <text class="text-price canui-text-right text-red">30元</text>
+            </view>
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>距离</text> <text
+                    class="text-price canui-text-right text-red">{{ calculateAmountInfo.kilometre }} 公里</text>
+            </view>
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>距离价格</text> <text
+                    class="text-price canui-text-right text-red">{{ calculateAmountInfo.distributionPrice }} 元</text>
+            </view>
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>重量价格</text> <text
+                    class="text-price canui-text-right text-red">{{ calculateAmountInfo.weightPrice }} 元</text>
+            </view>
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>订单总价</text> <text class="text-price canui-text-right text-red">{{ calculateAmountInfo.orderPrice }} 元</text>
+            </view>
+            <view class="log-list" style="margin-bottom: 8px">
+                <text>优惠价格</text> <text
+                    class="text-price canui-text-right text-red">{{ calculateAmountInfo.discountAmount }} 元</text>
+            </view>
+            <view class="log-list bg-white text-df">
+                <text>折后价格</text><text class="text-sm text-gray">（手续费除外）</text>
+                <text class="text-price canui-text-right text-red">{{ calculateAmountInfo.afterOrderPrice }} 元</text>
+            </view>
+        </view>
+    </view>
+
+</view>
+
+<view class="bg-white canui-foor-fixed canui-submit-view {{TabbarBot=='y'?'canui-submit-order':''}}"
+    wx:if="{{calculateAmountInfo != null}}">
+    <view class="bg-red light text-sm canui-pay-tip">提交订单后请等待配送员接单</view>
+    <view class="canui-submit">
+        <text class='text-red text-price canui-price'>{{ calculateAmountInfo.afterOrderPrice }}</text>
+        <text class='bg-red canui-submit-btn' bindtap='submit'>提交订单</text>
+    </view>
+</view>

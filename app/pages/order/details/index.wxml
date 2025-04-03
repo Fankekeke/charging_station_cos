@@ -1,0 +1,133 @@
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text> 订单详情
+        </navigator>
+    </view>
+</view>
+<view class="box" style="top:{{CustomBar}}px;">
+    <view class="canui-order-details-head">
+
+        <view class="cu-list menu">
+            <view class="cu-item">
+                <view class='content'>
+                    <view class="text-df" wx:if="{{ orderInfo.status == 1 }}">等待配送员接单</view>
+                    <view class="text-df" wx:if="{{ orderInfo.status == 2 }}">正在配送中</view>
+                    <view class="text-df" wx:if="{{ orderInfo.status == 3 }}">货物已收货</view>
+                    <!-- <view class='text-sm'>2019-03-21 18:00:00</view> -->
+                </view>
+                <view class='action canui-status-3'></view>
+            </view>
+        </view>
+
+    </view>
+
+    <view class="padding canui-card-fiex-radius-box">
+        <view class="cu-list menu bg-white">
+            <view class="cu-item">
+                <view class='content'>
+                    <view class="canui-xzwz text-df" wx:if="{{ orderInfo.status == 1 }}">等待配送员接单</view>
+                    <view class="canui-xzwz text-df" wx:if="{{ orderInfo.status == 2 }}">正在配送中</view>
+                    <view class="canui-xzwz text-df" wx:if="{{ orderInfo.status == 3 }}">货物已收货</view>
+                    <!-- <view class='text-gray text-sm'>2019-03-21 18:00:00</view> -->
+                </view>
+                <!-- <view class='action'><view class='text-grey icon-right'></view></view> -->
+            </view>
+        </view>
+    </view>
+
+    <view class="bg-white canui-goods-box">
+
+        <view class="canui-card-order">
+            <view class="canui-order-item bg-white">
+                <view class="head-title-box">
+                    <navigator open-type="navigate" hover-class='none'>
+                        <text style="font-size: 13px;line-height: 25px">{{ orderInfo.orderName }}</text>
+                    </navigator>
+                </view>
+                <view class="cu-list menu menu-avatar">
+                    <view style="margin-top: 10px">
+                        <view  wx:for="{{orderInfo.imageList}}" class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item }});margin-right: 10px"></view>
+                    </view>
+                    <view style="margin-top: 10px">
+                        {{ orderInfo.code }}
+                    </view>
+                    <view style="margin-top: 10px;font-size: 13px;line-height: 26px">
+                        其他要求：{{ orderInfo.remark }}
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="text-gray text-sm solid-bottom order-price-log">
+            <view class="log-list">
+                <text>公里数</text> <text class="text-price canui-text-right">{{ orderInfo.kilometre }}公里</text>
+            </view>
+            <view class="log-list">
+                <text>物品重量</text> <text class="text-price canui-text-right">{{ orderInfo.weight }}KG</text>
+            </view>
+            <view class="log-list bg-white text-df">
+                <text>折后总价</text><text class="text-sm text-gray">（手续费除外）</text>
+                <text class="text-price canui-text-right">{{ orderInfo.afterOrderPrice }}</text>
+            </view>
+        </view>
+        <view class="order-price-log-zj">
+            <text>总公里数</text> <text class="canui-text-right text-red">{{ orderInfo.kilometre }}公里</text>
+        </view>
+        <view class="order-price-log-zj">
+            <text>时间</text> <text class="canui-text-right">{{orderInfo.createDate}}</text>
+        </view>
+    </view>
+
+    <view class="margin-top order-address-box">
+        <view class="cu-list menu bg-white">
+            <view class="cu-item">
+                <view class='content'>
+                    <view class="text-df">{{ user.name }} <text>{{ user.phone }}</text></view>
+                    <view class='text-gray text-sm canui-xzwz'>物品地址：{{ startAddress.address }}</view>
+                    <view class='text-gray text-sm canui-xzwz'>送货地址：{{ endAddress.address }}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view class="margin-top bg-white order-details-log">
+
+        <view class="order-menu-list solid-bottom">
+            <view class="log-list bg-white text-df">
+                <text>订单编号：</text> <text class="text-gray">{{ orderInfo.code }}</text>
+            </view>
+            <view class="log-list bg-white text-df">
+                <text>下单时间：</text> <text class="text-gray">{{ orderInfo.createDate }}</text>
+            </view>
+        </view>
+        <!-- <view class="order-menu-list solid-bottom">
+            <view class="log-list bg-white text-df">
+                <text>快递单号：</text> <text class="text-gray">123456789789</text>
+            </view>
+            <view class="log-list bg-white text-df">
+                <text>快递名称：</text> <text class="text-gray">顺丰快递</text>
+            </view>
+        </view> -->
+    </view>
+
+    <!-- <view class="grid col-2 flex bg-white order-contact-box">
+        <view class="contact-table" bindtap='message' data-shopId='{{ merchant.userInfoId }}' data-shopName='{{ merchant.name }}'>
+            <text class="icon-service text-blue"></text> 联系
+        </view>
+        <view class="contact-table" bindtap='takePhone'>
+            <text class="icon-phone text-blue"></text> 电话联系
+        </view>
+    </view> -->
+
+</view>
+
+
+
+<!-- <view class="canui-foor-fixed bg-white {{TabbarBot=='y'?'canui-tabbar-bottom':''}}" wx:if="{{ orderInfo.orderStatus == 2 }}">
+    <view class="grid col-4 flex justify-end order-btn-box">
+        <view class='margin-tb-sm text-center'>
+            <button class='cu-btn round line-red shadow'>确认收货</button>
+        </view>
+    </view>
+</view> -->

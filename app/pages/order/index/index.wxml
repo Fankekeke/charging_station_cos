@@ -1,0 +1,159 @@
+<!-- 状态栏区域 -->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text>
+            我的订单
+        </navigator>
+    </view>
+</view>
+<view class="box" style="top: {{CustomBar}}px;">
+    <scroll-view scroll-x class="bg-white nav">
+        <view class='flex text-center'>
+            <view class="cu-item flex-sub {{item.id==TabCur?'text-red cur':''}}" wx:for="{{SortMenu}}" wx:key="item.id" bindtap='tabSelect' data-id="{{item.id}}">
+                {{item.name}}
+            </view>
+        </view>
+    </scroll-view>
+    <view class="canui-card-order margin-top">
+        <view class="canui-order-item bg-white" wx:for="{{ orderList }}" wx:if="{{ TabCur == 0 || TabCur == 2 || TabCur == 1 || TabCur == 3 }}">
+            <view class="head-title-box" wx:if="{{item.orderName}}">
+                <view class="cu-tag sm bg-blue">{{ item.orderName }}</view>
+                <!-- <text style="font-size: 13px">{{ item.orderName }}</text> -->
+                <!-- <text class="icon-right"></text> -->
+            </view>
+            <navigator open-type="navigate" hover-class='none' wx:if="{{ TabCur == 0 }}">
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+                        <view class='content canui-xzwz tow' style="padding-left: 15px">
+                            <view style="font-size: 12px">{{ item.startAddress }}</view>
+                            <view style="font-size: 12px;margin-top: 5px">{{ item.endAddress }}</view>
+                        </view>
+                        <view class='action' style="padding-left: 15px">
+                            <view class='text-price'>{{ item.orderPrice }}</view>
+                            <view class="text-xs text-right text-gray">{{item.kilometre}} 公里</view>
+                        </view>
+                    </view>
+                </view>
+            </navigator>
+            <navigator open-type="navigate" hover-class='none' url="/pages/order/details/index?orderId={{ item.id }}" wx:else>
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+                        <view class='content canui-xzwz tow' style="padding-left: 15px">
+                            <view style="font-size: 12px">{{ item.startAddress }}</view>
+                            <view style="font-size: 12px;margin-top: 5px">{{ item.endAddress }}</view>
+                        </view>
+                        <view class='action' style="padding-left: 15px">
+                            <view class='text-price'>{{ item.orderPrice }}</view>
+                            <view class="text-xs text-right text-gray">{{item.kilometre}} 公里</view>
+                        </view>
+                    </view>
+                </view>
+            </navigator>
+            <view>
+                <text class="text-right canui-text-left">
+                    <text style="font-size: 12px;line-height: 30px">备注：{{ item.remark ? item.remark : '- -' }}</text>
+                </text>
+            </view>
+            <view>
+                <text class="text-right text-red canui-text-left" style="font-size: 11px">
+                    {{ item.days }}
+                </text>
+            </view>
+            <view class="order-price-box">
+                折后合计：
+                <text class="text-price">{{ item.afterOrderPrice }}</text>
+                <view wx:if="{{ item.evaluateId != null }}">
+                <text class="text-right text-red canui-text-left" style="font-size: 11px">
+                   评价内容： {{ item.evaluationContent }}
+                </text>
+            </view>
+            </view>
+           
+            <view class="grid col-4 flex justify-end order-btn-box">
+                <view class='margin-tb-sm text-center' wx:if="{{ item.status == 3 }}">
+                    <button wx:if="{{item.complaintId == null}}" class='cu-btn round line-gray shadow' bindtap="complaint" data-index="{{item.id}}">
+                        投 诉
+                    </button>
+                    <van-tag wx:if="{{item.complaintId != null && item.complaintStatus == 0}}" type="danger">未处理</van-tag>
+                    <van-tag wx:if="{{item.complaintId != null && item.complaintStatus == 1}}" type="success">已处理</van-tag>
+                </view>
+                <view class='margin-tb-sm text-center' wx:if="{{ item.status == 3 && item.evaluateId == null}}">
+                    <button class='cu-btn round line-gray shadow' bindtap="evaluation" data-index="{{item.id}}">
+                        评 价
+                    </button>
+                </view>
+                <!-- <view class='margin-tb-sm text-center' wx:if="{{ item.status == 2 }}">
+                    <button class='cu-btn round line-red shadow' data-index="{{item.id}}" bindtap="receipt">
+                        运输结束
+                    </button>
+                </view> -->
+            </view>
+        </view>
+        <view wx:if="{{ orderList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无订单信息" />
+        </view>
+        <!-- <view class="canui-order-item bg-white" wx:for="{{ myOrderList }}" wx:if="{{ TabCur == 3 }}">
+            <view class="head-title-box">
+                <text>{{ item.buyer }} </text>
+                <text style="font-size: 12px">{{ item.createDate }}</text>
+            </view>
+            <navigator open-type="navigate" hover-class='none' url="/pages/order/details/index?orderId={{ item.id }}">
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+                        <view class='content canui-xzwz tow' style="padding-left: 15px">
+                            {{ item.name }}
+                        </view>
+                        <view class='action' style="padding-left: 15px">
+                            <view class='text-price'>{{ item.price }}</view>
+                            <view class="text-xs text-right text-gray">x1</view>
+                        </view>
+                    </view>
+                </view>
+            </navigator>
+            <view>
+                <text class="text-right text-red canui-text-left" style="font-size: 11px">
+                    {{ item.days }}
+                </text>
+            </view>
+            <view class="order-price-box">
+                共1件商品 合计：
+                <text class="text-price">{{ item.price }}</text>
+            </view>
+            <view class="grid col-4 flex justify-end order-btn-box">
+                <text wx:if="{{ item.evaluationStatus != null }}" class="text-right text-red" style="font-size: 11px">
+                    {{ item.evaluationContent }}
+                </text>
+            </view>
+        </view> -->
+    </view>
+    <van-popup show="{{ show }}" position="bottom" custom-style="height: 55%;" bind:close="onClose">
+        <view style="font-size: 15px;margin-left: 22px;margin-top: 10px;display: block;">订单评价</view>
+        <br />
+        <view style="padding: 20px;display: block">
+             <!-- <van-rate color="#ffd21e" void-icon="star" void-color="#eee" value="{{ rate }}" bind:change="evaluateChange" /> -->
+             <view style="padding:15px">
+                <view style="font-size: 13px;margin-bottom: 20px;display: block;">评价分数 {{rate}}</view>
+                <van-slider min="0" max="5" value="{{ rate }}" bind:change="evaluateChange" style="width: 80%"/>
+             </view>
+            <van-field model:value="{{ remarks }}" label="评价内容" placeholder="请输入评价" style="display: block;margin-top: 15px;" />
+            <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" style="display: block;margin-top: 15px;" />
+            <van-button type="primary" block style="display: block;margin-top: 15px;" bindtap="evaluationSubmit">
+                提 交
+            </van-button>
+        </view>
+    </van-popup>
+    <van-popup show="{{ complaintShow }}" position="bottom" custom-style="height: 30%;" bind:close="onComplaintClose">
+        <view style="font-size: 15px;margin-left: 22px;margin-top: 10px;display: block;">订单投诉</view>
+        <br />
+        <view style="padding: 20px;display: block">
+            <van-field model:value="{{ complaintRemarks }}" label="投诉内容" placeholder="请输入投诉内容" style="display: block;margin-top: 15px;" />
+            <van-button type="primary" block style="display: block;margin-top: 15px;" bindtap="complaintSubmit">
+                提 交
+            </van-button>
+        </view>
+    </van-popup>
+</view>

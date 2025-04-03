@@ -1,0 +1,88 @@
+<!--状态栏区域-->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text> 优惠券
+        </navigator>
+    </view>
+</view>
+
+<view class="box" style="top: {{CustomBar}}px;">
+
+    <scroll-view scroll-x class="bg-white nav">
+        <view class='flex text-center'>
+            <view class="cu-item flex-sub {{item.id==TabCur?'text-red cur':''}}" wx:for="{{SortMenu}}" wx:key="item.id"
+                bindtap='tabSelect' data-id="{{item.id}}">
+                {{item.name}}
+            </view>
+        </view>
+    </scroll-view>
+
+    <view class="canui-card margin-top">
+
+        <view class="canui-item" wx:if="{{TabCur == 1}}">
+            <view wx:for="{{ useList }}" class="canui-card-bg-img radius shadow-warp"
+                style="margin-top:10px; background-image: url('https://cdn.nlark.com/yuque/0/2019/jpeg/285274/1552962638649-assets/web-upload/25d4b7d6-e41b-431d-9b5b-43fa3b575b39.jpeg')">
+                <view class='bg-shadeTop radius'>
+                    <view class="canui-card-head">
+                        <text class="canui-card-name">{{ item.code }}</text>
+                        <view class="canui-card-name" style="margin-top: 10px;font-size: 13px">{{ item.couponName }}
+                        </view>
+                        <view class="canui-card-name text-right" style="margin-top: 10px;font-size: 13px;">
+                            {{ item.days }}发送</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="canui-item" wx:if="{{TabCur == 2}}">
+            <view wx:for="{{ usedList }}" class="canui-card-bg-img radius shadow-warp"
+                style="margin-top:10px; background-image: url('https://cdn.nlark.com/yuque/0/2019/jpeg/280373/1551799188571-assets/web-upload/9d73921e-c4e4-4231-a07a-4caca0d26b64.jpeg')">
+                <view class='bg-shadeTop radius'>
+                    <view class="canui-card-head">
+                        <text class="canui-card-name">{{ item.code }}</text>
+                        <view class="canui-card-name" style="margin-top: 10px;font-size: 13px">{{ item.couponName }}
+                        </view>
+                        <view class="canui-card-name text-right" style="margin-top: 10px;font-size: 13px;">
+                            {{ item.createDate }}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="canui-item" wx:if="{{TabCur == 3}}">
+            <view class="cu-bar bg-white margin-top solid-bottom" style="margin-bottom: 30px">
+                <view class='action'>
+                    <text class='icon-title text-green'></text>
+                    <text style="font-size: 13px">我的积分：{{ userData.integral == null ? 0 : userData.integral }}</text>
+                </view>
+            </view>
+            <view data-id="1" bindtap='exchange' class="canui-card-bg-img radius shadow-warp"
+                style="margin-top:10px; background-image: url('https://cdn.nlark.com/yuque/0/2019/jpeg/285274/1552962638649-assets/web-upload/25d4b7d6-e41b-431d-9b5b-43fa3b575b39.jpeg')">
+                <view class='bg-shadeTop radius'>
+                    <view class="canui-card-head">
+                        <text class="canui-card-name">满减券</text>
+                        <view class="canui-card-name" style="margin-top: 10px;font-size: 13px">500-100优惠券
+                        </view>
+                        <view class="canui-card-name text-right" style="margin-top: 10px;font-size: 13px;">
+                            消耗积分：300</view>
+                    </view>
+                </view>
+            </view>
+            <view data-id="2" bindtap='exchange' class="canui-card-bg-img radius shadow-warp"
+                style="margin-top:10px; background-image: url('https://cdn.nlark.com/yuque/0/2019/jpeg/285274/1552962638649-assets/web-upload/25d4b7d6-e41b-431d-9b5b-43fa3b575b39.jpeg');margin-top: 30px">
+                <view class='bg-shadeTop radius'>
+                    <view class="canui-card-head">
+                        <text class="canui-card-name">折扣减券</text>
+                        <view class="canui-card-name" style="margin-top: 10px;font-size: 13px">八折无门槛优惠券
+                        </view>
+                        <view class="canui-card-name text-right" style="margin-top: 10px;font-size: 13px;">
+                            消耗积分：200</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </view>
+
+</view>

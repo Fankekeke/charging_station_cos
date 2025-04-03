@@ -501,7 +501,8 @@ public class WebController {
     @GetMapping("/queryOrderDetail")
     public R queryOrderDetail(Integer orderId) {
         ParkOrderInfo orderInfo = orderInfoService.getById(orderId);
-        return R.ok(orderInfoService.selectOrderDetail(orderInfo.getId()));
+//        return R.ok(orderInfoService.selectOrderDetail(orderInfo.getId()));
+        return R.ok();
     }
 
     /**
@@ -560,7 +561,8 @@ public class WebController {
      */
     @GetMapping("/receipt")
     public R receipt(Integer orderId) {
-        return R.ok(orderInfoService.auditOrderFinish(orderId));
+//        return R.ok(orderInfoService.auditOrderFinish(orderId));
+        return R.ok();
     }
 
     /**
@@ -582,7 +584,8 @@ public class WebController {
      */
     @GetMapping("/getOrderListByUserId")
     public R getOrderListByUserId(Integer userId) {
-        return R.ok(orderInfoService.queryOrderByUserId(userId));
+//        return R.ok(orderInfoService.queryOrderByUserId(userId));
+        return R.ok();
     }
 
 
@@ -628,18 +631,6 @@ public class WebController {
     @GetMapping("/getUserInfoById")
     public R getUserInfoById(Integer userId) {
         return R.ok(userInfoService.getById(userId));
-    }
-
-    /**
-     * 配送员接单
-     *
-     * @param orderId 订单ID
-     * @param staffId 配送员ID
-     * @return 结果
-     */
-    @GetMapping("/checkOrder")
-    public R checkOrder(Integer orderId, Integer staffId) {
-        return R.ok(orderInfoService.checkOrder(orderId, staffId));
     }
 
     /**

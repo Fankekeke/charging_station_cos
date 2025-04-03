@@ -255,18 +255,18 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
                 put("withdraw", null);
             }
         };
-        // 获取用户信息
-        UserInfo userInfo = userInfoService.getById(userId);
-        if (userInfo != null) {
-            result.put("userInfo", userInfo);
-        } else {
-            return null;
-        }
-        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
-        result.put("staffInfo", staffInfo);
-        result.put("withdraw", staffInfo == null ? null : withdrawInfoService.getOne(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStaffId, staffInfo.getId()).eq(WithdrawInfo::getStatus, "0")));
-        // 获取待接单订单
-        result.put("orderList", this.queryOrderRecommend(longitude, latitude));
+//        // 获取用户信息
+//        UserInfo userInfo = userInfoService.getById(userId);
+//        if (userInfo != null) {
+//            result.put("userInfo", userInfo);
+//        } else {
+//            return null;
+//        }
+//        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
+//        result.put("staffInfo", staffInfo);
+//        result.put("withdraw", staffInfo == null ? null : withdrawInfoService.getOne(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStaffId, staffInfo.getId()).eq(WithdrawInfo::getStatus, "0")));
+//        // 获取待接单订单
+//        result.put("orderList", this.queryOrderRecommend(longitude, latitude));
         return result;
     }
 }

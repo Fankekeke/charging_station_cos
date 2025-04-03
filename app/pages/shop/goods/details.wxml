@@ -1,0 +1,116 @@
+<!-- 商品轮播图 -->
+<swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+    <swiper-item wx:for="{{swiperlist}}" wx:key="index">
+        <image src="http://127.0.0.1:9527/imagesWeb/{{item}}" mode='aspectFill'></image>
+    </swiper-item>
+</swiper>
+<!-- 左上角按钮 -->
+<view class="canui-head-box" style="top:{{StatusBar}}px;">
+    <navigator class='icon-back' open-type="navigateBack" hover-class="none"></navigator>
+    <navigator class='icon-home' open-type="navigateBack" hover-class="none"></navigator>
+</view>
+<!-- 商品价格 -->
+<view class="bg-white canui-goods-box" style="padding-top:30rpx;">
+    <text class="text-price text-red text-xl"><text style="font-size: 13px">订单金额：</text>{{ goods.afterOrderPrice }}元</text>
+</view>
+<!-- 商品名称 -->
+<view class="bg-white canui-goods-box canui-xzwz text-black">
+    订单：{{ goods.orderName }}
+    <!-- <view wx:if="{{ goods.onPut == 0 }}" class="cu-tag bg-blue radius sm">下架中</view> -->
+</view>
+<!-- 商品属性 -->
+<view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
+    <view class='padding-sm'>
+        类型：
+        <text wx:if="{{ goods.goodsType == 1 }}">文件</text>
+        <text wx:if="{{ goods.goodsType == 2 }}">食品</text>
+        <text wx:if="{{ goods.goodsType == 3 }}">蛋糕</text>
+        <text wx:if="{{ goods.goodsType == 4 }}">数码</text>
+        <text wx:if="{{ goods.goodsType == 5 }}">证件</text>
+        <text wx:if="{{ goods.goodsType == 6 }}">药品</text>
+        <text wx:if="{{ goods.goodsType == 7 }}">海鲜</text>
+        <text wx:if="{{ goods.goodsType == 8 }}">鲜花</text>
+        <text wx:if="{{ goods.goodsType == 9 }}">服饰</text>
+        <text wx:if="{{ goods.goodsType == 10 }}">其他</text>
+    </view>
+    <view class='padding-sm text-center'>重量：{{ goods.weight }}KG</view>
+    <view class='padding-sm text-right'>宽高：{{goods.width}} * {{goods.height}}</view>
+</view>
+<view class="cu-bar bg-white margin-top solid-bottom">
+    <view class='action'>
+        <text class='icon-title text-red'></text>
+        <text>订单备注</text>
+    </view>
+</view>
+<view class="bg-white padding cauni-details-box" style="line-height: 25px">
+   {{ goods.remark ? goods.remark : '- -'}} 
+</view>
+<!-- 商品详情 -->
+<view class="cu-bar bg-white margin-top solid-bottom">
+    <view class='action'>
+        <text class='icon-title text-red'></text>
+        <text>配送信息 - <text style="font-size: 12px">总公里数 {{ goods.kilometre }}KM</text></text>
+    </view>
+</view>
+<view class="bg-white padding cauni-details-box" style="font-size: 13px">
+    物品地址：{{ startAddress.address }} {{ startAddress.houseNumber ? startAddress.houseNumber : '' }}
+</view>
+<view class="bg-white cauni-details-box" style="font-size: 12px;padding-left: 15px">
+    货物联系人：{{ startAddress.contactPerson }}  联系方式：{{ startAddress.contactMethod }}
+</view>
+<view class="bg-white padding cauni-details-box" style="font-size: 13px">
+    送货地址：{{ endAddress.address }} {{ endAddress.houseNumber ? endAddress.houseNumber : '' }}
+</view>
+<view class="bg-white cauni-details-box" style="font-size: 12px;padding-left: 15px;padding-bottom: 25px">
+    送达联系人：{{ endAddress.contactPerson }}  联系方式：{{ endAddress.contactMethod }}
+</view>
+<!-- 商品评价 -->
+<!-- <view class="cu-bar bg-white margin-top solid-bottom">
+    <view class='action'>
+        <text class='icon-title text-red'></text>
+        <text>商品评价</text>
+    </view>
+</view>
+<view class="cu-list menu-avatar bg-white comment" style="padding-bottom: 50px">
+    <view class="cu-item" wx:for="{{evaluation}}">
+        <view class="cu-avatar round" style="background-image:url({{item.avatar}});"></view>
+        <view class="content">
+            <view class="text-grey">{{item.userName}}</view>
+            <view class="text-gray text-content text-df" style="font-size: 12px;margin-top: 5px">{{item.content}}</view>
+            <view class="margin-top-sm flex justify-between">
+                <view class="text-gray text-df">{{item.createDate}}</view>
+                <view>
+                    <text class="cuIcon-appreciatefill text-red"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{ evaluation.length === 0 }}" style="padding-bottom: 50px;text-align: center;padding-top: 20px;">暂无评价信息</view>
+</view> -->
+<map id="myMap" longitude="113.324520" latitude="23.099994" show-location="{{true}}" style="width: 100%; height: 100%;"></map>
+
+<!-- TabbarBot为适配全面屏的，如果是全面屏，则底部多出一截空白 -->
+<view class="cu-bar bg-white tabbar border shop canui-foor-fixed {{TabbarBot=='y'?'canui-tabbar-bottom':''}}">
+    <view class="action text-grey" bindtap='shopDetail'>
+        <view class='icon-sound text-purple'></view>
+        导航
+    </view>
+    <button class="action text-purple" bindtap='message'>
+        <view class='icon-service'></view>
+        联系用户
+    </button>
+    <button class="action text-purple" bindtap='takePhone'>
+        <view class='icon-phone'></view>
+        电话联系
+    </button>
+    <!-- <view class="action text-grey" bindtap='cartView'>
+        <view class='icon-cart'></view>
+        购物车
+    </view> -->
+    <view class='btn-group'>
+        <!-- <button class='cu-btn bg-orange round shadow-blur' bindtap='addCart'>加入购物车</button> -->
+        <van-button type="info" size="normal" style="width: 100%" block bind:click="buyGoods" color="#cf2d2d">立即接单
+            </van-button>
+    </view>
+</view>
