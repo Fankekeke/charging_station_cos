@@ -134,7 +134,7 @@ public class WebController {
 //            MultipartFile cMultiFile = new MockMultipartFile("file", file.getName(), null, new FileInputStream(file));
 //
             // 1定义要上传文件 的存放路径
-            String localPath = "G:/Project/20250325配送物流接单小程序/db";
+            String localPath = "G:/Project/20250321充电桩小程序/db";
             // 2获得文件名字
             String fileName = multipartFile.getName();
             // 2上传失败提示

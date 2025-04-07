@@ -20,7 +20,7 @@
         <van-field model:value="{{ tag }}" label="真实姓名" placeholder="请输入真实姓名" style="display: block;margin-top: 15px;" />
         <van-field model:value="{{ content }}" label="申请信息" type="textarea" placeholder="请输入申请信息" style="display: block;margin-top: 15px;" autosize border="{{ false }}" />
         <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" style="display: block;margin-top: 15px;" />
-        <van-button block style="display: block;margin-top: 35px;" bindtap="submit" color="#cf2d2d">
+        <van-button block style="display: block;margin-top: 35px;" bindtap="submit" color="#6e5c08ef">
             提 交
         </van-button>
     </view>

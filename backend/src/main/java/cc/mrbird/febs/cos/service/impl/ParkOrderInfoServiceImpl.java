@@ -40,6 +40,8 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
 
     private final IPharmacyInfoService pharmacyInfoService;
 
+    private final IPostInfoService postInfoService;
+
     /**
      * 分页获取订单信息
      *
@@ -249,24 +251,12 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
         // 返回数据
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
             {
-                put("userInfo", null);
-                put("staffInfo", null);
                 put("orderList", Collections.emptyList());
-                put("withdraw", null);
+                put("postInfo", Collections.emptyList());
             }
         };
-//        // 获取用户信息
-//        UserInfo userInfo = userInfoService.getById(userId);
-//        if (userInfo != null) {
-//            result.put("userInfo", userInfo);
-//        } else {
-//            return null;
-//        }
-//        StaffInfo staffInfo = staffInfoService.getOne(Wrappers.<StaffInfo>lambdaQuery().eq(StaffInfo::getUserId, userId));
-//        result.put("staffInfo", staffInfo);
-//        result.put("withdraw", staffInfo == null ? null : withdrawInfoService.getOne(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStaffId, staffInfo.getId()).eq(WithdrawInfo::getStatus, "0")));
-//        // 获取待接单订单
         result.put("orderList", this.queryOrderRecommend(longitude, latitude));
+        result.put("postInfo", postInfoService.getPostListHot());
         return result;
     }
 }

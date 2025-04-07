@@ -110,7 +110,7 @@
     </view> -->
     <view class='btn-group'>
         <!-- <button class='cu-btn bg-orange round shadow-blur' bindtap='addCart'>加入购物车</button> -->
-        <van-button type="info" size="normal" style="width: 100%" block bind:click="buyGoods" color="#cf2d2d">立即接单
+        <van-button type="info" size="normal" style="width: 100%" block bind:click="buyGoods" color="#6e5c08ef">立即接单
             </van-button>
     </view>
 </view>

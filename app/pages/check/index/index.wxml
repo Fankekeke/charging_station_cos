@@ -23,22 +23,10 @@
         <view class='action' style="font-size: 27rpx;"> 查看 <view class='icon-right'></view> </view>
     </navigator>
 </view>
-<view class="cu-bar bg-white solid-bottom" wx:if="{{ staffInfo.type == 2 }}">
-    <view class='action'>
-        <text class='icon-pay text-green'></text>
-        <text style="font-size: 14px">我的收益 {{staffData.price}} 元</text>
-    </view>
-    <navigator hover-class='none' wx:if="{{staffData.price > 0 && withdraw == null}}">
-        <view class='action' bindtap='withdrawal' style="font-size: 27rpx;"> 余额提现 <view class='icon-right'></view> </view>
-    </navigator>
-    <navigator hover-class='none' wx:if="{{withdraw != null}}">
-        <view class='action' style="font-size: 27rpx;"> 正在等待管理员审核 </view>
-    </navigator>
-</view>
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-list text-green'></text>
-        <text style="font-size: 14px">接单中心</text>
+        <text style="font-size: 14px">会员购买</text>
     </view>
     <navigator hover-class='none' url="/pages/order/staff/index">
     </navigator>

@@ -44,7 +44,7 @@
                     border="{{ true }}" bind:change="onRemarkChange" />
             </van-cell-group>
         </view>
-        <van-button type="info" block style="width: 100%" bind:click="calculateAmountResult" color="#cf2d2d">保存配置
+        <van-button type="info" block style="width: 100%" bind:click="calculateAmountResult" color="#6e5c08ef">保存配置
         </van-button>
     </view>
 

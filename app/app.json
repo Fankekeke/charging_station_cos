@@ -57,7 +57,7 @@
         "pagePath": "pages/check/index/index",
         "iconPath": "img/goodscar.png",
         "selectedIconPath": "img/goodscar1.png",
-        "text": "接单"
+        "text": "会员"
       },
       {
         "pagePath": "pages/user/message/index",

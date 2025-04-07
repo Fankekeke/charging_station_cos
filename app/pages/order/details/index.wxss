@@ -9,7 +9,7 @@ page {
 }
 .cu-custom .cu-bar{
     padding-right:inherit;
-    background-image:linear-gradient(90deg, #cf2d2d, #9b0707ef);
+    background-image:linear-gradient(90deg, #da9c17, #6e5c08ef);
 }
 .box{
     position: absolute;
@@ -18,7 +18,7 @@ page {
     padding-bottom: 170rpx;
 }
 .canui-order-details-head{
-    background-image:linear-gradient(90deg, #cf2d2d, #9b0707ef);
+    background-image:linear-gradient(90deg, #da9c17, #6e5c08ef);
     color:#F1f1f6;
     height:230rpx;
     padding-top:20rpx;

@@ -39,7 +39,7 @@
 </swiper> -->
 
 <!--热销推荐-->
-<view class="cu-bar bg-white solid-bottom">
+<!-- <view class="cu-bar bg-white solid-bottom">
     <view class='action'>
         <text class='icon-title text-orange'></text> 预约下单
     </view>
@@ -53,7 +53,7 @@
                 label="{{ endPoint.address }}" is-link data-type="2" bindtap="openPopup" />
         </van-cell-group>
         <view style="padding: 10px 12px 0 12px">
-            <van-button type="info" size="normal" style="width: 100%" block bind:click="submit" color="#cf2d2d">提交预约
+            <van-button type="info" size="normal" style="width: 100%" block bind:click="submit" color="#6e5c08ef">提交预约
             </van-button>
         </view>
     </view>
@@ -67,16 +67,61 @@
 <van-popup close-on-click-overlay round show="{{ endPoint.show }}" data-type="2" bind:close="onClose" position="bottom">
     <van-picker columns="{{ addressList }}" data-type="2" bind:cancel="onClose" bind:confirm="onChange"
         show-toolbar />
-</van-popup>
+</van-popup> -->
 
 <!--宫格功能区域-->
-<view class="cu-list margin-top grid col-4 no-border">
+<view class="cu-list grid col-4 no-border">
     <block wx:for="{{iconList}}" wx:key="item.id">
         <view class="cu-item" bindtap="itemckcred" data-index="{{item.id}}" data-itemtype="{{item.type}}">
             <view class='icon-{{item.icon}} text-{{item.color}}'> </view>
             <text>{{item.name}}</text>
         </view>
     </block>
+</view>
+
+<view class="cu-bar bg-white margin-top solid-bottom">
+    <view class='action'>
+        <text class='icon-list text-green'></text>
+        <text style="font-size: 14px">接单中心</text>
+    </view>
+    <navigator hover-class='none' url="/pages/order/staff/index">
+    </navigator>
+</view>
+<view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
+    <view class='nav-list canui-flex-car'>
+        <navigator wx:for="{{ orderList }}" open-type="navigate" hover-class='none'
+            url="/pages/shop/goods/details?commoditId={{ item.id }}" class="nav-li canui-yx-url">
+            <view class="flex-sub cu-card case shadow-warp bg-white">
+                <view class="cu-item shadow">
+                    <view class='image'>
+                        <image src="http://127.0.0.1:9527/imagesWeb/{{ item.image }}" mode="widthFix"></image>
+                    </view>
+                    <view class="cu-list menu menu-avatar">
+                        <view class="cu-item">
+                            <view class='content flex-sub'>
+                                <view class='text-gray text-sm flex justify-between'>
+                                    <view class='text-grey' style="font-size: 12px;color: red">
+                                        {{ item.afterOrderPrice }}元 </view>
+                                </view>
+                                <view class='text-gray text-sm flex justify-between'>
+                                    距离当前位置{{ item.staffKilometre }} 千米
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="cu-avatar radius"
+                        style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.userImages }});"></view>
+                </view>
+            </view>
+        </navigator>
+    </view>
+    <view style="padding: 20px;display: block" wx:if="{{orderList.length == 0}}">
+        <view class="flex-sub text-center">
+            <view class="solid-bottom text-xl padding">
+                <text class="text-black">暂无订单信息</text>
+            </view>
+        </view>
+    </view>
 </view>
 
 <!--视频区域-->

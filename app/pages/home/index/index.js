@@ -9,15 +9,15 @@ Page({
 		lines: 0,
 		swiperlist: [{
 			id: 0,
-			url: 'https://www.huolala.cn/rs/img/housemove/tab_1_bg.png',
+			url: 'http://www.chahtq.com/Upload/banner/banner1.jpg',
 			type: 1
 		}, {
 			id: 1,
-			url: 'https://www.huolala.cn/rs/img/housemove/tab_3_bg.png',
+			url: 'http://www.chahtq.com/Upload/banner/banner2.jpg',
 			type: 2
 		}, {
 			id: 2,
-			url: 'https://www.huolala.cn/rs/img/housemove/tab_4_bg.png',
+			url: 'http://news.cjn.cn/zjjjdpd/jtys_20051/202407/W020240709574295671398.jpg',
 			type: 3
 		}],
 		iconList: [{
@@ -66,19 +66,18 @@ Page({
 		this.home()
 	},
 	onShow() {
-    wx.getStorage({
+		wx.getStorage({
 			key: 'userInfo',
 			success: (res) => {
 				this.setData({
 					userInfo: res.data
 				})
-				this.getUserAddress(res.data.id)
 			},
 			fail: res => {
 
 			}
 		})
-  },
+	},
 	getUserAddress(userId) {
 		http.get('selDefaultAddress', {
 			userId
@@ -93,30 +92,30 @@ Page({
 	},
 	onClose(e) {
 		if (e.currentTarget.dataset.type == 1) {
-				this.setData({
-						'startPoint.show': false,
-				})
+			this.setData({
+				'startPoint.show': false,
+			})
 		} else if (e.currentTarget.dataset.type == 2) {
-				this.setData({
-						'endPoint.show': false,
-				})
+			this.setData({
+				'endPoint.show': false,
+			})
 		}
-},
-onChange(e) {
+	},
+	onChange(e) {
 		if (e.currentTarget.dataset.type == 1) {
-				this.setData({
-						'startPoint.address': e.detail.value.address,
-						'startPoint.id': e.detail.value.id,
-						'startPoint.show': false
-				})
+			this.setData({
+				'startPoint.address': e.detail.value.address,
+				'startPoint.id': e.detail.value.id,
+				'startPoint.show': false
+			})
 		} else if (e.currentTarget.dataset.type == 2) {
-				this.setData({
-						'endPoint.address': e.detail.value.address,
-						'endPoint.id': e.detail.value.id,
-						'endPoint.show': false
-				})
+			this.setData({
+				'endPoint.address': e.detail.value.address,
+				'endPoint.id': e.detail.value.id,
+				'endPoint.show': false
+			})
 		}
-},
+	},
 	/**
 	 * 选择位置
 	 */
@@ -189,6 +188,11 @@ onChange(e) {
 			url: '/pages/scar/order/index?address=' + JSON.stringify(param)
 		});
 	},
+	shopDeatil(e) {
+		wx.navigateTo({
+			url: '/pages/shop/index/index?shopId=' + e.currentTarget.dataset.shopid + ''
+		});
+	},
 	timeFormat(time) {
 		var nowTime = new Date();
 		var day = nowTime.getDate();
@@ -226,31 +230,32 @@ onChange(e) {
 			return time;
 		}
 	},
-	shopDeatil(e) {
-		wx.navigateTo({
-			url: '/pages/shop/index/index?shopId=' + e.currentTarget.dataset.shopid + ''
-		});
-	},
 	home() {
-		http.get('home').then((r) => {
-			console.log(r)
-
-			// r.shopInfo.forEach(item => {
-			// 	if (item.images) {
-			// 		item.image = item.images.split(',')[0]
-			// 	}
-			// });
-			r.postInfo.forEach(item => {
-				if (item.images) {
-					item.image = item.images.split(',')[0]
-				}
-				item.days = this.timeFormat(item.createDate)
-			});
-			this.setData({
-				shopInfo: r.shopInfo,
-				postInfo: r.postInfo,
-				commodityHot: r.commodityHot
-			})
+		let latitude = null;
+		let longitude = null;
+		let that = this
+		wx.getLocation({
+			type: 'wgs84',
+			success(res) {
+				console.log(res)
+				latitude = res.latitude
+				longitude = res.longitude
+				http.get('home/user', {
+					latitude,
+					longitude,
+					userId: that.data.userInfo.id
+				}).then((r) => {
+					r.postInfo.forEach(item => {
+						if (item.images) {
+							item.image = item.images.split(',')[0]
+						}
+						item.days = that.timeFormat(item.createDate)
+					});
+					that.setData({
+						postInfo: r.postInfo,
+					})
+				})
+			}
 		})
 	},
 	postDetail(event) {
