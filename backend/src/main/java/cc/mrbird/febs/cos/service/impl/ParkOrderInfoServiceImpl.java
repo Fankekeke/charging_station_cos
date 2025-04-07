@@ -213,7 +213,7 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
     }
 
     /**
-     * 员工获取推荐订单
+     * 获取推荐商家
      *
      * @param longitude 经度
      * @param latitude  纬度
@@ -266,7 +266,7 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
 //        result.put("staffInfo", staffInfo);
 //        result.put("withdraw", staffInfo == null ? null : withdrawInfoService.getOne(Wrappers.<WithdrawInfo>lambdaQuery().eq(WithdrawInfo::getStaffId, staffInfo.getId()).eq(WithdrawInfo::getStatus, "0")));
 //        // 获取待接单订单
-//        result.put("orderList", this.queryOrderRecommend(longitude, latitude));
+        result.put("orderList", this.queryOrderRecommend(longitude, latitude));
         return result;
     }
 }
