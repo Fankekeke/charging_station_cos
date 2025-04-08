@@ -51,17 +51,17 @@ Page({
         http.get('getShopDetail', {
             shopId
         }).then((r) => {
-            if (r.shop.images) {
-                r.shop.image = r.shop.images.split(',')[0]
+            if (r.shopInfo.images) {
+                r.shopInfo.image = r.shopInfo.images.split(',')[0]
             }
-            r.evaluate.forEach(item => {
+            r.goodsList.forEach(item => {
                 if (item.images) {
                     item.image = item.images.split(',')[0]
                 }
             });
             this.setData({
-                shopInfo: r.shop,
-                ShopList: r.evaluate
+                shopInfo: r.shopInfo,
+                ShopList: r.goodsList
             })
         })
     },

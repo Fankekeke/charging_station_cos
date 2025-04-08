@@ -67,6 +67,10 @@ public class WebController {
 
     private final ISpaceInfoService spaceInfoService;
 
+    private final ISpaceStatusInfoService spaceStatusInfoService;
+
+    private final IPharmacyInfoService pharmacyInfoService;
+
 
     /**
      * File 转MultipartFile
@@ -268,6 +272,43 @@ public class WebController {
     @GetMapping("/home/user")
     public R home(BigDecimal longitude, BigDecimal latitude, Integer userId) {
         return R.ok(orderInfoService.queryHomeByUserId(longitude, latitude, userId));
+    }
+
+    /**
+     * 获取店铺详情
+     *
+     * @param shopId 店铺ID
+     * @return 结果
+     */
+    @GetMapping("/getShopDetail")
+    public R getShopDetail(Integer shopId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("shopInfo", pharmacyInfoService.getById(shopId));
+                put("goodsList", spaceStatusInfoService.querySpaceListByShopId(shopId));
+            }
+        };
+        return R.ok(result);
+    }
+
+    /**
+     * 获取充电桩详情
+     *
+     * @param spaceId 充电桩ID
+     * @return 结果
+     */
+    @GetMapping("/getGoodsDetail")
+    public R getGoodsDetail(Integer spaceId) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("spaceInfo", spaceStatusInfoService.getGoodsDetail(spaceId));
+            }
+        };
+        // 获取所属商家
+        SpaceInfo spaceInfo = spaceInfoService.getById(spaceId);
+        result.put("shopInfo", pharmacyInfoService.getById(spaceInfo.getPharmacyId()));
+        return R.ok(result);
     }
 
     /**

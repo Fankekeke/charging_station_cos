@@ -59,7 +59,7 @@ public class SpaceInfo implements Serializable {
      */
     private BigDecimal price;
 
-    @TableField(exist = false)
+    
     private Integer pharmacyId;
 
 

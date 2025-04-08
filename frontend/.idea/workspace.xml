@@ -23,47 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b51975f-5e37-45a1-bd9d-0f3c12f944d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/app.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/app.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/class/colorui.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/class/colorui.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/address/add/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/address/add/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/address/edit/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/address/edit/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/addresss/add/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/addresss/add/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/addresss/edit/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/addresss/edit/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/check/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/check/index/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/coupon/add/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/coupon/add/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/coupon/detail/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/coupon/detail/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/coupon/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/coupon/index/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/goods/add/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/goods/add/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/goods/edit/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/goods/edit/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/bulletin/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/bulletin/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/doc/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/doc/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/groom/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/groom/index.wxss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/pages/home/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/index/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/pages/home/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/index/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/index/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/joinus/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/joinus/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/search/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/search/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/order/details/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/order/details/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/order/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/order/index/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/order/staff/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/order/staff/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/scar/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/scar/index/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/scar/order/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/scar/order/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/scar/order/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/scar/order/index.wxss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/shop/index/details.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/index/details.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/shop/search/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/search/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/address/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/address/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/addresss/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/addresss/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/alert/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/alert/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/audit/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/audit/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/audit/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/audit/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/detail/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/detail/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/goods/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/goods/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/index/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/message/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/message/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/post/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/post/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/vipcard/details/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/vipcard/details/index.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/vipcard/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/vipcard/index/index.wxss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -99,7 +61,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/Project/20250405疫苗销售系统/vaccine_appointment_cos/frontend",
+    "last_opened_file_path": "G:/Project/房屋租赁系统/rental_cos/frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -261,6 +223,7 @@
       <workItem from="1743637733092" duration="1486000" />
       <workItem from="1744023310129" duration="162000" />
       <workItem from="1744028110470" duration="637000" />
+      <workItem from="1744069785120" duration="2108000" />
     </task>
     <servers />
   </component>

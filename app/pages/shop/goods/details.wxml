@@ -1,5 +1,6 @@
 <!-- 商品轮播图 -->
-<swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+<swiper class="screen-swiper square-dot bg-white" indicator-dots="true" circular="true" autoplay="true" interval="5000"
+    duration="500">
     <swiper-item wx:for="{{swiperlist}}" wx:key="index">
         <image src="http://127.0.0.1:9527/imagesWeb/{{item}}" mode='aspectFill'></image>
     </swiper-item>
@@ -11,15 +12,17 @@
 </view>
 <!-- 商品价格 -->
 <view class="bg-white canui-goods-box" style="padding-top:30rpx;">
-    <text class="text-price text-red text-xl"><text style="font-size: 13px">订单金额：</text>{{ goods.afterOrderPrice }}元</text>
+    <text class="text-price text-red text-xl"><text style="font-size: 13px">单价/分钟：</text>{{ goods.price }}元</text>
 </view>
 <!-- 商品名称 -->
 <view class="bg-white canui-goods-box canui-xzwz text-black">
-    订单：{{ goods.orderName }}
-    <!-- <view wx:if="{{ goods.onPut == 0 }}" class="cu-tag bg-blue radius sm">下架中</view> -->
+    <text style="font-size: 13px;margin-right: 20px">{{ goods.merchantName }} </text>
+    <view wx:if="{{ goods.status == 0 }}" class="cu-tag bg-blue radius sm">空闲</view>
+    <view wx:if="{{ goods.status == 1 }}" class="cu-tag bg-red radius sm">使用中</view>
+    <view wx:if="{{ goods.status == -1 }}" class="cu-tag bg-yellow radius sm">预约中</view>
 </view>
 <!-- 商品属性 -->
-<view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
+<!-- <view class="bg-white grid col-3 canui-goods-box text-gray text-sm">
     <view class='padding-sm'>
         类型：
         <text wx:if="{{ goods.goodsType == 1 }}">文件</text>
@@ -35,35 +38,28 @@
     </view>
     <view class='padding-sm text-center'>重量：{{ goods.weight }}KG</view>
     <view class='padding-sm text-right'>宽高：{{goods.width}} * {{goods.height}}</view>
-</view>
+</view> -->
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-title text-red'></text>
-        <text>订单备注</text>
+        <text>充电桩位置</text>
     </view>
 </view>
 <view class="bg-white padding cauni-details-box" style="line-height: 25px">
-   {{ goods.remark ? goods.remark : '- -'}} 
+    {{ goods.address }}： {{ goods.spaceAddress }} - {{ goods.spaceName }}
 </view>
-<!-- 商品详情 -->
-<view class="cu-bar bg-white margin-top solid-bottom">
-    <view class='action'>
-        <text class='icon-title text-red'></text>
-        <text>配送信息 - <text style="font-size: 12px">总公里数 {{ goods.kilometre }}KM</text></text>
+
+<view class="cu-list menu menu-avatar" style="margin-top: 20px">
+    <view class="cu-item">
+        <view class="cu-avatar radius lg"
+            style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ shopInfo.image }});"></view>
+        <view class='content'>
+            <view class='text-grey'>{{ shopInfo.name }}</view>
+            <view class='text-gray text-sm'>店铺编号：{{ shopInfo.code }}</view>
+        </view>
     </view>
 </view>
-<view class="bg-white padding cauni-details-box" style="font-size: 13px">
-    物品地址：{{ startAddress.address }} {{ startAddress.houseNumber ? startAddress.houseNumber : '' }}
-</view>
-<view class="bg-white cauni-details-box" style="font-size: 12px;padding-left: 15px">
-    货物联系人：{{ startAddress.contactPerson }}  联系方式：{{ startAddress.contactMethod }}
-</view>
-<view class="bg-white padding cauni-details-box" style="font-size: 13px">
-    送货地址：{{ endAddress.address }} {{ endAddress.houseNumber ? endAddress.houseNumber : '' }}
-</view>
-<view class="bg-white cauni-details-box" style="font-size: 12px;padding-left: 15px;padding-bottom: 25px">
-    送达联系人：{{ endAddress.contactPerson }}  联系方式：{{ endAddress.contactMethod }}
-</view>
+
 <!-- 商品评价 -->
 <!-- <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
@@ -88,7 +84,8 @@
     </view>
     <view wx:if="{{ evaluation.length === 0 }}" style="padding-bottom: 50px;text-align: center;padding-top: 20px;">暂无评价信息</view>
 </view> -->
-<map id="myMap" longitude="113.324520" latitude="23.099994" show-location="{{true}}" style="width: 100%; height: 100%;"></map>
+<map id="myMap" longitude="113.324520" latitude="23.099994" show-location="{{true}}"
+    style="width: 100%; height: 100%;"></map>
 
 <!-- TabbarBot为适配全面屏的，如果是全面屏，则底部多出一截空白 -->
 <view class="cu-bar bg-white tabbar border shop canui-foor-fixed {{TabbarBot=='y'?'canui-tabbar-bottom':''}}">
@@ -110,7 +107,9 @@
     </view> -->
     <view class='btn-group'>
         <!-- <button class='cu-btn bg-orange round shadow-blur' bindtap='addCart'>加入购物车</button> -->
-        <van-button type="info" size="normal" style="width: 100%" block bind:click="buyGoods" color="#6e5c08ef">立即接单
-            </van-button>
+        <van-button type="info" size="normal" style="width: 45%" block bind:click="buyGoods" color="#6e5c08ef">充电
+        </van-button>
+        <van-button type="info" size="normal" style="width: 45%" block bind:click="buyGoods" color="#6e5c08ef">预约
+        </van-button>
     </view>
 </view>

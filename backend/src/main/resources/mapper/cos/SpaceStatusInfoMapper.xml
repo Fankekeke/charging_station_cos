@@ -36,6 +36,62 @@
         si.create_date desc
     </select>
 
+    <!-- 获取充电桩列表 -->
+    <select id="querySpaceListByShopId" resultType="java.util.LinkedHashMap">
+        select
+        ssi.id,
+        ssi.space_id,
+        ssi.status,
+        si.name as spaceName,
+        si.`space` as spaceAddress,
+        si.code,
+        si.images,
+        si.price,
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
+        from
+        space_status_info ssi
+        left join space_info si on (si.id = ssi.space_id)
+        left join pharmacy_info pi on (pi.id = si.pharmacy_id)
+        where
+        1 = 1
+        <if test="shopId != null and shopId != ''">
+            AND pi.id = #{shopId}
+        </if>
+        order by
+        si.create_date desc
+    </select>
+
+    <!-- 获取充电桩列表 -->
+    <select id="getGoodsDetail" resultType="java.util.LinkedHashMap">
+        select
+        ssi.id,
+        ssi.space_id,
+        ssi.status,
+        si.name as spaceName,
+        si.`space` as spaceAddress,
+        si.code,
+        si.images,
+        si.price,
+        pi.name as merchantName,
+        pi.phone as merchantPhone,
+        pi.images as merchantImages,
+        pi.address
+        from
+        space_status_info ssi
+        left join space_info si on (si.id = ssi.space_id)
+        left join pharmacy_info pi on (pi.id = si.pharmacy_id)
+        where
+        1 = 1
+        <if test="spaceId != null and spaceId != ''">
+            AND ssi.space_id = #{spaceId}
+        </if>
+        order by
+        si.create_date desc
+    </select>
+
     <!-- 获取充电桩状态图 -->
     <select id="selectStatusCheck" resultType="java.util.LinkedHashMap">
         select

@@ -24,6 +24,22 @@ public interface SpaceStatusInfoMapper extends BaseMapper<SpaceStatusInfo> {
     IPage<LinkedHashMap<String, Object>> selectSpacePage(Page<SpaceStatusInfo> page, @Param("spaceStatusInfo") SpaceStatusInfo spaceStatusInfo);
 
     /**
+     * 获取充电桩列表
+     *
+     * @param shopId 商铺ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> querySpaceListByShopId(@Param("shopId") Integer shopId);
+
+    /**
+     * 获取充电桩详情
+     *
+     * @param spaceId 充电桩ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> getGoodsDetail(@Param("spaceId") Integer spaceId);
+
+    /**
      * 获取充电桩状态图
      *
      * @return 结果

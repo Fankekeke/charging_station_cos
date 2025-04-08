@@ -11,9 +11,11 @@ Page({
         endAddress: null,
         user: null,
         evaluation: [],
+        shopInfo: null,
         staffInfo: null
     },
     onLoad: function (options) {
+        console.log(options.commoditId)
         this.setData({
             commoditId: options.commoditId
         })
@@ -25,16 +27,15 @@ Page({
           })
     },
     getGoodsDetail(commodityId) {
-        http.get('queryOrderDetail', {
-            orderId: commodityId
+        http.get('getGoodsDetail', {
+            spaceId: commodityId
         }).then((r) => {
-            let order = r.order
+            console.log(r.spaceInfo)
+            r.shopInfo.image = r.shopInfo.images.split(',')[0]
             this.setData({
-                swiperlist: order.images.split(','),
-                goods: order,
-                startAddress: r.startAddress,
-                endAddress: r.endAddress,
-                user: r.user
+                swiperlist: r.spaceInfo.images.split(','),
+                goods: r.spaceInfo,
+                shopInfo: r.shopInfo
             })
         })
     },

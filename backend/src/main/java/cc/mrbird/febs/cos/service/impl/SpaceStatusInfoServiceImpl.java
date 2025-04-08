@@ -30,6 +30,28 @@ public class SpaceStatusInfoServiceImpl extends ServiceImpl<SpaceStatusInfoMappe
     }
 
     /**
+     * 获取充电桩列表
+     *
+     * @param shopId 商铺ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> querySpaceListByShopId(Integer shopId) {
+        return baseMapper.querySpaceListByShopId(shopId);
+    }
+
+    /**
+     * 获取充电桩详情
+     *
+     * @param spaceId 充电桩ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> getGoodsDetail(Integer spaceId) {
+        return baseMapper.getGoodsDetail(spaceId);
+    }
+
+    /**
      * 获取充电桩状态图
      *
      * @return 结果
