@@ -23,11 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b51975f-5e37-45a1-bd9d-0f3c12f944d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/index/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/index/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/home/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/home/index/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/admin/chat/Chat1.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/MessageInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/MessageInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/dao/MessageInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/dao/MessageInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/service/IMessageInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/service/IMessageInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/service/impl/MessageInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/service/impl/MessageInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/MessageInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/resources/mapper/cos/MessageInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/color.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/color.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/admin/chat/Chat.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin/chat/Chat.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +65,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/Project/房屋租赁系统/rental_cos/frontend",
+    "last_opened_file_path": "G:/Project/20250321充电桩小程序/charging_station_cos/frontend/src/views/admin/chat",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,11 +77,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Project\20250321充电桩小程序\charging_station_cos\frontend\src\views\admin\chat" />
       <recent name="G:\Project\20250321充电桩小程序\charging_station_cos\frontend\src\views\admin" />
       <recent name="G:\Project\20250321充电桩小程序\charging_station_cos\frontend\src\views\manage" />
       <recent name="G:\Project\停车场管理系统\parking_lot_cos\frontend\src\views\staff" />
       <recent name="G:\Project\停车场管理系统\parking_lot_cos\frontend\src\views\manage" />
-      <recent name="G:\Project\停车场管理系统\parking_lot_cos\frontend\src\utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="G:\Project\停车场管理系统\parking_lot_cos\frontend\src\views\user" />
@@ -224,6 +228,7 @@
       <workItem from="1744023310129" duration="162000" />
       <workItem from="1744028110470" duration="637000" />
       <workItem from="1744069785120" duration="2108000" />
+      <workItem from="1744157028480" duration="5773000" />
     </task>
     <servers />
   </component>

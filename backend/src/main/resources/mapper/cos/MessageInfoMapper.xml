@@ -38,8 +38,10 @@
                mi.create_date AS createDate,
                ui1.name  AS sendUserName,
                ui1.images     AS sendUserAvatar,
+               ui1.user_id AS sendUserId,
                ui2.name  AS takeUserName,
-               ui2.images     AS takeUserAvatar
+               ui2.images     AS takeUserAvatar,
+               ui2.user_id AS takeUserUserId
         FROM (SELECT *
               FROM message_info
               WHERE create_date IN (SELECT MAX(create_date)
@@ -66,8 +68,10 @@
                mi.create_date AS createDate,
                ui1.name  AS sendUserName,
                ui1.images     AS sendUserAvatar,
+               ui1.user_id AS sendUserId,
                ui2.name  AS takeUserName,
-               ui2.images     AS takeUserAvatar
+               ui2.images     AS takeUserAvatar,
+               ui2.user_id AS takeUserUserId
         FROM (SELECT *
               FROM message_info
               WHERE send_user = #{ sendUser }
@@ -103,15 +107,9 @@
             ei.`position`
         </if>
         from
-        chat_info ci
-        <if test="flag != null and flag == 2">
-            left join expert_info ei on
-            (ei.code = ci.expert_code)
-        </if>
-        <if test="flag != null and flag == 1">
-            left join enterprise_info ei2 on
-            (ei2.code = ci.enterprise_code)
-        </if>
+        message_info ci
+        left join user_info ei on
+        (ei.id = ci.expert_code)
         where
         1 = 1
         <if test="flag != null and flag == 2">

@@ -7,10 +7,10 @@
             :size="46"
             shape="square"
             icon="user"
-            :src="'http://127.0.0.1:9527/imagesWeb/' + item.images.split(',')[0]"
+            :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"
           />
-          <span style="margin-left: 25px;font-size: 15px">
-            {{ item.name }}-{{ item.deptName }}
+          <span style="margin-left: 35px;font-size: 15px">
+            {{ item.name }}
           </span>
         </a-menu-item>
       </a-menu>
@@ -28,7 +28,7 @@
             :data-source="chatList"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a-comment style="margin-left: 25px" :author="(checkUserName(item))" :avatar="'http://127.0.0.1:9527/imagesWeb/' + (checkUserImages(item))">
+              <a-comment style="margin-left: 25px" :author="item.type == 1 ? item.expertName : item.enterpriseName" :avatar="'http://127.0.0.1:9527/imagesWeb/' + (item.type == 1 ? item.expertImages : item.enterpriseImages)">
                 <p slot="content">
                   {{ item.content }}
                 </p>
@@ -38,7 +38,7 @@
               </a-comment>
             </a-list-item>
           </a-list>
-          <a-comment v-if="currentItem != null">
+          <a-comment v-if="chatList.length !== 0">
             <div slot="content">
               <a-form-item>
                 <a-textarea :rows="4" v-model="contentValue"/>
@@ -70,52 +70,14 @@ export default {
     return {
       chatList: [],
       contactList: [],
-      staffList: [],
       contentValue: '',
       currentItem: null
     }
   },
   mounted () {
     this.selectContactPerson()
-    // this.queryStaffList()
   },
   methods: {
-    checkUserName (item) {
-      console.log(item.sendUser + '---' + item.takeUser)
-      if (item.sendUserId == this.user.userId) {
-        return item.sendUserName
-      }
-      if (item.takeUserId == this.user.userId) {
-        return item.sendUserName
-      }
-      if (item.sendUserId == null) {
-        return item.sendUserName
-      }
-      if (item.takeUserId == null) {
-        return item.takeUserName
-      }
-    },
-    checkUserImages (item) {
-      if (item.sendUserId == this.user.userId) {
-        return item.sendUserAvatar.split(',')[0]
-      }
-      if (item.takeUserId == this.user.userId) {
-        return item.sendUserAvatar.split(',')[0]
-      }
-      if (item.sendUserId == null) {
-        return item.sendUserAvatar.split(',')[0]
-      }
-      if (item.takeUserId == null) {
-        return item.takeUserAvatar.split(',')[0]
-      }
-    },
-    queryStaffList () {
-      this.$get(`/cos/staff-info/queryStaffList/staff`, {
-        staffId: this.user.userId
-      }).then((r) => {
-        this.contactList = r.data.data
-      })
-    },
     selectContactPerson () {
       this.$get(`/cos/message-info/contact/person`, {
         userId: this.user.userId,
@@ -126,9 +88,8 @@ export default {
     },
     onChange (item) {
       this.currentItem = item
-      this.$get(`/cos/message-info/getMessageDetail`, {
-        takeUser: this.user.userId,
-        sendUser: item.id
+      this.$get(`/cos/message-info/messageListById`, {
+        userId: this.user.userId
       }).then((r) => {
         this.chatList = r.data.data
       })
@@ -139,8 +100,9 @@ export default {
         return false
       }
       this.$post(`/cos/message-info`, {
-        sendUser: this.user.userId,
-        takeUser: this.currentItem.id,
+        expertCode: this.currentItem.expertCode,
+        enterpriseCode: this.currentItem.enterpriseCode,
+        type: 1,
         content: this.contentValue
       }).then((r) => {
         this.contentValue = ''

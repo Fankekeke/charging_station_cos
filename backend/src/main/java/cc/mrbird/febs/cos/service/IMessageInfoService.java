@@ -1,6 +1,7 @@
 package cc.mrbird.febs.cos.service;
 
 import cc.mrbird.febs.cos.entity.MessageInfo;
+import cc.mrbird.febs.cos.entity.UserInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -42,11 +43,11 @@ public interface IMessageInfoService extends IService<MessageInfo> {
     /**
      * 根据用户编号获取联系人
      *
-     * @param userCode 用户编号
+     * @param userId 用户编号
      * @param flag
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> selectContactPerson(String userCode, Integer flag);
+    List<UserInfo> selectContactPerson(Integer userId, Integer flag);
 
     /**
      * 查询聊天记录

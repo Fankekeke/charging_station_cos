@@ -43,11 +43,11 @@ public interface MessageInfoMapper extends BaseMapper<MessageInfo> {
     /**
      * 根据用户编号获取联系人
      *
-     * @param userCode 用户编号
+     * @param userId 用户编号
      * @param flag
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> selectContactPerson(@Param("userCode") String userCode, @Param("flag") Integer flag);
+    List<LinkedHashMap<String, Object>> selectContactPerson(@Param("userId") Integer userId, @Param("flag") Integer flag);
 
     /**
      * 查询聊天记录
