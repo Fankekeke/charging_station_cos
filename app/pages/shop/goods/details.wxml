@@ -95,7 +95,7 @@
     </view>
     <button class="action text-purple" bindtap='message'>
         <view class='icon-service'></view>
-        联系用户
+        联系客服
     </button>
     <button class="action text-purple" bindtap='takePhone'>
         <view class='icon-phone'></view>

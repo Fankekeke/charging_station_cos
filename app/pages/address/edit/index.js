@@ -34,7 +34,7 @@ Page({
 						name: r.data.name,
 						phone: r.data.phone,
 						birthday: r.data.birthday,
-						mail: r.data.mail,
+						mail: r.data.email,
 						sex: r.data.sex,
 						profession: r.data.profession,
 						remark: r.data.remark
@@ -134,7 +134,7 @@ Page({
 			name: this.data.name,
 			phone: this.data.phone,
 			sex: this.data.sex,
-			mail: this.data.mail,
+			email: this.data.mail,
 			profession: this.data.profession,
 			remark: this.data.remark
 		}).then((r) => {

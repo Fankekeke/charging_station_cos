@@ -23,8 +23,8 @@ Page({
     },
     takePhone() {
         wx.makePhoneCall({
-            phoneNumber: this.data.user.phone
-          })
+            phoneNumber: this.data.shopInfo.phone
+        })
     },
     getGoodsDetail(commodityId) {
         http.get('getGoodsDetail', {
@@ -54,11 +54,11 @@ Page({
             type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
             success: function (res) {
                 wx.openLocation({
-                    latitude: Number(that.data.startAddress.latitude), // 纬度，范围为-90~90，负数表示南纬
-                    longitude: Number(that.data.startAddress.longitude), // 经度，范围为-180~180，负数表示西经
+                    latitude: Number(that.data.shopInfo.latitude), // 纬度，范围为-90~90，负数表示南纬
+                    longitude: Number(that.data.shopInfo.longitude), // 经度，范围为-180~180，负数表示西经
                     scale: 28, // 缩放比例
-                    name: that.data.startAddress.address,
-                    address: that.data.startAddress.address
+                    name: that.data.shopInfo.address,
+                    address: that.data.shopInfo.address
                 })
             }
         })
@@ -70,17 +70,9 @@ Page({
                 http.get('getUserInfoById', {
                     userId: res.data.id
                 }).then((r) => {
-                    if (r.data.type == null || r.data.type == 1) {
-                        wx.showToast({
-                            title: '请先申请成为配送员',
-                            icon: 'none',
-                            duration: 1000
-                        })
-                    } else if (r.data.type != null && r.data.type == 2) {
-                        wx.navigateTo({
-                            url: '/pages/user/detail/index?takeUser=' + this.data.goods.userId + '&sendUser=' + res.data.id + '&otherName=' + this.data.user.name + ''
-                        });
-                    }
+                    wx.navigateTo({
+                        url: '/pages/user/detail/index?takeUser=' + this.data.shopInfo.userInfoId + '&sendUser=' + res.data.id + '&otherName=' + this.data.shopInfo.name + ''
+                    });
                 })
             },
             fail: res => {

@@ -94,6 +94,12 @@ public class PharmacyInfo implements Serializable {
      */
     private Integer userId;
 
+    /**
+     * 账户ID
+     */
+    @TableField(exist = false)
+    private Integer userInfoId;
+
     @TableField(exist = false)
     private Integer pharmacyId;
 

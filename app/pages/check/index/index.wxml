@@ -5,24 +5,6 @@
     </view>
 </view>
 
-<view class="cu-bar bg-white margin-top solid-bottom" wx:if="{{ staffInfo.type == 1 }}">
-    <view class='action'>
-        <text class='icon-title text-green'></text>
-        <text style="font-size: 14px">申请成为配送员</text>
-    </view>
-    <navigator hover-class='none' url="/pages/user/audit/index">
-        <view class='action' style="font-size: 27rpx;"> 申请 <view class='icon-right'></view> </view>
-    </navigator>
-</view>
-<view class="cu-bar bg-white margin-top solid-bottom" wx:if="{{ staffInfo.type == 2 }}">
-    <view class='action'>
-        <text class='icon-title text-green'></text>
-        <text style="font-size: 14px">我的配送订单</text>
-    </view>
-    <navigator hover-class='none' url="/pages/order/staff/index">
-        <view class='action' style="font-size: 27rpx;"> 查看 <view class='icon-right'></view> </view>
-    </navigator>
-</view>
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-list text-green'></text>
@@ -32,34 +14,75 @@
     </navigator>
 </view>
 <view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
-    <view class='nav-list canui-flex-car'>
-        <navigator wx:for="{{ orderList }}" open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{ item.id }}" class="nav-li canui-yx-url">
-            <view class="flex-sub cu-card case shadow-warp bg-white">
-                <view class="cu-item shadow">
-                    <view class='image'>
+    <view class='nav-list canui-flex-car' wx:if="{{ memberData != null }}">
+        <view class="flex-sub cu-card case shadow-warp bg-white">
+            <view class="cu-item shadow">
+                <!-- <view class='image'>
                         <image src="http://127.0.0.1:9527/imagesWeb/{{ item.image }}" mode="widthFix"></image>
-                    </view>
-                    <view class="cu-list menu menu-avatar">
-                        <view class="cu-item">
-                            <view class='content flex-sub'>
-                                <view class='text-gray text-sm flex justify-between'>
-                                    <view class='text-grey' style="font-size: 12px;color: red">{{ item.afterOrderPrice }}元 </view> 
+                    </view> -->
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class='content flex-sub'>
+                            <view class='text-gray text-sm flex justify-between'>
+                                <view class='text-grey' style="font-size: 12px"> 会员有效期{{ item.price }}
                                 </view>
-                                <view class='text-gray text-sm flex justify-between'>
-                                   距离当前位置{{ item.staffKilometre }} 千米  
-                                </view>
+                            </view>
+                            <view class='text-gray text-sm flex justify-between'>
+                                {{ memberData.startDate }}
                             </view>
                         </view>
                     </view>
-                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.userImages }});"></view>
+                </view>
+                <!-- <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.userImages }});"></view> -->
+            </view>
+        </view>
+        <view class="flex-sub cu-card case shadow-warp bg-white">
+            <view class="cu-item shadow">
+                <!-- <view class='image'>
+                        <image src="http://127.0.0.1:9527/imagesWeb/{{ item.image }}" mode="widthFix"></image>
+                    </view> -->
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class='content flex-sub'>
+                            <view class='text-gray text-sm flex justify-between'>
+                                <view class='text-grey' style="font-size: 12px;"> 会员截至{{ item.price }}
+                                </view>
+                            </view>
+                            <view class='text-gray text-sm flex justify-between'>
+                                {{ memberData.endDate }}
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <!-- <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.userImages }});"></view> -->
+            </view>
+        </view>
+    </view>
+    <view style="padding: 20px;display: block" wx:if="{{memberData == null}}">
+        <view class="flex-sub text-center">
+            <view class="solid-bottom text-xl padding">
+                <text class="text-black">暂无会员信息</text>
+            </view>
+        </view>
+    </view>
+    <view class="canui-card margin-top">
+        <view wx:for="{{ orderList }}" class="canui-card-bg-img radius shadow-warp"
+            style="margin-top:10px; background-image: url('https://cdn.nlark.com/yuque/0/2019/jpeg/285274/1552962638649-assets/web-upload/25d4b7d6-e41b-431d-9b5b-43fa3b575b39.jpeg')">
+            <view class='bg-shadeTop radius' data-id="{{item.id}}" data-price="{{item.price}}" bindtap='memberBuy'>
+                <view class="canui-card-head">
+                    <text class="canui-card-name">{{ item.name }}</text>
+                    <view class="canui-card-name" style="margin-top: 10px;font-size: 13px">{{ item.remark }}
+                    </view>
+                    <view class="canui-card-name text-right" style="margin-top: 10px;font-size: 13px;width: 200px">
+                        价格：{{ item.price }} 元</view>
                 </view>
             </view>
-        </navigator>
+        </view>
     </view>
     <view style="padding: 20px;display: block" wx:if="{{orderList.length == 0}}">
         <view class="flex-sub text-center">
             <view class="solid-bottom text-xl padding">
-                <text class="text-black">暂无订单信息</text>
+                <text class="text-black">暂无会员价格信息</text>
             </view>
         </view>
     </view>

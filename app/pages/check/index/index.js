@@ -64,7 +64,9 @@ Page({
 		staffInfo: null,
 		staffData: null,
 		withdraw: null,
-		orderList: []
+		orderList: [],
+		memberData: null,
+		userData: null
 	},
 	onLoad: function () {},
 	onShow() {
@@ -176,35 +178,71 @@ Page({
 			return time;
 		}
 	},
-	home() {
-		let latitude = null;
-		let longitude = null;
+	memberBuy(e) {
+		console.log(e.currentTarget.dataset.id);
+		console.log(e.currentTarget.dataset.price);
+		if (this.data.memberData != null) {
+			wx.showToast({
+				title: '当前会员正在使用中',
+				icon: 'none',
+				duration: 1000
+			})
+			return false
+		}
 		let that = this
-		wx.getLocation({
-			type: 'wgs84',
-			success(res) {
-				console.log(res)
-				latitude = res.latitude
-				longitude = res.longitude
-				http.get('home/user', {
-					latitude,
-					longitude,
-					userId: that.data.userInfo.id
-				}).then((r) => {
-					r.orderList.forEach(item => {
-						if (item.images) {
-							item.image = item.images.split(',')[0]
+		wx.showModal({
+			title: '提示',
+			content: '是否要进行购买',
+			success: (res) => {
+				if (res.confirm) {
+					wx.getStorage({
+						key: 'userInfo',
+						success: (res) => {
+							http.get('member', {
+								totalAmount: e.currentTarget.dataset.price,
+								ruleId: e.currentTarget.dataset.id,
+								userId: res.data.id
+							}).then((r) => {
+								wx.showLoading({
+									title: '正在模拟支付',
+								})
+								setTimeout(() => {
+									wx.showToast({
+										title: '支付成功',
+										icon: 'success',
+										duration: 1000
+									})
+									that.home()
+								}, 1000)
+							})
+						},
+						fail: res => {
+							wx.showToast({
+								title: '请先进行登录',
+								icon: 'none',
+								duration: 2000
+							})
 						}
-						item.days = that.timeFormat(item.createDate)
-					});
-					that.setData({
-						withdraw: r.withdraw,
-						staffData: r.staffInfo,
-						staffInfo: r.userInfo,
-						orderList: r.orderList
 					})
-				})
+				} else if (res.cancel) {
+					console.log('用户点击取消')
+				}
 			}
+		})
+	},
+	home() {
+		http.get('queryMemberByUserId', {
+			userId: this.data.userInfo.id
+		}).then((r) => {
+			this.setData({
+				userData: r.user,
+				memberData: r.member
+			})
+		})
+		http.get('queryMemberList').then((r) => {
+			this.setData({
+				orderList: r.data
+			})
 		})
 	},
 

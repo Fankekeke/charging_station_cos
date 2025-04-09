@@ -1,6 +1,6 @@
 <!--背景效果-->
 <image
-    src="https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/abstract04.jpg"
+    src="http://127.0.0.1:9527/imagesWeb/SA1710337275322.jpg"
     mode="aspectFill" class="canui-head-vague"></image>
 <view class="canui-head-gradient"></view>
 

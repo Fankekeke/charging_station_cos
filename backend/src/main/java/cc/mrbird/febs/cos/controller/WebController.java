@@ -5,12 +5,14 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.dao.NotifyInfoMapper;
 import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
+import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpEntity;
@@ -26,6 +28,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,6 +75,15 @@ public class WebController {
 
     private final IPharmacyInfoService pharmacyInfoService;
 
+    private final IMemberInfoService memberInfoService;
+
+    private final IRuleInfoService ruleInfoService;
+
+    private final IMemberRecordInfoService memberRecordInfoService;
+
+    private final IMailService mailService;
+
+    private final TemplateEngine templateEngine;
 
     /**
      * File 转MultipartFile
@@ -285,10 +298,14 @@ public class WebController {
         // 返回数据
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
             {
-                put("shopInfo", pharmacyInfoService.getById(shopId));
+                put("shopInfo", null);
                 put("goodsList", spaceStatusInfoService.querySpaceListByShopId(shopId));
             }
         };
+        PharmacyInfo pharmacyInfo = pharmacyInfoService.getById(shopId);
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, pharmacyInfo.getUserId()));
+        pharmacyInfo.setUserInfoId(userInfo.getId());
+        result.put("shopInfo", pharmacyInfo);
         return R.ok(result);
     }
 
@@ -307,7 +324,11 @@ public class WebController {
         };
         // 获取所属商家
         SpaceInfo spaceInfo = spaceInfoService.getById(spaceId);
-        result.put("shopInfo", pharmacyInfoService.getById(spaceInfo.getPharmacyId()));
+
+        PharmacyInfo pharmacyInfo = pharmacyInfoService.getById(spaceInfo.getPharmacyId());
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserId, pharmacyInfo.getUserId()));
+        pharmacyInfo.setUserInfoId(userInfo.getId());
+        result.put("shopInfo", pharmacyInfo);
         return R.ok(result);
     }
 
@@ -719,5 +740,102 @@ public class WebController {
         exchangeInfoService.save(exchangeInfo);
         discountInfoService.save(discountInfo);
         return R.ok(userInfoService.updateById(userInfo));
+
+    }
+
+    /**
+     * 根据用户获取会员信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryMemberByUserId")
+    public R queryMemberByUserId(Integer userId) {
+        // 返回信息
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        // 用户信息
+        UserInfo userInfo = userInfoService.getById(userId);
+        result.put("user", userInfo);
+
+        // 公告信息
+        List<BulletinInfo> bulletinInfoList = bulletinInfoService.list(Wrappers.<BulletinInfo>lambdaQuery().eq(BulletinInfo::getType, 1));
+        result.put("bulletin", bulletinInfoList);
+        // 会员信息
+        List<MemberInfo> memberInfos = memberInfoService.list(Wrappers.<MemberInfo>lambdaQuery().eq(MemberInfo::getUserId, userInfo.getId()));
+        if (CollectionUtil.isNotEmpty(memberInfos)) {
+            for (MemberInfo memberInfo : memberInfos) {
+                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
+                    RuleInfo ruleInfo = ruleInfoService.getById(memberInfo.getMemberLevel());
+                    memberInfo.setRuleName(ruleInfo.getName());
+                    result.put("member", memberInfo);
+                    return R.ok(result);
+                }
+            }
+        } else {
+            result.put("member", null);
+        }
+        return R.ok(result);
+    }
+
+    /**
+     * 获取会员价格
+     *
+     * @return 结果
+     */
+    @GetMapping("/queryMemberList")
+    public R queryMemberList() {
+        return R.ok(ruleInfoService.list());
+    }
+
+    /**
+     * 购买会员
+     *
+     * @return
+     * @throws AlipayApiException
+     */
+    @GetMapping(value = "/member")
+    public R alipayMember(String totalAmount, Integer ruleId, Integer userId) throws AlipayApiException {
+        // 获取用户信息
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, userId));
+
+        // 会员订单
+        MemberRecordInfo memberRecordInfo = new MemberRecordInfo();
+        memberRecordInfo.setStatus("1");
+        memberRecordInfo.setMemberId(ruleId);
+        memberRecordInfo.setCode("MEM-" + System.currentTimeMillis());
+        memberRecordInfo.setUserId(userInfo.getId());
+        memberRecordInfo.setPrice(new BigDecimal(totalAmount));
+        memberRecordInfo.setPayDate(DateUtil.formatDateTime(new Date()));
+
+        memberRecordInfoService.save(memberRecordInfo);
+
+        // 会员信息
+        RuleInfo ruleInfo = ruleInfoService.getById(memberRecordInfo.getMemberId());
+
+        // 添加会员信息
+        MemberInfo memberInfo = new MemberInfo();
+        memberInfo.setUserId(userInfo.getId());
+        memberInfo.setMemberLevel(ruleInfo.getId().toString());
+        memberInfo.setPayDate(DateUtil.formatDateTime(new Date()));
+        memberInfo.setStartDate(DateUtil.formatDateTime(new Date()));
+        memberInfo.setEndDate(DateUtil.formatDateTime(DateUtil.offsetDay(new Date(), ruleInfo.getDays())));
+        memberInfo.setPrice(memberRecordInfo.getPrice());
+        memberInfoService.save(memberInfo);
+
+        // 发送消息
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您已缴费会员成功，会员截至 " + memberInfo.getEndDate() + "");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
+        if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+            Context context = new Context();
+            context.setVariable("today", DateUtil.formatDate(new Date()));
+            context.setVariable("custom", userInfo.getName() + "您好，您已缴费会员成功，会员截至 " + memberInfo.getEndDate() + "");
+            String emailContent = templateEngine.process("registerEmail", context);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "会员提示", emailContent);
+        }
+        return R.ok(true);
     }
 }
