@@ -13,6 +13,16 @@
     <navigator hover-class='none' url="/pages/order/staff/index">
     </navigator>
 </view>
+<view class="cu-list menu menu-avatar" wx:if="{{ userData != null }}">
+    <view class="cu-item">
+        <view class="cu-avatar radius lg"
+            style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ userData.images }});"></view>
+        <view class='content' style="margin-left: 15px">
+            <view class='text-grey'>{{ userData.name }}</view>
+            <view class='text-gray text-sm'>用户编号：{{ userData.code }}</view>
+        </view>
+    </view>
+</view>
 <view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
     <view class='nav-list canui-flex-car' wx:if="{{ memberData != null }}">
         <view class="flex-sub cu-card case shadow-warp bg-white">
