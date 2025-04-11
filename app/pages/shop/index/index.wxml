@@ -126,7 +126,7 @@
         <view class="nav-li-box">
             <view class="nav-title canui-xzwz text-sm">{{item.title}}</view>
             <view class="shop-zx">
-                <text class="text-price text-red text-xs">{{item.price}}<text style="font-size: 10px">/分钟</text></text>
+                <text class="text-price text-red text-xs">{{item.price}}<text style="font-size: 10px">/时</text></text>
                 <van-tag type="primary" wx:if="{{item.status == 0}}" style="float: right;">空闲</van-tag>
                 <van-tag type="danger" wx:if="{{item.status == 1}}" style="float: right;">使用中</van-tag>
                 <van-tag type="warning" wx:if="{{item.status == -1}}" style="float: right;">预约中</van-tag>

@@ -8,10 +8,33 @@ Page({
     hidden: true,
     name: '',
     content: '',
+    vehicleNumber: '',
+    vehicleColor: '',
+    engineNo: '',
+    vehicleType: '',
+    emissionStandard: '',
     fileList: [],
     price: 0,
     bottom: false,
-    column1: ['食品', '饮品', '药品'],
+    column1: [{
+      id: 1,
+      text: '72V以上电动车'
+    }, {
+      id: 2,
+      text: '60V-72V电动车'
+    }, {
+      id: 3,
+      text: '48V电动车'
+    }, {
+      id: 4,
+      text: '老年助力三轮车'
+    }, {
+      id: 5,
+      text: '摩托车'
+    }, {
+      id: 6,
+      text: '燃油车'
+    }],
     vaa: "",
     radio: '1',
   },
@@ -24,7 +47,10 @@ Page({
     });
   },
   onClick(event) {
-    const { name } = event.currentTarget.dataset;
+    const {
+      name
+    } = event.currentTarget.dataset;
+    console.log(name)
     this.setData({
       radio: name,
     });
@@ -50,7 +76,8 @@ Page({
   onConfirm(event) {
     console.log("confirm", event.detail.value);
     this.setData({
-      vaa: event.detail.value
+      vaa: event.detail.value.text,
+      vehicleType: event.detail.value.id
     });
     this.setData({
       bottom: false
@@ -80,7 +107,7 @@ Page({
     wx.getStorage({
       key: 'userInfo',
       success: (res) => {
-        if (this.data.name == '' || this.data.content == '' || this.data.price == 0 || this.data.vaa == '' || this.data.fileList === 0) {
+        if (this.data.name == '' || this.data.content == '' || this.data.vaa == '' || this.data.fileList === 0) {
           wx.showToast({
             title: '请完整填写！',
             icon: 'error',
@@ -91,24 +118,20 @@ Page({
           this.data.fileList.forEach(item => {
             images.push(item.url)
           });
-          let type = 0
-          switch (this.data.vaa) {
-            case '食品':
-              type = 1
-              break;
-            case '饮品':
-              type = 2
-              break;
-            case '药品':
-              type = 3
-              break;
-
-            default:
-              break;
+          let data = {
+            name: this.data.name,
+            vehicleNumber: this.data.vehicleNumber,
+            userId: res.data.id,
+            vehicleType: this.data.vehicleType,
+            vehicleColor: this.data.vehicleColor,
+            images: images.length !== 0 ? images.join(',') : null,
+            engineNo: this.data.engineNo,
+            emissionStandard: this.data.emissionStandard,
+            fuelType: this.data.fuelType,
+            content: this.data.content
           }
-          let data = { name: this.data.name, type: type, shopId: res.data.id, images: images.length !== 0 ? images.join(',') : null, price: this.data.price, onPut: this.data.radio == 1 ? 1 : 0, content: this.data.content }
           console.log(JSON.stringify(data))
-          http.post('addCommodity', data).then((r) => {
+          http.post('addVehicle', data).then((r) => {
             wx.showToast({
               title: '提交成功！',
               icon: 'success',
@@ -132,7 +155,9 @@ Page({
     })
   },
   afterRead(event) {
-    const { file } = event.detail;
+    const {
+      file
+    } = event.detail;
     let that = this
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
     wx.uploadFile({
@@ -141,9 +166,16 @@ Page({
       name: 'avatar',
       success(res) {
         // 上传完成需要更新 fileList
-        const { fileList = [] } = that.data;
-        fileList.push({ ...file, url: res.data });
-        that.setData({ fileList });
+        const {
+          fileList = []
+        } = that.data;
+        fileList.push({
+          ...file,
+          url: res.data
+        });
+        that.setData({
+          fileList
+        });
         console.log(JSON.stringify(fileList))
       },
     });

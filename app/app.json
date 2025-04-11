@@ -33,7 +33,10 @@
     "pages/user/alert/index",
     "pages/order/details/index",
     "pages/user/detail/index",
-    "pages/order/staff/index"
+    "pages/order/staff/index",
+    "pages/user/vehicle/index",
+    "pages/reserve/index/index",
+    "pages/scar/calculate/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

@@ -15,7 +15,7 @@
                   {{ item.spaceName }} | {{ item.spaceAddress }}
                   <span style="margin-left: 15px;color: orange" v-if="item.status == -1">预约中</span>
                   <span style="margin-left: 15px;color: green" v-if="item.status == 0">空闲</span>
-                  <span style="margin-left: 15px;color: red" v-if="item.status == 1">停车中</span>
+                  <span style="margin-left: 15px;color: red" v-if="item.status == 1">充电中</span>
                 </span>
               </span>
             </a-card>

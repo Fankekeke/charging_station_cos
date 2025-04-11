@@ -88,7 +88,7 @@ Page({
             show: false,
             value: ''
         },
-        spaceId: null,
+        orderId: null,
         appointmentTime: '',
         appointmentTimeShow: false,
         calculateAmountInfo: null,
@@ -98,6 +98,7 @@ Page({
             value: '',
             options: []
         },
+        orderInfo: null,
         weight: '默认30分钟',
         width: null,
         height: null
@@ -106,17 +107,12 @@ Page({
         wx.getStorage({
             key: 'userInfo',
             success: (res) => {
-                console.log(options.spaceId)
+                console.log(options.orderId)
                 this.setData({
                     userInfo: res.data,
-                    spaceId: options.spaceId
+                    orderId: options.orderId
                 })
-                this.setData({
-                    spaceId: options.spaceId
-                })
-                this.queryMemberByUserId(res.data.id);
-                this.queryVehicleListById(res.data.id);
-                this.getGoodsDetail(options.spaceId);
+                this.queryOrderDetailById(options.orderId, -1);
                 //this.getUserAddress(res.data.id)
             },
             fail: res => {
@@ -134,6 +130,28 @@ Page({
         }).then((r) => {
             this.setData({
                 vehicleData: r.data
+            })
+        })
+    },
+    queryOrderDetailById(orderId, discountId) {
+        http.get('queryOrderDetailById', {
+            orderId: orderId,
+            discountId
+        }).then((r) => {
+            r.shopInfo.image = r.shopInfo.images.split(',')[0]
+            let discountInfos = r.orderInfo.discountInfos
+            if (discountInfos) {
+                discountInfos.forEach(item => {
+                    item.text = item.couponName
+                })
+            }
+            this.setData({
+                userData: r.user,
+                memberData: r.member,
+                goods: r.spaceInfo,
+                shopInfo: r.shopInfo,
+                orderInfo: r.orderInfo,
+                'discount.options': discountInfos
             })
         })
     },
@@ -160,22 +178,22 @@ Page({
         })
     },
     calculateAmountResult() {
-        let data = {
-            userId: this.data.userInfo.id,
-            spaceId: this.data.spaceId,
-            vehicleId: this.data.goodsType.value
-        }
-        http.post('reserveAdd', data).then((r) => {
-            wx.showToast({
-                title: '预约成功',
-                icon: 'none',
-                duration: 1000
+        http.post('orderPay', this.data.orderInfo).then((r) => {
+            wx.showLoading({
+                title: '正在模拟支付',
             })
             setTimeout(() => {
-				wx.switchTab({
-					url: '/pages/user/index/index'
-				});
-			}, 1000)
+                wx.showToast({
+                    title: '支付成功',
+                    icon: 'success',
+                    duration: 1000
+                })
+                setTimeout(() => {
+                    wx.switchTab({
+                        url: '/pages/user/index/index'
+                    });
+                }, 1000)
+            }, 1000)
         })
     },
     afterRead(event) {
@@ -297,7 +315,7 @@ Page({
                 'discount.value': e.detail.value.id,
                 'discount.show': false
             })
-            this.calculateAmountResult()
+            this.queryOrderDetailById(this.data.orderId, e.detail.value.id)
         }
     },
     onConfirm(event) {

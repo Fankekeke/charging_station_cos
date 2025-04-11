@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author Fank gmail - fan1ke2ke@gmail.com
@@ -21,4 +22,12 @@ public interface IReserveInfoService extends IService<ReserveInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectReservePage(Page<ReserveInfo> page, ReserveInfo reserveInfo);
+
+    /**
+     * 获取预约列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryReserveList(Integer userId);
 }

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author Fank gmail - fan1ke2ke@gmail.com
@@ -26,5 +27,16 @@ public class ReserveInfoServiceImpl extends ServiceImpl<ReserveInfoMapper, Reser
     @Override
     public IPage<LinkedHashMap<String, Object>> selectReservePage(Page<ReserveInfo> page, ReserveInfo reserveInfo) {
         return baseMapper.selectReservePage(page, reserveInfo);
+    }
+
+    /**
+     * 获取预约列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> queryReserveList(Integer userId) {
+        return baseMapper.queryReserveList(userId);
     }
 }

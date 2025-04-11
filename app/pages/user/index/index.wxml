@@ -15,6 +15,12 @@
 </view>
 <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
     <view class="cu-item arrow">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/reserve/index/index">
+            <text class='icon-time text-cyan'></text>
+            <text class='text-grey'>预约订单</text>
+        </navigator>
+    </view>
+    <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/index/index">
             <text class='icon-send text-cyan'></text>
             <text class='text-grey'>我的订单</text>
@@ -48,6 +54,12 @@
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/user/address/index">
             <text class='icon-check text-orange'></text>
             <text class='text-grey'>投诉管理</text>
+        </navigator>
+    </view>
+    <view class="cu-item arrow">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/user/vehicle/index">
+            <text class='icon-goods text-orange'></text>
+            <text class='text-grey'>我的车辆</text>
         </navigator>
     </view>
     <view class="cu-item arrow">

@@ -55,6 +55,17 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
     }
 
     /**
+     * 获取订单列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> queryOrderList(Integer userId) {
+        return baseMapper.queryOrderList(userId);
+    }
+
+    /**
      * 查询主页信息
      *
      * @return 结果
@@ -119,18 +130,19 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
         // 获取用户会员信息
         List<MemberInfo> memberInfos = memberInfoService.list(Wrappers.<MemberInfo>lambdaQuery().eq(MemberInfo::getUserId, userInfo.getId()));
         boolean isMember = false;
-        if (CollectionUtil.isNotEmpty(memberInfos)) {
-            for (MemberInfo memberInfo : memberInfos) {
-                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
-                    isMember = true;
-                }
-            }
-        }
+//        if (CollectionUtil.isNotEmpty(memberInfos)) {
+//            for (MemberInfo memberInfo : memberInfos) {
+//                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
+//                    isMember = true;
+//                }
+//            }
+//        }
 
         orderInfo.setEndDate(DateUtil.formatDateTime(new Date()));
         // 充电总时常
         long totalTime = DateUtil.between(DateUtil.parseDateTime(orderInfo.getStartDate()), DateUtil.parseDateTime(orderInfo.getEndDate()), DateUnit.MINUTE);
         orderInfo.setTotalTime(BigDecimal.valueOf(totalTime));
+        orderInfo.setMemberFlag(isMember);
         // 总价格
         if (isMember) {
             orderInfo.setTotalPrice(BigDecimal.ZERO);
@@ -161,7 +173,7 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
 
         // 判断是有可用优惠券
         List<DiscountInfo> discountInfoList = discountInfoService.list(Wrappers.<DiscountInfo>lambdaQuery().eq(DiscountInfo::getUserId, userInfo.getId()).eq(DiscountInfo::getStatus, "0"));
-        if (CollectionUtil.isNotEmpty(discountInfoList)) {
+        if (CollectionUtil.isNotEmpty(discountInfoList) && !isMember) {
             List<DiscountInfo> discount1s = discountInfoList.stream().filter(e -> "2".equals(e.getType())).collect(Collectors.toList());
             List<DiscountInfo> discount2s = discountInfoList.stream().filter(e -> "1".equals(e.getType()) && orderInfo.getTotalPrice().compareTo(e.getThreshold()) >= 0).collect(Collectors.toList());
 

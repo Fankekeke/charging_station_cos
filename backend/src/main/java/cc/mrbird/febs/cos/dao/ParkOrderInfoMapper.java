@@ -25,6 +25,14 @@ public interface ParkOrderInfoMapper extends BaseMapper<ParkOrderInfo> {
     IPage<LinkedHashMap<String, Object>> selectOrderPage(Page<ParkOrderInfo> page, @Param("parkOrderInfo") ParkOrderInfo parkOrderInfo);
 
     /**
+     * 获取订单列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryOrderList(@Param("userId") Integer userId);
+
+    /**
      * 本月收益
      *
      * @return 结果

@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -46,6 +47,8 @@ public class WebController {
     private final IComplaintInfoService complaintInfoService;
 
     private final IBulletinInfoService bulletinInfoService;
+
+    private final IParkOrderInfoService parkOrderInfoService;
 
     private final IDiscountInfoService discountInfoService;
 
@@ -84,6 +87,10 @@ public class WebController {
     private final IMailService mailService;
 
     private final TemplateEngine templateEngine;
+
+    private final IVehicleInfoService vehicleInfoService;
+
+    private final IReserveInfoService reserveInfoService;
 
     /**
      * File 转MultipartFile
@@ -340,7 +347,7 @@ public class WebController {
      */
     @GetMapping("/queryMessageByUser")
     public R queryMessageByUser(@RequestParam("userId") Integer userId) {
-        return R.ok(mobileInfoMapper.selectList(Wrappers.<NotifyInfo>lambdaQuery().eq(NotifyInfo::getUserId, userId)));
+        return R.ok(mobileInfoMapper.selectList(Wrappers.<NotifyInfo>lambdaQuery().eq(NotifyInfo::getUserId, userId).orderByDesc(NotifyInfo::getCreateDate)));
     }
 
     /**
@@ -836,6 +843,307 @@ public class WebController {
             String emailContent = templateEngine.process("registerEmail", context);
             mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "会员提示", emailContent);
         }
+        return R.ok(true);
+    }
+
+    /**
+     * 获取用户车辆信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryVehicleListById")
+    public R queryVehicleListById(Integer userId) {
+        return R.ok(vehicleInfoService.list(Wrappers.<VehicleInfo>lambdaQuery().eq(VehicleInfo::getUserId, userId)));
+    }
+
+    /**
+     * 获取用户车辆信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryVehicleLessListById")
+    public R queryVehicleLessListById(Integer userId) {
+        List<VehicleInfo> vehicleInfos = vehicleInfoService.list(Wrappers.<VehicleInfo>lambdaQuery().eq(VehicleInfo::getUserId, userId));
+        if (CollectionUtil.isEmpty(vehicleInfos)) {
+            return R.ok(Collections.emptyList());
+        }
+        List<LinkedHashMap<String, Object>> result = new ArrayList<>();
+        vehicleInfos.forEach(e -> {
+            LinkedHashMap<String, Object> item = new LinkedHashMap<String, Object>() {
+                {
+                    put("text", e.getVehicleNumber());
+                    put("id", e.getId());
+                }
+            };
+            result.add(item);
+        });
+        return R.ok(result);
+    }
+
+    /**
+     * 添加用户车辆信息
+     *
+     * @param vehicleInfo 车辆信息
+     * @return 结果
+     */
+    @PostMapping("/addVehicle")
+    public R addVehicle(@RequestBody VehicleInfo vehicleInfo) {
+        vehicleInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        vehicleInfo.setVehicleNo("AD-" + System.currentTimeMillis());
+        vehicleInfoService.save(vehicleInfo);
+        return R.ok(true);
+    }
+
+    /**
+     * 删除用户车辆信息
+     *
+     * @param vehicleId 车辆ID
+     * @return 结果
+     */
+    @GetMapping("/deleteVehicle")
+    public R deleteVehicle(Integer vehicleId) {
+        vehicleInfoService.removeById(vehicleId);
+        return R.ok(true);
+    }
+
+    /**
+     * 新增充电桩预约信息
+     *
+     * @param reserveInfo 充电桩预约信息
+     * @return 结果
+     */
+    @PostMapping("/reserveAdd")
+    @Transactional(rollbackFor = Exception.class)
+    public R reserveAdd(@RequestBody ReserveInfo reserveInfo) throws FebsException {
+        // 判断此车辆是否可预约
+        List<ParkOrderInfo> orderInfoList = parkOrderInfoService.list(Wrappers.<ParkOrderInfo>lambdaQuery().eq(ParkOrderInfo::getVehicleId, reserveInfo.getVehicleId()).eq(ParkOrderInfo::getStatus, "0"));
+        if (CollectionUtil.isNotEmpty(orderInfoList)) {
+            throw new FebsException("此车辆正在充电中或有未缴费订单");
+        }
+
+        // 是否正在预约中
+        List<ReserveInfo> reserveInfoList = reserveInfoService.list(Wrappers.<ReserveInfo>lambdaQuery().eq(ReserveInfo::getVehicleId, reserveInfo.getVehicleId()).eq(ReserveInfo::getStatus, "1"));
+        if (CollectionUtil.isNotEmpty(reserveInfoList)) {
+            throw new FebsException("此车辆已预约");
+        }
+
+        reserveInfo.setStartDate(DateUtil.formatDateTime(new Date()));
+        // 预约结束时间
+        reserveInfo.setEndDate(DateUtil.formatDateTime(DateUtil.offsetMinute(new Date(), 30)));
+        reserveInfo.setStatus("1");
+
+        // 充电桩状态更新
+        SpaceStatusInfo statusInfo = spaceStatusInfoService.getOne(Wrappers.<SpaceStatusInfo>lambdaQuery().eq(SpaceStatusInfo::getSpaceId, reserveInfo.getSpaceId()));
+        statusInfo.setStatus("-1");
+        spaceStatusInfoService.updateById(statusInfo);
+
+        // 车辆信息
+        VehicleInfo vehicleInfo = vehicleInfoService.getById(reserveInfo.getVehicleId());
+
+        // 用户信息
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, reserveInfo.getUserId()));
+
+        // 发送消息
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您预定充电桩已预定成功，截至" + reserveInfo.getEndDate() + "失效");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
+        if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+            Context context = new Context();
+            context.setVariable("today", DateUtil.formatDate(new Date()));
+            context.setVariable("custom", userInfo.getName() + " 您好，您的" + (vehicleInfo != null ? vehicleInfo.getVehicleNumber() : "") + "预定充电桩已预定成功，截至" + reserveInfo.getEndDate() + "失效");
+            String emailContent = templateEngine.process("registerEmail", context);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "预定提示", emailContent);
+        }
+
+        return R.ok(reserveInfoService.save(reserveInfo));
+    }
+
+    /**
+     * 获取预约列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryReserveList")
+    public R queryReserveList(Integer userId) {
+        return R.ok(reserveInfoService.queryReserveList(userId));
+    }
+
+    /**
+     * 新增订单信息
+     *
+     * @param parkOrderInfo 订单信息
+     * @return 结果
+     */
+    @PostMapping("/orderAdd")
+    @Transactional(rollbackFor = Exception.class)
+    public R orderAdd(@RequestBody ParkOrderInfo parkOrderInfo) throws FebsException {
+        // 校验车辆是否可以添加订单
+        List<ParkOrderInfo> orderInfoList = parkOrderInfoService.list(Wrappers.<ParkOrderInfo>lambdaQuery().eq(ParkOrderInfo::getVehicleId, parkOrderInfo.getVehicleId()).eq(ParkOrderInfo::getStatus, "0"));
+        if (CollectionUtil.isNotEmpty(orderInfoList)) {
+            throw new FebsException("此车辆正在充电中或有未缴费订单");
+        }
+
+        // 是否正在预约中
+        if (parkOrderInfo.getReserveId() != null) {
+            ReserveInfo reserveInfo = reserveInfoService.getById(parkOrderInfo.getReserveId());
+            reserveInfo.setStatus("0");
+            reserveInfoService.updateById(reserveInfo);
+        }
+
+        // 充电桩信息
+        SpaceInfo spaceInfo = spaceInfoService.getById(parkOrderInfo.getSpaceId());
+
+        // 更新充电桩状态
+        spaceStatusInfoService.update(Wrappers.<SpaceStatusInfo>lambdaUpdate().set(SpaceStatusInfo::getStatus, "1").eq(SpaceStatusInfo::getSpaceId, spaceInfo.getId()));
+
+        // 车辆信息
+        VehicleInfo vehicleInfo = vehicleInfoService.getById(parkOrderInfo.getVehicleId());
+        // 用户信息
+        UserInfo userInfo = userInfoService.getById(parkOrderInfo.getUserId());
+        parkOrderInfo.setCode("ORD-" + System.currentTimeMillis());
+
+        // 发送消息
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您的订单 “" + parkOrderInfo.getCode() + "”已生成，请注意查看");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+
+        if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+            Context context = new Context();
+            context.setVariable("today", DateUtil.formatDate(new Date()));
+            context.setVariable("custom", userInfo.getName() + " 您好。您的充电订单已生成，请注意查看");
+            String emailContent = templateEngine.process("registerEmail", context);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "充电桩订单提示", emailContent);
+        }
+
+        // 订单信息
+        parkOrderInfo.setPrice(spaceInfo.getPrice());
+        parkOrderInfo.setPharmacyId(spaceInfo.getPharmacyId());
+        parkOrderInfo.setStatus("0");
+        parkOrderInfo.setStartDate(DateUtil.formatDateTime(new Date()));
+        parkOrderInfo.setUserId(userInfo.getId());
+        return R.ok(parkOrderInfoService.save(parkOrderInfo));
+    }
+
+    /**
+     * 获取订单列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryOrderList")
+    public R queryOrderList(Integer userId) {
+        return R.ok(parkOrderInfoService.queryOrderList(userId));
+    }
+
+    /**
+     * 获取订单详情
+     *
+     * @param orderId 订单ID
+     * @return 结果
+     */
+    @GetMapping("/queryOrderDetailById")
+    public R queryOrderDetailById(Integer orderId, @RequestParam(value = "discountId", required = false) Integer discountId) throws FebsException {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        ParkOrderInfo parkOrderInfo = parkOrderInfoService.getById(orderId);
+
+        // 用户信息
+        UserInfo userInfo = userInfoService.getById(parkOrderInfo.getUserId());
+        result.put("user", userInfo);
+
+        // 会员信息
+        List<MemberInfo> memberInfos = memberInfoService.list(Wrappers.<MemberInfo>lambdaQuery().eq(MemberInfo::getUserId, userInfo.getId()));
+        if (CollectionUtil.isNotEmpty(memberInfos)) {
+            for (MemberInfo memberInfo : memberInfos) {
+                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
+                    RuleInfo ruleInfo = ruleInfoService.getById(memberInfo.getMemberLevel());
+                    memberInfo.setRuleName(ruleInfo.getName());
+                    result.put("member", memberInfo);
+                }
+            }
+        } else {
+            result.put("member", null);
+        }
+
+        result.put("spaceInfo", spaceStatusInfoService.getGoodsDetail(parkOrderInfo.getSpaceId()));
+        // 获取所属商家
+        SpaceInfo spaceInfo = spaceInfoService.getById(parkOrderInfo.getSpaceId());
+
+        PharmacyInfo pharmacyInfo = pharmacyInfoService.getById(spaceInfo.getPharmacyId());
+        pharmacyInfo.setUserInfoId(userInfo.getId());
+        result.put("shopInfo", pharmacyInfo);
+
+        if (discountId != -1) {
+            parkOrderInfo.setDiscountId(discountId);
+        }
+        result.put("orderInfo", parkOrderInfoService.getPriceTotal(parkOrderInfo));
+
+        return R.ok(result);
+    }
+
+    /**
+     * 订单支付
+     *
+     * @param parkOrderInfo 订单信息
+     * @return 结果
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @PostMapping("/orderPay")
+    public R orderPay(@RequestBody ParkOrderInfo parkOrderInfo) {
+        // 充电订单
+        parkOrderInfo.setPayDate(DateUtil.formatDateTime(new Date()));
+        // 状态变更
+        parkOrderInfo.setStatus("1");
+
+        // 判断是否使用优惠券
+        if (parkOrderInfo.getDiscountId() != null) {
+            // 更新优惠券状态
+            DiscountInfo discountInfo = discountInfoService.getOne(Wrappers.<DiscountInfo>lambdaQuery().eq(DiscountInfo::getId, parkOrderInfo.getDiscountId()));
+            discountInfo.setStatus("1");
+            discountInfoService.updateById(discountInfo);
+        }
+
+        // 更新充电桩状态
+        spaceStatusInfoService.update(Wrappers.<SpaceStatusInfo>lambdaUpdate().set(SpaceStatusInfo::getStatus, "0").eq(SpaceStatusInfo::getSpaceId, parkOrderInfo.getSpaceId()));
+
+        // 获取用户信息
+        UserInfo userInfo = userInfoService.getOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getId, parkOrderInfo.getUserId()));
+        // 发送消息
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setUserId(userInfo.getId());
+        notifyInfo.setContent("您好，您的订单 " + parkOrderInfo.getCode() + "已缴费成功，祝您一路顺风");
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfoService.save(notifyInfo);
+        if (StrUtil.isNotEmpty(userInfo.getEmail())) {
+            Context context = new Context();
+            context.setVariable("today", DateUtil.formatDate(new Date()));
+            context.setVariable("custom", userInfo.getName() + " 您好，您的订单 " + parkOrderInfo.getCode() + "已缴费成功，祝您一路顺风");
+            String emailContent = templateEngine.process("registerEmail", context);
+            mailService.sendHtmlMail(userInfo.getEmail(), DateUtil.formatDate(new Date()) + "缴费提示", emailContent);
+        }
+        // 用户添加积分
+        if (userInfo.getIntegral() == null) {
+            userInfo.setIntegral(BigDecimal.ZERO);
+        }
+        userInfo.setIntegral(NumberUtil.add(userInfo.getIntegral(), parkOrderInfo.getAfterOrderPrice()));
+        userInfoService.updateById(userInfo);
+        // 添加缴费记录
+        PaymentRecord paymentRecord = new PaymentRecord();
+        paymentRecord.setUserCode(userInfo.getCode());
+        paymentRecord.setOrderCode(parkOrderInfo.getCode());
+        paymentRecord.setAmount(parkOrderInfo.getAfterOrderPrice());
+        paymentRecord.setMerchantId(parkOrderInfo.getPharmacyId());
+        paymentRecord.setCreateDate(DateUtil.formatDateTime(new Date()));
+        paymentRecordService.save(paymentRecord);
+        parkOrderInfoService.updateById(parkOrderInfo);
         return R.ok(true);
     }
 }

@@ -155,7 +155,7 @@ export default {
             case '0':
               return <a-tag color="green">空闲</a-tag>
             case '1':
-              return <a-tag color="red">停车中</a-tag>
+              return <a-tag color="red">充电中</a-tag>
             default:
               return '- -'
           }

@@ -5,13 +5,16 @@ Page({
         StatusBar: app.globalData.StatusBar,
         CustomBar: app.globalData.CustomBar,
         TabbarBot: app.globalData.tabbar_bottom,
-        TabCur: 0,
+        TabCur: 1,
         scrollLeft: 0,
         SortMenu: [{
-            id: 0,
+            id: 1,
             name: "充电中"
         }, {
-            id: 1,
+            id: 2,
+            name: "未支付"
+        }, {
+            id: 3,
             name: "已完成"
         }],
         userInfo: null,
@@ -46,36 +49,27 @@ Page({
         })
     },
     afterRead(event) {
-        const {
-            file
-        } = event.detail;
+        const { file } = event.detail;
         let that = this
         // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
         wx.uploadFile({
-            url: 'http://127.0.0.1:9527/file/fileUpload', // 仅为示例，非真实的接口地址
-            filePath: file.url,
-            name: 'avatar',
-            success(res) {
-                // 上传完成需要更新 fileList
-                const {
-                    fileList = []
-                } = that.data;
-                fileList.push({
-                    ...file,
-                    url: res.data
-                });
-                that.setData({
-                    fileList
-                });
-            },
+          url: 'http://127.0.0.1:9527/file/fileUpload', // 仅为示例，非真实的接口地址
+          filePath: file.url,
+          name: 'avatar',
+          success(res) {
+            // 上传完成需要更新 fileList
+            const { fileList = [] } = that.data;
+            fileList.push({ ...file, url: res.data });
+            that.setData({ fileList });
+          },
         });
-    },
+      },
     evaluateChange(event) {
         this.setData({
-            rate: event.detail,
+          rate: event.detail,
         });
         console.log(this.data.rate)
-    },
+      },
     getOrderByUserId(userId) {
         http.get('getOrderByUserId', {
             userId
@@ -110,33 +104,35 @@ Page({
     },
     receipt: function (e) {
         console.log(e.currentTarget.dataset.index)
-        wx.navigateTo({
-            url: '/pages/scar/calculate/index?orderId=' + e.currentTarget.dataset.index
-        });
-        // wx.showModal({
-        //     title: '提示',
-        //     content: '确定要完成充电吗？',
-        //     success: (sm) => {
-        //         if (sm.confirm) {
-        //             http.get('receipt', {
-        //                 orderId: e.currentTarget.dataset['index']
-        //             }).then((r) => {
-        //                 wx.showToast({
-        //                     title: '运输结束',
-        //                     icon: 'success',
-        //                     duration: 1000
-        //                 })
-        //                 setTimeout(() => {
-        //                     this.getOrderListByUserId(this.data.userInfo.id)
-        //                 }, 1000)
-        //             })
-        //         } else if (sm.cancel) {
-        //             console.log('用户点击取消')
-        //         }
-        //     }
-        // })
+        let data = {
+            spaceId: e.currentTarget.dataset.index.spaceId,
+            vehicleId: e.currentTarget.dataset.index.vehicleId,
+            reserveId: e.currentTarget.dataset.index.id,
+            content: '开始充电时间：' + e.currentTarget.dataset.index.startDate + ' - ' + '开始结束时间：' + e.currentTarget.dataset.index.endDate,
+            userId: this.data.userInfo.id
+        }
+        wx.showModal({
+            title: '提示',
+            content: '确定要开始充电吗？',
+            success: (sm) => {
+                if (sm.confirm) {
+                    http.post('orderAdd', data).then((r) => {
+                        wx.showToast({
+                            title: '开始充电',
+                            icon: 'success',
+                            duration: 1000
+                        })
+                        setTimeout(() => {
+                            this.getOrderListByUserId(this.data.userInfo.id)
+                        }, 1000)
+                    })
+                } else if (sm.cancel) {
+                    console.log('用户点击取消')
+                }
+            }
+        })
     },
-    complaintSubmit() {
+    complaintSubmit () {
         if (this.data.complaintRemarks != '') {
             http.get('complaintAdd', {
                 orderId: this.data.orderId,
@@ -245,7 +241,7 @@ Page({
         }
     },
     getOrderListByUserId(userId) {
-        http.get('queryOrderList', {
+        http.get('queryReserveList', {
             userId
         }).then((r) => {
             r.data.forEach(item => {
@@ -253,18 +249,10 @@ Page({
                 if (item.merchantImages) {
                     item.image = item.merchantImages.split(',')[0]
                 }
-                item.days = this.timeFormat(item.startDate)
             });
-
-            let orderList = []
-            r.data.forEach(item => {
-                if (item.status == 0) {
-                    orderList.push(item)
-                }
-            });
+            
             this.setData({
-                orderList: orderList,
-                orderListCopy: r.data
+                orderList: r.data
             })
         })
     },
@@ -280,15 +268,15 @@ Page({
         //     })
         // }
         let orderList = []
-        this.data.orderListCopy.forEach(item => {
-            if (item.status == e.currentTarget.dataset.id) {
-                orderList.push(item)
-            }
-        });
-        this.setData({
-            orderList
-        })
-        console.log(this.data.orderList)
+            this.data.orderListCopy.forEach(item => {
+                if (item.status == e.currentTarget.dataset.id) {
+                    orderList.push(item)
+                }
+            });
+            this.setData({
+                orderList
+            })
+            console.log(this.data.orderList)
 
         // if (e.currentTarget.dataset.id == 1) {
         //     let orderList = []

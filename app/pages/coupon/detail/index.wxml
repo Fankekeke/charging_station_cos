@@ -21,7 +21,7 @@
                 <view class="cu-item shadow" style="padding-top: 15px">
                     <view class="cu-list menu-avatar">
                         <view class="cu-item">
-                            <view class="cu-avatar radius lg" style="background-image:url({{postInfo.avatar}});"></view>
+                            <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{postInfo.avatar}});"></view>
                             <view class="content flex-sub" style="margin-left: 10px">
                                 <view>{{postInfo.userName}}</view>
                                 <view class="text-gray text-sm flex justify-between" style="margin-top: 8px">
@@ -41,7 +41,7 @@
                     </view>
                     <view class="cu-list menu-avatar comment solids-top">
                         <view class="cu-item" wx:for="{{replyInfo}}">
-                            <view class="cu-avatar round" style="background-image:url({{item.avatar}});"></view>
+                            <view class="cu-avatar round" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item.avatar}});"></view>
                             <view class="content">
                                 <view class="text-grey">{{item.userName}}</view>
                                 <view class="text-gray text-content text-df">{{item.content}}</view>

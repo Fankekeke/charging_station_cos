@@ -12,7 +12,7 @@
 </view>
 <!-- 商品价格 -->
 <view class="bg-white canui-goods-box" style="padding-top:30rpx;">
-    <text class="text-price text-red text-xl"><text style="font-size: 13px">单价/分钟：</text>{{ goods.price }}元</text>
+    <text class="text-price text-red text-xl"><text style="font-size: 13px">单价/时：</text>{{ goods.price }}元</text>
 </view>
 <!-- 商品名称 -->
 <view class="bg-white canui-goods-box canui-xzwz text-black">
@@ -106,10 +106,9 @@
         购物车
     </view> -->
     <view class='btn-group'>
-        <!-- <button class='cu-btn bg-orange round shadow-blur' bindtap='addCart'>加入购物车</button> -->
-        <van-button type="info" size="normal" style="width: 45%" block bind:click="buyGoods" color="#6e5c08ef">充电
-        </van-button>
-        <van-button type="info" size="normal" style="width: 45%" block bind:click="buyGoods" color="#6e5c08ef">预约
+        <!-- <van-button type="info" size="normal" style="width: 45%" block bind:click="buyGoods" color="#6e5c08ef">充电
+        </van-button> -->
+        <van-button type="info" size="normal" style="width: 85%" block bind:click="reserveGoods" color="#6e5c08ef">预约充电
         </van-button>
     </view>
 </view>

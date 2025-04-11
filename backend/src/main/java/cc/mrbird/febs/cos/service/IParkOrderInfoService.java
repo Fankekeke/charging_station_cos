@@ -27,6 +27,14 @@ public interface IParkOrderInfoService extends IService<ParkOrderInfo> {
     IPage<LinkedHashMap<String, Object>> selectOrderPage(Page<ParkOrderInfo> page, ParkOrderInfo parkOrderInfo);
 
     /**
+     * 获取订单列表
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryOrderList(Integer userId);
+
+    /**
      * 查询主页信息
      *
      * @return 结果

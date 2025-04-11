@@ -136,7 +136,40 @@ Page({
             })
         }
     },
+    reserveGoods() {
+        if (this.data.goods.status != 0) {
+            wx.showToast({
+                title: '当前充电桩已被使用',
+                icon: 'none',
+                duration: 1000
+            })
+            return false
+        }
+        wx.getStorage({
+            key: 'userInfo',
+            success: (res) => {
+                wx.navigateTo({
+                    url: '/pages/scar/order/index?spaceId=' + this.data.commoditId
+                });
+            },
+            fail: res => {
+                wx.showToast({
+                    title: '请先进行登录',
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        })
+    },
     buyGoods() {
+        if (this.data.goods.status != 0) {
+            wx.showToast({
+                title: '当前充电桩已被使用',
+                icon: 'none',
+                duration: 1000
+            })
+            return false
+        }
         wx.getStorage({
             key: 'userInfo',
             success: (res) => {

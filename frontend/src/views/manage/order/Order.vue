@@ -39,7 +39,7 @@
     </div>
     <div>
       <div class="operator">
-        <a-button type="primary" ghost @click="add">新增</a-button>
+<!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
         <a-button @click="batchDelete">删除</a-button>
       </div>
       <!-- 表格区域 -->
@@ -53,7 +53,7 @@
                :scroll="{ x: 900 }"
                @change="handleTableChange">
         <template slot="operation" slot-scope="text, record">
-          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="orderOverViewOpen(record)" title="订单结算" v-if="record.endDate == null"></a-icon>
+<!--          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="orderOverViewOpen(record)" title="订单结算" v-if="record.endDate == null"></a-icon>-->
           <a-icon type="control" theme="twoTone" @click="download(record)" title="下 载" style="margin-left: 15px" v-if="record.status == 1"></a-icon>
           <a-icon type="file-search" @click="orderViewOpen(record)" title="详 情" style="margin-left: 15px"></a-icon>
         </template>
@@ -144,6 +144,18 @@ export default {
         ellipsis: true,
         dataIndex: 'name'
       }, {
+        title: '用户头像',
+        dataIndex: 'images',
+        customRender: (text, record, index) => {
+          if (!record.images) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images.split(',')[0] } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images.split(',')[0] } />
+          </a-popover>
+        }
+      }, {
         title: '车牌号码',
         dataIndex: 'vehicleNumber',
         ellipsis: true,
@@ -153,18 +165,6 @@ export default {
           } else {
             return '- -'
           }
-        }
-      }, {
-        title: '车辆图片',
-        dataIndex: 'vehicleImages',
-        customRender: (text, record, index) => {
-          if (!record.vehicleImages) return <a-avatar shape="square" icon="user" />
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.vehicleImages.split(',')[0] } />
-            </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.vehicleImages.split(',')[0] } />
-          </a-popover>
         }
       }, {
         title: '充电桩名称',

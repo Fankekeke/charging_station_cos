@@ -60,6 +60,9 @@ public class ParkOrderInfo implements Serializable {
      */
     private BigDecimal totalTime;
 
+    @TableField(exist = false)
+    private boolean memberFlag;
+
     /**
      * 充电桩单价
      */
@@ -84,6 +87,11 @@ public class ParkOrderInfo implements Serializable {
     private Integer pharmacyId;
 
     @TableField(exist = false)
+    private Integer reserveId;
+
+    private Integer userId;
+
+    @TableField(exist = false)
     private boolean useDiscount;
 
     /**
@@ -99,9 +107,6 @@ public class ParkOrderInfo implements Serializable {
 
     @TableField(exist = false)
     private String vehicleNumber;
-
-    @TableField(exist = false)
-    private Integer userId;
 
     @TableField(exist = false)
     private List<DiscountInfo> discountInfos;

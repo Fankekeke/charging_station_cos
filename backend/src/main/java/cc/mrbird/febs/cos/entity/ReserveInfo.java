@@ -37,6 +37,7 @@ public class ReserveInfo implements Serializable {
      * 车辆ID
      */
     private Integer vehicleId;
+    private Integer userId;
 
     /**
      * 开始预约时间
@@ -61,9 +62,6 @@ public class ReserveInfo implements Serializable {
 
     @TableField(exist = false)
     private String vehicleNumber;
-
-    @TableField(exist = false)
-    private Integer userId;
 
     @TableField(exist = false)
     private Integer pharmacyId;
