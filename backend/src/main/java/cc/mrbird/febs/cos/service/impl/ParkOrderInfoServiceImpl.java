@@ -130,13 +130,13 @@ public class ParkOrderInfoServiceImpl extends ServiceImpl<ParkOrderInfoMapper, P
         // 获取用户会员信息
         List<MemberInfo> memberInfos = memberInfoService.list(Wrappers.<MemberInfo>lambdaQuery().eq(MemberInfo::getUserId, userInfo.getId()));
         boolean isMember = false;
-//        if (CollectionUtil.isNotEmpty(memberInfos)) {
-//            for (MemberInfo memberInfo : memberInfos) {
-//                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
-//                    isMember = true;
-//                }
-//            }
-//        }
+        if (CollectionUtil.isNotEmpty(memberInfos)) {
+            for (MemberInfo memberInfo : memberInfos) {
+                if (DateUtil.isIn(new Date(), DateUtil.parseDateTime(memberInfo.getStartDate()), DateUtil.parseDateTime(memberInfo.getEndDate()))) {
+                    isMember = true;
+                }
+            }
+        }
 
         orderInfo.setEndDate(DateUtil.formatDateTime(new Date()));
         // 充电总时常
