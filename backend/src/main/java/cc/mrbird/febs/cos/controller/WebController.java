@@ -600,6 +600,7 @@ public class WebController {
         evaluation.setOrderCode(orderInfo.getCode());
         evaluation.setUserId(userInfo.getId());
         evaluation.setCreateDate(DateUtil.formatDateTime(new Date()));
+        evaluation.setScore(evaluation.getOverScore());
         return R.ok(evaluationService.save(evaluation));
     }
 

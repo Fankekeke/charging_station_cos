@@ -98,7 +98,11 @@
         pi.name as merchantName,
         pi.phone as merchantPhone,
         pi.images as merchantImages,
-        pi.address
+        pi.address,
+        ei.id as evaluateId,
+        ei.content as evaluationContent,
+        ci.id as complaintId,
+        ci.status as complaintStatus
         from
         park_order_info poi
         left join space_info si on
@@ -107,6 +111,8 @@
         (vi.id = poi.vehicle_id)
         left join user_info ui on
         (ui.id = poi.user_id)
+        left join evaluate_info ei on (ei.order_id = poi.id)
+        left join complaint_info ci on (ci.order_code = poi.code)
         left join pharmacy_info pi on (pi.id = si.pharmacy_id)
         where
         1 = 1

@@ -22,24 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b51975f-5e37-45a1-bd9d-0f3c12f944d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../app/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../app/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/goods/add/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/goods/add/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/goods/add/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/goods/add/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/shop/goods/details.js" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/goods/details.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/shop/goods/details.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/pages/user/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../app/pages/user/index/index.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/cc/mrbird/febs/cos/controller/WebController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/admin/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin/order/Order.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/admin/spaceStatus/SpaceStatus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin/spaceStatus/SpaceStatus.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/manage/component/work/Work.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/component/work/Work.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/manage/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/order/Order.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/manage/space/Space.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/space/Space.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/manage/spaceStatus/SpaceStatus.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/spaceStatus/SpaceStatus.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/manage/staff/Staff.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/manage/staff/Staff.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/statistics/check/Check.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/statistics/check/Check.vue" afterDir="false" />
-    </list>
+    <list default="true" id="2b51975f-5e37-45a1-bd9d-0f3c12f944d0" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,21 +50,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "G:/Project/电子商城/shop/shop-admin",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Project/电子商城/shop/shop-admin&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Project\20250321充电桩小程序\charging_station_cos\frontend\src\views\admin\chat" />
@@ -238,6 +221,7 @@
       <workItem from="1744157028480" duration="8038000" />
       <workItem from="1744292663301" duration="683000" />
       <workItem from="1744330263543" duration="11097000" />
+      <workItem from="1744417470758" duration="779000" />
     </task>
     <servers />
   </component>

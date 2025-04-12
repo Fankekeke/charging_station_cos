@@ -16,16 +16,14 @@
             <view>
                 <view class="cu-list menu menu-avatar">
                     <view class="cu-item">
-                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.merchantImages }});"></view>
                         <view class='content canui-xzwz tow' style="padding-left: 15px">
-                            {{ item.userName }}
-                            <!-- <view style="font-size: 12px" wx:if="{{ item.type == 1 }}">食品</view>
-                            <view style="font-size: 12px" wx:if="{{ item.type == 2 }}">饮品</view>
-                            <view style="font-size: 12px" wx:if="{{ item.type == 3 }}">药品</view> -->
+                            {{ item.merchantName }}
+                            <view style="font-size: 12px;margin-top: 6px">投诉电话：{{ item.merchantPhone }}</view>
                         </view>
                         <view class='action' style="padding-left: 15px;">
-                            <view class="text-xs text-right text-gray" style="font-size: 12px">负责人 {{ item.principal }} </view>
-                            <view class="text-xs text-right text-gray" style="font-size: 12px">{{ item.merchantPhone }} </view>
+                            <view class="text-xs text-right text-gray" style="font-size: 12px"> {{ item.userName }} </view>
+                            <view class="text-xs text-right text-gray" style="font-size: 12px">{{ item.userPhone }} </view>
                         </view>
                     </view>
                 </view>

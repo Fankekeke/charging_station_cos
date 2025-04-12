@@ -49,6 +49,9 @@ public class EvaluateInfo implements Serializable {
      */
     private BigDecimal score;
 
+    @TableField(exist = false)
+    private BigDecimal overScore;
+
     /**
      * 评价时间
      */
