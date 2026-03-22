@@ -139,11 +139,11 @@ export default {
         ellipsis: true,
         dataIndex: 'userPhone'
       }, {
-        title: '投诉商家',
+        title: '投诉桩主',
         ellipsis: true,
         dataIndex: 'merchantName'
       }, {
-        title: '商家头像',
+        title: '桩主头像',
         dataIndex: 'merchantImages',
         customRender: (text, record, index) => {
           if (!record.merchantImages) return <a-avatar shape="square" icon="user" />
@@ -155,7 +155,7 @@ export default {
           </a-popover>
         }
       }, {
-        title: '商家联系方式',
+        title: '桩主联系方式',
         ellipsis: true,
         dataIndex: 'merchantPhone',
         customRender: (text, row, index) => {

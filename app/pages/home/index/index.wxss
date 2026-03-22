@@ -144,3 +144,28 @@ page {
 .canui-order-item .order-btn-box .margin-tb-sm + .margin-tb-sm{
     margin-left: 10rpx;
 }
+/* 地图容器样式 */
+#chargeMap {
+    border-radius: 12rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 地图标记点气泡样式 */
+.map-callout {
+    border-radius: 8rpx;
+    padding: 12rpx;
+    font-size: 24rpx;
+    line-height: 1.5;
+}
+
+.map-callout-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8rpx;
+}
+
+.map-callout-content {
+    color: #666;
+    font-size: 22rpx;
+}

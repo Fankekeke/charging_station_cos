@@ -3,7 +3,7 @@
     <div class="content" style="margin: 0 auto">
       <div class="top">
         <div class="header">
-          <span class="title" style="color: white">电动车充电管理</span>
+          <span class="title" style="color: white">充电桩管理平台</span>
         </div>
         <div class="desc"></div>
       </div>

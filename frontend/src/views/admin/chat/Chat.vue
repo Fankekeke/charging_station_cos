@@ -10,7 +10,7 @@
             :src="'http://127.0.0.1:9527/imagesWeb/' + item.images.split(',')[0]"
           />
           <span style="margin-left: 25px;font-size: 15px">
-            {{ item.name }}-{{ item.deptName }}
+            {{ item.name }}
           </span>
         </a-menu-item>
       </a-menu>

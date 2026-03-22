@@ -61,10 +61,26 @@ Page({
 			address: '',
 			point: null
 		},
-		userInfo: null
+		userInfo: null,
+		// 新增地图相关数据
+		latitude: 39.813911,  // 默认纬度
+		longitude: 116.496507,  // 默认经度
+		markers: []  // 标记点数组
 	},
 	onLoad: function () {
 		this.home()
+	},
+	onMarkerTap(e) {
+		console.log(e)
+		const markerId = e.markerId;
+		const marker = this.data.markers.find(m => m.id === markerId);
+		const order = this.data.orderList.find(o => o.id === markerId);
+
+		if (order) {
+			wx.navigateTo({
+				url: `/pages/shop/index/index?shopId=${order.id}`
+			});
+		}
 	},
 	onShow() {
 		wx.getStorage({
@@ -232,15 +248,20 @@ Page({
 		}
 	},
 	home() {
-		let latitude = null;
-		let longitude = null;
-		let that = this
+		let that = this;
 		wx.getLocation({
 			type: 'wgs84',
 			success(res) {
-				console.log(res)
-				latitude = res.latitude
-				longitude = res.longitude
+				console.log(res);
+				const latitude = res.latitude;
+				const longitude = res.longitude;
+
+				// 设置当前定位点
+				that.setData({
+					latitude: latitude,
+					longitude: longitude
+				});
+
 				http.get('home/user', {
 					latitude,
 					longitude,
@@ -248,22 +269,91 @@ Page({
 				}).then((r) => {
 					r.postInfo.forEach(item => {
 						if (item.images) {
-							item.image = item.images.split(',')[0]
+							item.image = item.images.split(',')[0];
 						}
-						item.days = that.timeFormat(item.createDate)
+						item.days = that.timeFormat(item.createDate);
 					});
+
 					r.orderList.forEach(item => {
 						if (item.images) {
-							item.image = item.images.split(',')[0]
+							item.image = item.images.split(',')[0];
 						}
 					});
+
+					// 处理充电桩标记点
+					const markers = r.orderList.map(item => ({
+						id: item.id,
+						latitude: item.latitude,
+						longitude: item.longitude,
+						title: item.name,
+						callout: {
+							content: `${item.name}\n地址: ${item.address}\n距离: ${item.kilometre}千米`,
+							display: 'ALWAYS',
+							fontSize: 12,
+							borderRadius: 5,
+							borderWidth: 1,
+							borderColor: '#ccc',
+							bgColor: '#fff',
+							padding: 10,
+							boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)'
+						},
+						iconPath: '/img/充电桩.png',
+						width: 40,
+						height: 40,
+						anchor: { x: 0.5, y: 1 }, // 设置锚点，让图标底部中间对准坐标点
+					}));
+
 					that.setData({
 						postInfo: r.postInfo,
-						orderList: r.orderList
-					})
-				})
+						orderList: r.orderList,
+						markers: markers
+					});
+				});
+			},
+			fail(err) {
+				console.error('获取位置失败:', err);
+				// 如果获取位置失败，使用默认位置
+				http.get('home/user', {
+					latitude: that.data.latitude,
+					longitude: that.data.longitude,
+					userId: that.data.userInfo.id
+				}).then((r) => {
+					r.postList.forEach(item => {
+						if (item.images) {
+							item.image = item.images.split(',')[0];
+						}
+						item.days = that.timeFormat(item.createDate);
+					});
+
+					r.orderList.forEach(item => {
+						if (item.images) {
+							item.image = item.images.split(',')[0];
+						}
+					});
+
+					// 处理充电桩标记点
+					const markers = r.orderList.map(item => ({
+						id: item.id,
+						latitude: item.latitude,
+						longitude: item.longitude,
+						title: item.name,
+						callout: {
+							content: item.name + '\n' + item.address,
+							display: 'ALWAYS'
+						},
+						iconPath: '/img/marker.png',
+						width: 30,
+						height: 30
+					}));
+
+					that.setData({
+						postInfo: r.postInfo,
+						orderList: r.orderList,
+						markers: markers
+					});
+				});
 			}
-		})
+		});
 	},
 	postDetail(event) {
 		wx.navigateTo({

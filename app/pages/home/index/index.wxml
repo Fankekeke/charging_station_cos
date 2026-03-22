@@ -88,6 +88,22 @@
     </navigator>
 </view>
 <view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
+    <map
+            id="chargeMap"
+            style="width: 100%; height: 500rpx; border-radius: 12rpx;"
+            scale="14"
+            longitude="{{longitude}}"
+            latitude="{{latitude}}"
+            markers="{{markers}}"
+            bindmarkertap="onMarkerTap"
+            enable-scroll="true"
+            enable-zoom="true"
+            enable-rotate="false"
+            show-location="true"
+            layer-style="1">
+    </map>
+</view>
+<view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;padding-top: 20rpx;">
     <view class='nav-list canui-flex-car'>
         <navigator wx:for="{{ orderList }}" open-type="navigate" hover-class='none'
             url="/pages/shop/index/index?shopId={{ item.id }}" class="nav-li canui-yx-url">

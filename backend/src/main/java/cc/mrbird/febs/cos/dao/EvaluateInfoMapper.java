@@ -21,4 +21,12 @@ public interface EvaluateInfoMapper extends BaseMapper<EvaluateInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectEvaluatePage(Page<EvaluateInfo> page, @Param("evaluateInfo") EvaluateInfo evaluateInfo);
+
+    /**
+     * 获取桩主平均评分
+     *
+     * @param pharmacyId 桩主ID
+     * @return 平均评分
+     */
+    Double getAverageScoreByPharmacyId(@Param("pharmacyId") Integer pharmacyId);
 }

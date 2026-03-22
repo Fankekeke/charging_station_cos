@@ -27,4 +27,9 @@ public class EvaluateInfoServiceImpl extends ServiceImpl<EvaluateInfoMapper, Eva
     public IPage<LinkedHashMap<String, Object>> selectEvaluatePage(Page<EvaluateInfo> page, EvaluateInfo evaluateInfo) {
         return baseMapper.selectEvaluatePage(page, evaluateInfo);
     }
+
+    @Override
+    public Double getAverageScoreByPharmacyId(Integer pharmacyId) {
+        return baseMapper.getAverageScoreByPharmacyId(pharmacyId);
+    }
 }

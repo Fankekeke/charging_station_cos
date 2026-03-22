@@ -45,4 +45,12 @@
         order by
         ei.create_date desc
     </select>
+
+    <!-- 获取桩主平均评分 -->
+    <select id="getAverageScoreByPharmacyId" resultType="double">
+        SELECT AVG(ei.score) as average_score
+        FROM evaluate_info ei
+                 LEFT JOIN park_order_info oi ON (oi.id = ei.order_id)
+        WHERE oi.pharmacy_id = #{pharmacyId}
+    </select>
 </mapper>

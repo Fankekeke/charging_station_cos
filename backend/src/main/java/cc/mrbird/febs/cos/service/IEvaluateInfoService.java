@@ -21,4 +21,12 @@ public interface IEvaluateInfoService extends IService<EvaluateInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectEvaluatePage(Page<EvaluateInfo> page, EvaluateInfo evaluateInfo);
+
+    /**
+     * 获取桩主平均评分
+     *
+     * @param pharmacyId 桩主ID
+     * @return 平均评分
+     */
+    Double getAverageScoreByPharmacyId(Integer pharmacyId);
 }

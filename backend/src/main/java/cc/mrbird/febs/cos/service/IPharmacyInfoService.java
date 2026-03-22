@@ -18,10 +18,10 @@ import java.util.List;
 public interface IPharmacyInfoService extends IService<PharmacyInfo> {
 
     /**
-     * 分页获取商家信息
+     * 分页获取桩主信息
      *
      * @param page         分页对象
-     * @param pharmacyInfo 商家信息
+     * @param pharmacyInfo 桩主信息
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> selectPharmacyPage(Page<PharmacyInfo> page, PharmacyInfo pharmacyInfo);
