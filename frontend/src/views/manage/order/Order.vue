@@ -235,7 +235,7 @@ export default {
           }
         }
       }, {
-        title: '所属商家',
+        title: '所属桩主',
         dataIndex: 'merchantName',
         ellipsis: true,
         customRender: (text, row, index) => {
@@ -246,7 +246,7 @@ export default {
           }
         }
       }, {
-        title: '商家站点',
+        title: '桩主站点',
         dataIndex: 'address',
         ellipsis: true,
         customRender: (text, row, index) => {

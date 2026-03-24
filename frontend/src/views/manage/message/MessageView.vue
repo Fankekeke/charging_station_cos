@@ -26,10 +26,6 @@
         <a-col :span="8"><b>联系方式：</b>
           {{ memberData.phone }}
         </a-col>
-        <a-col :span="8"><b>消息状态：</b>
-          <span v-if="memberData.delFlag == 0">未读</span>
-          <span v-if="memberData.delFlag == 1">已读</span>
-        </a-col>
       </a-row>
       <br/>
       <br/>
