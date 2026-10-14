@@ -1,48 +1,15 @@
-### 基于SpringBoot + Vue的充电桩预约小程序.
+![](https://img.shields.io/badge/License-MIT-blue.svg)
 
-智慧充电云平台、物联网（IoT）充电桩、新能源汽车充电、预约充电
+![](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)
 
-###### 管理员：
-系统公告 、会员管理 、用户消息 、订单管理 、充电预约 、会员价格 、充电桩管理 、充电桩状态 、用户管理 、车辆管理 、数据统计 、会员订单 、员工管理 、投诉记录 、优惠券管理 、订单评价 、积分兑换 、物品积分 、缴费记录 、商家管理 、社区论坛、数据统计。
+![](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
-###### 商家：
-商家注册登录、密码修改、订单管理 、充电预约 、充电桩管理 、充电桩状态 、评价管理 、商家信息 、员工管理 、用户沟通。
+# 基于 SpringBoot + Vue 的充电桩预约小程序 (Charging Station Reservation Mini-Program)
 
-###### 用户：
-小程序账户注册登录、个人信息修改、消息通知、充电预约、会员购买、我的优惠券、我的订单、车辆管理、订单评价、订单投诉、社区论坛回复、积分兑换。
+本项目是一套面向新能源汽车用户的智慧充电预约小程序平台，采用 SpringBoot + Vue 前后端分离架构，支持用户端小程序、商家端管理后台与平台管理员后台协同工作。平台围绕“找桩—预约—充电—结算—评价”完整流程设计，提供充电桩状态监控、在线预约、订单管理、会员体系、优惠券、积分兑换、社区论坛及数据统计等功能，适用于社区、园区、商场及公共充电场站的充电运营管理场景。
 
 #### 安装环境
-
-##### 基础资源与档案管理
-###### 用户/会员管理： 维护多层级用户信息，通过会员等级与档案管理实现精细化运营。
-
-###### 商家/员工管理： 支持站点加盟入驻与人员权限分配，构建多方参与的充电服务网络。
-
-###### 车辆管理： 用户绑定个人车辆信息，系统根据车型匹配适配的充电桩与功率建议。
-
-##### 硬件监控与预约体系
-###### 充电桩/状态管理： 实时监控各站点桩体启停、闲忙及故障状态，确保设备高效运行。
-
-###### 充电预约： 用户在线预订充电位，系统自动锁定资源并引导按时到达，缓解排队压力。
-
-###### 商家/充电信息： 商家自主管理店内设备参数与营业资料，确保充电服务信息准确同步。
-
-##### 订单结算与财务体系
-###### 订单/会员价格： 支持分时计费与多阶会员定价，实现自动结算与透明化的订单详情展示。
-
-###### 缴费记录/支付： 记录每笔充电与会员购买流水，提供安全的支付入口与账单查询服务。
-
-###### 优惠券/积分兑换： 运营人员发布优惠政策，用户通过积分兑换物品或抵扣券，提升活跃度。
-
-##### 互动沟通与服务保障
-###### 社区论坛/消息： 建立用户交流版块并实时推送通知，确保充电状态与系统公告即时送达。
-
-###### 投诉/评价管理： 收集用户对站点或桩体的反馈，通过评价体系驱动服务质量的闭环提升。
-
-###### 用户/商家沟通： 提供在线交流渠道，方便商家直接解答用户咨询，快速处理各类现场问题。
-
-##### 运营决策与分析
-###### 数据统计： 聚合充电时长、收益趋势等核心指标，通过可视化图表辅助经营决策与布局。
+️**注意**：请确保您的开发环境已安装以下依赖。
 
 JAVA 环境 
 
@@ -50,24 +17,138 @@ Node.js环境 [https://nodejs.org/en/] 选择14.17
 
 Yarn 打开cmd， 输入npm install -g yarn !!!必须安装完毕nodejs
 
-Mysql 数据库 [https://blog.csdn.net/qq_40303031/article/details/88935262] 一定要把账户和密码记住
+Mysql 数据库 一定要把账户和密码记住
 
 redis
 
-Idea 编译器 [https://blog.csdn.net/weixin_44505194/article/details/104452880]
+Idea 编译器
 
-WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
+WebStorm OR VScode 编译器
 
 #### 采用技术及功能
 
 后端：SpringBoot、MybatisPlus、MySQL、Redis、
 前端：Vue、Apex、Antd、Axios
 
-平台前端：vue(框架) + vuex(全局缓存) + rue-router(路由) + axios(请求插件) + apex(图表)  + antd-ui(ui组件)
+平台前端：vue(框架) + vuex(全局缓存) + rue-router(路由) + axios(请求插件) + apex(图表)  + antd-ui(ui组件) + 百度地图 API + 微信小程序
 
 平台后台：springboot(框架) + redis(缓存中间件) + shiro(权限中间件) + mybatisplus(orm) + restful风格接口 + mysql(数据库)
 
 开发环境：windows10 or windows7 ， vscode or webstorm ， idea + lambok
+
+---
+
+## 核心特性
+
+- **三端协同运营**：覆盖管理员、商家、用户三类角色，实现充电预约、订单处理、设备管理与用户服务全流程闭环。
+- **充电桩状态监控**：实时展示充电桩空闲、占用、故障等状态，支持商家与管理员对设备信息进行维护。
+- **智能预约充电**：支持用户在线选择充电桩、设置充电时间并提交预约，减少现场排队与资源空置。
+- **会员与营销体系**：支持会员购买、会员价格、优惠券发放、积分兑换等运营功能，提升用户活跃度。
+- **多维度数据统计**：提供订单统计、缴费记录、充电桩使用情况、用户行为等数据分析能力，辅助运营决策。
+- **社区互动与反馈**：内置社区论坛、订单评价、投诉记录与用户消息通知，完善用户沟通与服务监督机制。
+---
+
+## 功能模块概览
+
+### 管理员端
+
+管理员端负责平台整体运营、设备监管、订单审核与数据分析：
+
+**平台运营与用户管理**
+
+- **系统公告**：发布平台通知、充电政策调整、维护公告等信息。
+- **用户管理 / 会员管理**：管理注册用户资料、会员等级、账户状态及会员价格规则。
+- **商家管理**：审核入驻商家资质，维护商家信息与运营状态。
+- **员工管理**：管理平台运营人员账号、角色权限与操作日志。
+- **用户消息 / 消息通知**：向用户或商家推送订单提醒、活动通知及系统公告。
+
+**充电桩与订单管理**
+
+- **充电桩管理**：维护充电桩基本信息、所属商家、位置、功率、收费标准等。
+- **充电桩状态**：实时监控充电桩空闲、使用中、故障、离线等状态。
+- **订单管理 / 会员订单**：查看全平台充电订单、会员订单及订单流转状态。
+- **充电预约**：管理平台预约记录，处理预约冲突、超时释放与异常订单。
+- **车辆管理**：维护用户绑定车辆信息，支持车牌、车型等基础数据管理。
+
+**财务、营销与数据看板**
+
+- **缴费记录**：查询用户充电缴费、会员购买、积分兑换等交易明细。
+- **优惠券管理**：创建优惠券、设置使用规则并监控发放与核销情况。
+- **积分兑换 / 物品积分**：配置积分商品、兑换规则及用户积分流水。
+- **订单评价 / 投诉记录**：查看用户评价与投诉内容，跟踪处理进度。
+- **数据统计**：分析订单量、充电收入、充电桩利用率、用户活跃度等核心指标。
+- **社区论坛**：管理社区帖子、评论及违规内容，维护社区秩序。
+
+### 商家端
+
+商家端面向充电桩运营商家，提供设备维护、订单处理与用户沟通能力：
+
+**商家基础管理**
+
+- **商家注册登录 / 密码修改**：支持商家账号注册、登录与安全设置。
+- **商家信息**：维护商家名称、联系方式、服务范围、营业时间等基础信息。
+
+**充电桩与预约管理**
+
+- **充电桩管理**：添加、编辑、下架所属充电桩，设置充电价格与服务规则。
+- **充电桩状态**：查看设备运行状态，及时发现故障桩与离线设备。
+- **充电预约 / 订单管理**：接收用户预约与充电订单，确认订单状态并安排充电服务。
+
+**用户互动与评价管理**
+
+- **评价管理**：查看用户对充电服务的评价，优化服务质量。
+- **用户沟通**：回复用户咨询、处理订单问题与售后反馈。
+- **员工管理**：管理商家内部员工账号，分配设备维护与订单处理权限。
+
+### 用户端
+
+用户端以微信小程序为主要入口，提供便捷的充电预约与服务体验：
+
+**账户与个人中心**
+
+- **小程序账户注册登录**：支持手机号注册、登录与账号安全维护。
+- **个人信息修改**：更新姓名、联系方式、头像等个人资料。
+- **消息通知**：接收预约成功、订单状态变更、优惠券到账等系统消息。
+
+**充电预约与订单服务**
+
+- **充电预约**：查看附近充电桩，选择充电时段并提交预约订单。
+- **我的订单**：查看待预约、充电中、已完成等订单状态与费用明细。
+- **订单评价**：对已完成的充电服务进行评分与文字反馈。
+- **订单投诉**：针对异常订单、设备故障或服务问题提交投诉。
+
+**车辆、会员与社区**
+
+- **车辆管理**：绑定个人车辆信息，方便后续充电与订单记录查询。
+- **会员购买**：查看会员权益并在线购买会员，享受优惠价格。
+- **我的优惠券**：领取、查看和使用平台或商家发放的充电优惠券。
+- **积分兑换**：使用积分兑换充电券、服务权益或平台礼品。
+- **社区论坛回复**：参与社区讨论，回复帖子，分享充电经验与使用反馈。
+
+---
+
+## 项目结构
+
+```text
+pharmacy-dispensing-system/
+├── backend/            # 后端 API 服务
+│   ├── src/
+│   │   ├── controllers/  # 控制器
+│   │   ├── models/       # 数据模型
+│   │   ├── routes/       # 路由
+│   │   └── services/     # 业务逻辑
+│   └── package.json
+├── frontend/           # 前端 Web 应用
+│   ├── src/
+│   │   ├── views/      # 页面视图
+│   │   ├── components/ # 公共组件
+│   │   └── store/      # 状态管理
+│   └── package.json
+├── docs/               # 项目文档与 API 接口说明
+├── LICENSE
+└── README.md
+```
+---
 
 
 #### 前台启动方式
@@ -77,34 +158,33 @@ WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
 #### 默认后台账户密码
 [管理员]
 admin
-1234qwer
+123456
+
+[员工]
+fank
+123456
 
 #### 项目截图
-暂无
-
 |  |  |
 |---------------------|---------------------|
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/4027bde4-c2ee-4f29-8d80-1a9a4b9cbbfb.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1ba115ea-f741-47ac-a93d-77b22aec00eb.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/3538f9af-2a18-4481-adc3-322f62327036.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/dc815d6b-0666-4983-bb29-09bcd04f5349.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/668f2aa0-cf8b-493b-b9b8-8a11e2a786ec.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/da876246-abc1-4a2d-8330-144bc3ee4158.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/458d8474-8e64-441b-a456-4d9ab1f8848f.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/c2dda804-288b-4627-9eed-a958c2f9f421.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/65d81932-c17c-44b9-879a-7f8587ec6bb4.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/ba7bcfd2-bdd6-4794-a8cf-1641fabd27f6.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/60f35a99-c107-416d-bfee-2074c79952d2.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/b15bcb6b-4682-4ace-9339-ce47e92afab7.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/5e9ac82b-ef57-473f-809b-25f5935857b9.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/a7ccc275-5925-4c2e-90a6-adee830fe470.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/4f1e4aa5-e56d-4cde-9291-dff809ff5e16.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/18192a0f-fb0c-4f04-989e-67c180c05b21.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/2dae35c6-0985-4fd7-a310-b424b93130e1.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/7696f88d-7ad2-44c6-ba66-47f67698dda8.png) |
+| ![](./assets/image%20(1).png) | ![](./assets/image%20(2).png) |
+| ![](./assets/image%20(3).png) | ![](./assets/image%20(4).png) |
+| ![](./assets/image%20(5).png) | ![](./assets/image%20(6).png) |
+| ![](./assets/image%20(7).png) | ![](./assets/image%20(8).png) |
+| ![](./assets/image%20(9).png) | ![](./assets/image%20(10).png) |
+| ![](./assets/image%20(11).png) | ![](./assets/image%20(12).png) |
+| ![](./assets/image%20(13).png) | ![](./assets/image%20(14).png) |
+| ![](./assets/image%20(15).png) | ![](./assets/image%20(16).png) |
+| ![](./assets/image%20(17).png) | ![](./assets/image%20(18).png) |
+| ![](./assets/image%20(19).png) | | 
 
-|  |  |
-|---------------------|---------------------|
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/02582d0b-ac29-4935-81ca-cdfba3c0673c.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/9a63d43c-5b26-4e04-a3cf-5245176b3c44.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/91ac2d3e-cf18-4e68-b0f4-739f485d49e7.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/fbce5e05-3226-4778-8ed7-a19227806dfc.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/64df715b-f446-4cf1-925f-9f3336e6fbdf.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/f8f357c2-ceca-4b91-8f23-afe4ccb2a6d3.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/055a79cb-fe68-4790-bffd-0e9757509607.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/ee5c5a40-18a8-4953-949e-6a1a7bb8a38e.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/54fdc238-5307-4afb-a1fb-184a5633a789.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/6327002d-44e3-4a2f-b5bc-300120c9b538.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/49cb965f-5827-435b-809a-23aae1a39b3f.png) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/05316c95-4b1f-4e3d-ba99-dec0c5155978.png) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/43a2e582-2bbf-486f-8e7a-16eb94b54ce2.png) |  |
-
-![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/work/936e9baf53eb9a217af4f89c616dc19.png)
+| ![](./assets/app_image%20(1).png) | ![](./assets/app_image%20(2).png) |
+| ![](./assets/app_image%20(3).png) | ![](./assets/app_image%20(4).png) |
+| ![](./assets/app_image%20(5).png) | ![](./assets/app_image%20(6).png) |
+| ![](./assets/app_image%20(7).png) | ![](./assets/app_image%20(8).png) |
+| ![](./assets/app_image%20(9).png) | ![](./assets/app_image%20(10).png) |
+| ![](./assets/app_image%20(11).png) | ![](./assets/app_image%20(12).png) |
+| ![](./assets/app_image%20(13).png) | ![](./assets/app_image%20(14).png) |
 
 #### 演示视频
 
@@ -122,7 +202,10 @@ WeChat: `Storm_Berserker`
 
 > 项目部署调试不好包退！功能逻辑没讲明白包退！
 
+<div align=center><img align="center" src="./assets/product_word.png" alt="fankekeke" /></div>
+
 #### 其它资源
+[2026年-答辩顺利通过-客户评价🀄](https://berserker287.github.io/2026/06/29/2026%E5%B9%B4%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%88%A9%E9%80%9A%E8%BF%87/)
 
 [2025年-答辩顺利通过-客户评价🍜](https://berserker287.github.io/2025/06/18/2025%E5%B9%B4%E7%AD%94%E8%BE%A9%E9%A1%BA%E5%88%A9%E9%80%9A%E8%BF%87/)
 
@@ -146,4 +229,8 @@ WeChat: `Storm_Berserker`
 
 More info: [悲伤的橘子树](https://berserker287.github.io/)
 
-<p><img align="center" src="https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/%E5%90%88%E4%BD%9C%E7%89%A9%E6%96%99%E6%A0%B7%E5%BC%8F%20(3).png" alt="fankekeke" /></p>
+<div align="center"><img align="center" src="./assets/chat_qr_code.png" alt="fankekeke" width=250 /></div>
+
+<p><img align="center" src="./assets/wechat_group.png" alt="fankekeke" /></p>
+
+**感谢查看**
